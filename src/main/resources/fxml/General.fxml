@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="647.0" prefWidth="896.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.quasar.hibernateh2.controller.GeneralController">
+    <stylesheets>
+        <URL value="@../styles/General.css" />
+    </stylesheets>
+   <children>
+      <SplitPane dividerPositions="0.29797979797979796" focusTraversable="true" layoutX="49.0" layoutY="57.0" prefHeight="554.0" prefWidth="833.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="26.0">
+        <items>
+          <AnchorPane maxWidth="1.7976931348623157E308" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <Accordion maxWidth="1.7976931348623157E308" prefHeight="263.0" prefWidth="263.0">
+                    <panes>
+                      <TitledPane animated="false" prefHeight="169.0" prefWidth="263.0" text="Состав профсоюза">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <ListView fx:id="profPeople" fixedCellSize="0.0" layoutX="-11.0" layoutY="-76.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                 </children></AnchorPane>
+                        </content>
+                      </TitledPane>
+                      <TitledPane animated="false" text="Заполнение дополнительных данных">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <ListView fx:id="date" layoutX="-11.0" layoutY="-76.0" prefHeight="95.0" prefWidth="261.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                 </children></AnchorPane>
+                        </content>
+                      </TitledPane>
+                      <TitledPane fx:id="report" animated="false" text="Отчёты">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <ListView fx:id="reportDate" layoutX="-11.0" layoutY="-76.0" prefHeight="95.0" prefWidth="261.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                 </children></AnchorPane>
+                        </content>
+                      </TitledPane>
+                        <TitledPane fx:id="setting" animated="false" text="Настройки">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <ListView fx:id="settingApp" layoutX="14.0" layoutY="-60.0" prefHeight="95.0" prefWidth="261.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                 </children></AnchorPane>
+                          </content>
+                        </TitledPane>
+                    </panes>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </Accordion>
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <TabPane fx:id="TabWork" prefHeight="552.0" prefWidth="625.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <tabs>
+                      <Tab text="Сотрудники">
+                           <content>
+                              <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                                 <children>
+                                    <TextField fx:id="surWorker" layoutX="21.0" layoutY="27.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите фамилию" />
+                                    <Separator layoutX="309.0" orientation="VERTICAL" prefHeight="339.0" prefWidth="11.0" />
+                                    <TextField fx:id="nameWorker" layoutX="21.0" layoutY="62.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите имя" />
+                                    <TextField fx:id="patWorker" layoutX="21.0" layoutY="94.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите отчество" />
+                                    <ComboBox fx:id="depWorker" layoutX="20.0" layoutY="184.0" prefHeight="25.0" prefWidth="270.0" promptText="Отделение" />
+                                    <ComboBox fx:id="posWorker" layoutX="20.0" layoutY="224.0" prefHeight="25.0" prefWidth="270.0" promptText="Должность" />
+                                    <ComboBox fx:id="benWorker" layoutX="20.0" layoutY="261.0" prefHeight="25.0" prefWidth="270.0" promptText="Льгота" />
+                                    <RadioButton layoutX="21.0" layoutY="129.0" mnemonicParsing="false" text="муж." />
+                                    <RadioButton layoutX="21.0" layoutY="156.0" mnemonicParsing="false" text="жен." />
+                                    <Button fx:id="addWorker" layoutX="205.0" layoutY="311.0" mnemonicParsing="false" onAction="#BtnAddWorker" prefHeight="25.0" prefWidth="84.0" text="Добавить" />
+                                    <RadioButton layoutX="336.0" layoutY="155.0" mnemonicParsing="false" text="жен." />
+                                    <ComboBox layoutX="335.0" layoutY="223.0" prefHeight="25.0" prefWidth="270.0" promptText="Должность" />
+                                    <TextField layoutX="336.0" layoutY="61.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите имя" />
+                                    <Button layoutX="497.0" layoutY="310.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="107.0" text="Редактировать" />
+                                    <ComboBox layoutX="335.0" layoutY="183.0" prefHeight="25.0" prefWidth="270.0" promptText="Отделение" />
+                                    <ComboBox layoutX="335.0" layoutY="260.0" prefHeight="25.0" prefWidth="270.0" promptText="Льгота" />
+                                    <RadioButton layoutX="336.0" layoutY="128.0" mnemonicParsing="false" text="муж." />
+                                    <TextField layoutX="336.0" layoutY="26.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите фамилию" />
+                                    <TextField layoutX="336.0" layoutY="93.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите отчество" />
+                                    <Button layoutX="408.0" layoutY="311.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="81.0" text="Удалить" />
+                                    <Button layoutX="336.0" layoutY="311.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Найти" />
+                                    <TableView fx:id="tableWorker" layoutY="345.0" prefHeight="247.0" prefWidth="625.0">
+                                      <columns>
+                                        <TableColumn fx:id="SurWorkColumn" prefWidth="84.0" text="Фамилия" />
+                                        <TableColumn fx:id="NameWorkColumn" prefWidth="74.0" text="Имя" />
+                                        <TableColumn fx:id="PatWorkColumn" prefWidth="67.0" text="Отчество" />
+                                        <TableColumn fx:id="GenWorkColumn" prefWidth="54.0" text="Пол" />
+                                        <TableColumn fx:id="DataWorkColumn" prefWidth="78.0" text="Дата рождения" />
+                                        <TableColumn fx:id="DepWorkColumn" prefWidth="93.0" text="Отделение" />
+                                        <TableColumn fx:id="PosWorkColumn" prefWidth="104.0" text="Должность" />
+                                        <TableColumn fx:id="BenWorkColumn" prefWidth="76.0" text="Льгота" />
+                                      </columns>
+                                    </TableView>
+                                    <DatePicker layoutX="115.0" layoutY="144.0" />
+                                    <DatePicker layoutX="430.0" layoutY="144.0" />
+                                 </children>
+                              </AnchorPane>
+                           </content></Tab>
+                        <Tab text="Группы">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <AnchorPane layoutX="-14.0" prefHeight="523.0" prefWidth="625.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <Button fx:id="BtnGroupAdd" layoutX="220.0" layoutY="93.0" mnemonicParsing="false" text="Добавить" />
+                                          <Button layoutX="437.0" layoutY="131.0" mnemonicParsing="false" text="Изменить" />
+                                          <ComboBox layoutX="340.0" layoutY="27.0" prefHeight="25.0" prefWidth="263.0" promptText="Выберите группу" />
+                                          <Button layoutX="543.0" layoutY="131.0" mnemonicParsing="false" text="Удалить" />
+                                          <TextField layoutX="341.0" layoutY="93.0" prefHeight="25.0" prefWidth="263.0" promptText="Введите название для изменения" />
+                                       </children>
+                                    </AnchorPane>
+                                    <TextField layoutX="21.0" layoutY="27.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите название группы" />
+                                    <Separator layoutX="309.0" orientation="VERTICAL" prefHeight="208.0" prefWidth="11.0" />
+                                    <TableView layoutY="219.0" prefHeight="370.0" prefWidth="625.0">
+                                       <columns>
+                                          <TableColumn fx:id="NameGroupColumn" prefWidth="84.0" text="Группы" />
+                                       </columns>
+                                    </TableView>
+                                 </children></AnchorPane>
+                          </content>
+                        </Tab>
+                        <Tab text="Отделения">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <AnchorPane layoutX="74.0" layoutY="62.0" prefHeight="523.0" prefWidth="625.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <TableView layoutY="219.0" prefHeight="371.0" prefWidth="625.0">
+                                            <columns>
+                                              <TableColumn fx:id="NameDepColumn" prefWidth="84.0" text="Отделения" />
+                                            </columns>
+                                          </TableView>
+                                       </children></AnchorPane>
+                                    <Separator layoutX="309.0" orientation="VERTICAL" prefHeight="211.0" prefWidth="11.0" />
+                                    <TextField layoutX="21.0" layoutY="27.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите название отделения" />
+                                    <TextField layoutX="341.0" layoutY="93.0" prefHeight="25.0" prefWidth="263.0" promptText="Введите название для изменения" />
+                                    <Button layoutX="543.0" layoutY="131.0" mnemonicParsing="false" text="Удалить" />
+                                    <ComboBox layoutX="340.0" layoutY="27.0" prefHeight="25.0" prefWidth="263.0" promptText="Выберите отделение" />
+                                    <Button layoutX="437.0" layoutY="131.0" mnemonicParsing="false" text="Изменить" />
+                                    <Button layoutX="220.0" layoutY="93.0" mnemonicParsing="false" text="Добавить" />
+                                 </children></AnchorPane>
+                          </content>
+                        </Tab>
+                        <Tab text="Отделы">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <AnchorPane layoutX="94.0" layoutY="36.0" prefHeight="523.0" prefWidth="625.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <Separator layoutX="309.0" orientation="VERTICAL" prefHeight="213.0" prefWidth="11.0" />
+                                    <TextField layoutX="21.0" layoutY="27.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите название отдела" />
+                                    <TextField layoutX="341.0" layoutY="93.0" prefHeight="25.0" prefWidth="263.0" promptText="Введите название для изменения" />
+                                    <Button layoutX="543.0" layoutY="131.0" mnemonicParsing="false" text="Удалить" />
+                                    <ComboBox layoutX="340.0" layoutY="27.0" prefHeight="25.0" prefWidth="263.0" promptText="Выберите отдел" />
+                                    <Button layoutX="437.0" layoutY="131.0" mnemonicParsing="false" text="Изменить" />
+                                    <Button layoutX="220.0" layoutY="93.0" mnemonicParsing="false" text="Добавить" />
+                                    <TableView layoutY="219.0" prefHeight="371.0" prefWidth="625.0">
+                                       <columns>
+                                          <TableColumn fx:id="NameBranchColumn" prefWidth="84.0" text="Отделы" />
+                                       </columns>
+                                    </TableView>
+                                 </children></AnchorPane>
+                          </content>
+                        </Tab>
+                        <Tab text="Льготы">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <AnchorPane layoutX="213.0" layoutY="75.0" prefHeight="523.0" prefWidth="625.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <Separator layoutX="309.0" orientation="VERTICAL" prefHeight="210.0" prefWidth="11.0" />
+                                    <TextField layoutX="21.0" layoutY="27.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите название льготы" />
+                                    <TextField layoutX="341.0" layoutY="93.0" prefHeight="25.0" prefWidth="263.0" promptText="Введите название для изменения" />
+                                    <Button layoutX="543.0" layoutY="131.0" mnemonicParsing="false" text="Удалить" />
+                                    <ComboBox layoutX="340.0" layoutY="27.0" prefHeight="25.0" prefWidth="263.0" promptText="Выберите льготу" />
+                                    <Button layoutX="437.0" layoutY="131.0" mnemonicParsing="false" text="Изменить" />
+                                    <Button layoutX="220.0" layoutY="93.0" mnemonicParsing="false" text="Добавить" />
+                                    <TableView layoutY="219.0" prefHeight="371.0" prefWidth="625.0">
+                                       <columns>
+                                          <TableColumn fx:id="NameBenefitColumn" prefWidth="84.0" text="Льготы" />
+                                       </columns>
+                                    </TableView>
+                                 </children></AnchorPane>
+                          </content>
+                        </Tab>
+                        <Tab text="Дети сотрудников">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <Button layoutX="336.0" layoutY="311.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Найти" />
+                                    <Button layoutX="408.0" layoutY="311.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="81.0" text="Удалить" />
+                                    <TextField layoutX="336.0" layoutY="93.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите отчество" />
+                                    <TextField layoutX="336.0" layoutY="26.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите фамилию" />
+                                    <RadioButton layoutX="336.0" layoutY="128.0" mnemonicParsing="false" text="муж." />
+                                    <Button layoutX="497.0" layoutY="310.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="107.0" text="Редактировать" />
+                                    <TextField layoutX="336.0" layoutY="61.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите имя" />
+                                    <RadioButton layoutX="336.0" layoutY="155.0" mnemonicParsing="false" text="жен." />
+                                    <Button layoutX="205.0" layoutY="311.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="84.0" text="Добавить" />
+                                    <RadioButton layoutX="21.0" layoutY="156.0" mnemonicParsing="false" text="жен." />
+                                    <RadioButton layoutX="21.0" layoutY="129.0" mnemonicParsing="false" text="муж." />
+                                    <TextField layoutX="21.0" layoutY="94.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите отчество" />
+                                    <TextField layoutX="21.0" layoutY="62.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите имя" />
+                                    <Separator layoutX="309.0" orientation="VERTICAL" prefHeight="339.0" prefWidth="11.0" />
+                                    <TextField layoutX="21.0" layoutY="27.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите фамилию" />
+                                    <TableView layoutY="347.0" prefHeight="245.0" prefWidth="625.0">
+                                       <columns>
+                                        <TableColumn fx:id="PerentColumn" prefWidth="84.0" text="Родитель" />
+                                        <TableColumn fx:id="SurChildColumn" prefWidth="84.0" text="Фамилия ребёнка" />
+                                        <TableColumn fx:id="NameChildColumn" prefWidth="74.0" text="Имя ребёнка" />                       
+                                        <TableColumn fx:id="PatChildColumn" prefWidth="74.0" text="Отчества ребёнок" />
+                                        <TableColumn fx:id="GenderChildColumn" prefWidth="84.0" text="Пол ребёнка" />
+                                        <TableColumn fx:id="ChildColumn" prefWidth="74.0" text="Ребёнок" />
+                                       </columns>
+                                    </TableView>
+                                    <DatePicker layoutX="115.0" layoutY="144.0" />
+                                    <DatePicker layoutX="430.0" layoutY="144.0" />
+                                    <TextField layoutX="21.0" layoutY="189.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите фамилию родителя" />
+                                    <TextField layoutX="21.0" layoutY="224.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите имя родителя" />
+                                    <TextField layoutX="21.0" layoutY="256.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите отчество родителя" />
+                                    <TextField layoutX="336.0" layoutY="189.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите фамилию родителя" />
+                                    <TextField layoutX="336.0" layoutY="256.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите отчество родителя" />
+                                    <TextField layoutX="336.0" layoutY="224.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите имя родителя" />
+                                 </children>
+                              </AnchorPane>
+                          </content>
+                        </Tab>
+                        <Tab fx:id="tabPos" text="Должности">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <Separator layoutX="309.0" orientation="VERTICAL" prefHeight="219.0" prefWidth="11.0" />
+                                    <TextField fx:id="textAddNamePos" layoutX="21.0" layoutY="27.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите название должности" />
+                                    <TextField fx:id="textUpdatePos" layoutX="340.0" layoutY="93.0" prefHeight="25.0" prefWidth="263.0" promptText="Введите название для изменения" />
+                                    <Button fx:id="btnDelPos" layoutX="543.0" layoutY="153.0" mnemonicParsing="false" onAction="#BtnDeletePosition" text="Удалить" />
+                                    <ComboBox fx:id="comboPos" layoutX="340.0" layoutY="27.0" prefHeight="25.0" prefWidth="263.0" promptText="Выберите должность" />
+                                    <Button fx:id="btnRedPos" layoutX="437.0" layoutY="153.0" mnemonicParsing="false" onAction="#BtnUpdatePosition" text="Изменить" />
+                                    <Button fx:id="btnAddPos" layoutX="220.0" layoutY="93.0" mnemonicParsing="false" onAction="#BtnAddPos" text="Добавить" />
+                                    <TableView fx:id="tablePosition" layoutY="219.0" prefHeight="373.0" prefWidth="625.0" tableMenuButtonVisible="true">
+                                       <columns>
+                                          <TableColumn fx:id="NamePositionColumn" prefWidth="84.0" text="Должности" />
+                                       </columns>
+                                    </TableView>
+                                    <Label fx:id="errorAddPos" layoutX="62.0" layoutY="52.0" />
+                                    <Label fx:id="errorUpdatePos" layoutX="373.0" layoutY="118.0" prefHeight="17.0" prefWidth="209.0" />
+                                 </children></AnchorPane>
+                          </content>
+                        </Tab>
+                        <Tab text="Системные настройки">
+                           <content>
+                              <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                                 <children>
+                                    <TextField layoutX="26.0" layoutY="75.0" prefHeight="25.0" prefWidth="240.0" />
+                                    <TextField layoutX="26.0" layoutY="128.0" prefHeight="25.0" prefWidth="240.0" />
+                                    <Button layoutX="44.0" layoutY="180.0" mnemonicParsing="false" text="Изменить данные" />
+                                    <TextField layoutX="28.0" layoutY="349.0" prefHeight="25.0" prefWidth="276.0" />
+                                    <Button layoutX="59.0" layoutY="483.0" mnemonicParsing="false" text="Изменить" />
+                                    <TextField layoutX="28.0" layoutY="401.0" prefHeight="25.0" prefWidth="276.0" />
+                                    <TextField layoutX="333.0" layoutY="348.0" prefHeight="25.0" prefWidth="263.0" />
+                                    <TextField layoutX="333.0" layoutY="400.0" prefHeight="25.0" prefWidth="263.0" />
+                                    <Label layoutX="26.0" layoutY="58.0" text="Логин для входа" />
+                                    <Label layoutX="26.0" layoutY="111.0" text="Пароль для входа" />
+                                    <Separator layoutX="12.0" layoutY="278.0" prefHeight="17.0" prefWidth="602.0" />
+                                    <Label layoutX="31.0" layoutY="325.0" text="Имя базы данных" />
+                                    <Label layoutX="31.0" layoutY="384.0" text="Путь к базе данных" />
+                                    <Label layoutX="340.0" layoutY="383.0" text="Пароль для базы данных" />
+                                    <Label layoutX="340.0" layoutY="324.0" text="Логин базы данных" />
+                                 </children>
+                              </AnchorPane>
+                           </content></Tab>
+                        <Tab text="Студенты">
+                           <content>
+                              <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                                 <children>
+                                    <Button layoutX="336.0" layoutY="311.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Найти" />
+                                    <Button layoutX="408.0" layoutY="311.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="81.0" text="Удалить" />
+                                    <TextField layoutX="336.0" layoutY="93.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите отчество" />
+                                    <TextField layoutX="336.0" layoutY="26.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите фамилию" />
+                                    <RadioButton layoutX="336.0" layoutY="128.0" mnemonicParsing="false" text="муж." />
+                                    <ComboBox layoutX="335.0" layoutY="260.0" prefHeight="25.0" prefWidth="270.0" promptText="Выберите льготу" />
+                                    <ComboBox layoutX="335.0" layoutY="183.0" prefHeight="25.0" prefWidth="270.0" promptText="Выберите группу" />
+                                    <Button layoutX="497.0" layoutY="310.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="107.0" text="Редактировать" />
+                                    <TextField layoutX="336.0" layoutY="61.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите имя" />
+                                    <ComboBox layoutX="335.0" layoutY="223.0" prefHeight="25.0" prefWidth="270.0" promptText="Выберите отделение" />
+                                    <RadioButton layoutX="336.0" layoutY="155.0" mnemonicParsing="false" text="жен." />
+                                    <Button layoutX="205.0" layoutY="311.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="84.0" text="Добавить" />
+                                    <RadioButton layoutX="21.0" layoutY="156.0" mnemonicParsing="false" text="жен." />
+                                    <RadioButton layoutX="21.0" layoutY="129.0" mnemonicParsing="false" text="муж." />
+                                    <ComboBox layoutX="20.0" layoutY="261.0" prefHeight="25.0" prefWidth="270.0" promptText="Выберите льготу" />
+                                    <ComboBox layoutX="20.0" layoutY="224.0" prefHeight="25.0" prefWidth="270.0" promptText="Выберите отделение" />
+                                    <ComboBox layoutX="20.0" layoutY="184.0" prefHeight="25.0" prefWidth="270.0" promptText="Выберите группу" />
+                                    <TextField layoutX="21.0" layoutY="94.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите отчество" />
+                                    <TextField layoutX="21.0" layoutY="62.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите имя" />
+                                    <Separator layoutX="309.0" orientation="VERTICAL" prefHeight="347.0" prefWidth="11.0" />
+                                    <TextField layoutX="21.0" layoutY="27.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите фамилию" />
+                                    <TableView layoutY="347.0" prefHeight="243.0" prefWidth="625.0">
+                                      <columns>
+                                        <TableColumn fx:id="SurStudentColumn" prefWidth="84.0" text="Фамилия" />
+                                        <TableColumn fx:id="NameStudentColumn" prefWidth="74.0" text="Имя" />
+                                        <TableColumn fx:id="PatStudentColumn" prefWidth="67.0" text="Отчество" />
+                                        <TableColumn fx:id="GenStudentColumn" prefWidth="54.0" text="Пол" />
+                                        <TableColumn fx:id="DataStudentColumn" prefWidth="78.0" text="Дата рождения" />
+                                        <TableColumn fx:id="DepStudentColumn" prefWidth="93.0" text="Отделение" />
+                                        <TableColumn fx:id="PosStudentColumn" prefWidth="104.0" text="Положение" />
+                                        <TableColumn fx:id="BenStudentColumn" prefWidth="76.0" text="Льгота" />
+                                      </columns>
+                                    </TableView>
+                                    <DatePicker layoutX="115.0" layoutY="144.0" />
+                                    <DatePicker layoutX="430.0" layoutY="144.0" />
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                        </Tab>
+                    </tabs>
+                  </TabPane>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+      <MenuBar layoutY="-1.0" prefHeight="28.0" prefWidth="896.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </children>
+</AnchorPane>
