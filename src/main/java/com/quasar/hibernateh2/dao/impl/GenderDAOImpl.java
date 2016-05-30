@@ -37,8 +37,19 @@ public class GenderDAOImpl implements GenderDAO {
 
     @Override
     public Gender getGenderById(Long id) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+     Session session = null;
+        Gender gender = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            gender = (Gender) session.load(Gender.class, id);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Ошибка I/O", JOptionPane.OK_OPTION);
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
+        return gender;}
 
     @Override
     public List<Gender> getAllGender() throws SQLException {
@@ -58,8 +69,19 @@ public class GenderDAOImpl implements GenderDAO {
     }
 
     @Override
-    public void deleteWorkersChild(Gender gender) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    public void deleteGender(Gender gender) throws SQLException {
+    Session session = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            session.delete(gender);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Ошибка I/O", JOptionPane.OK_OPTION);
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }}
 
 }

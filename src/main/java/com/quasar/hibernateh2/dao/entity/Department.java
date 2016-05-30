@@ -48,4 +48,8 @@ public class Department extends Model implements Serializable {
     public void setName(String s) {
         name = s;
     }
+
+    public void setId(int number) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

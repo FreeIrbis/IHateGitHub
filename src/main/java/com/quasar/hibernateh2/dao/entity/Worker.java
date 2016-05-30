@@ -27,9 +27,6 @@ public class Worker extends Model implements Serializable {
     @Column(name = "patronymic")
     private String patronymic;
 
-    @Column(name = "age")
-    private Long age;
-
     @Column(name = "birthday")
     private String birthday;
 
@@ -65,20 +62,12 @@ public class Worker extends Model implements Serializable {
         name = s;
     }
 
-    public Long getAge() {
-        return age;
-    }
-
-    public void setAge(Long l) {
-        age = l;
-    }
-
     public String getSurname() {
         return surname;
     }
 
     public void setSurname(String s) {
-        name = s;
+        surname = s;
     }
 
     public String getPatronymic() {

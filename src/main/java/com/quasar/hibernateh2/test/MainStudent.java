@@ -35,10 +35,9 @@ public class MainStudent {
         s1.setName("Ivan");
         s1.setPatronymic("Ivanovish");
         s1.setSurname("Ivanov");
-        s1.setAge(21l);
         //System.out.println(new Timestamp(new SimpleDateFormat("yyyy-MM-dd").parse(test[9]).getTime()));
         
-        s1.setBirthday(new Date(new SimpleDateFormat("yyyy-MM-dd").parse("2016-05-20").getTime()));/*"20-02-2016"*/
+        s1.setBirthday(new Date(new SimpleDateFormat("dd-MM-yyyy").parse("2016-05-20").getTime()));/*"20-02-2016"*/
         s1.setGender(gender);
         s1.setGroups(group);
         s1.setBenefit(benefit);
@@ -59,8 +58,7 @@ public class MainStudent {
         System.out.println("========All students=========");
         for(Student s : studs) {
                 System.out.println("Name of students : " + 
-                        s.getName() + ", age : " + 
-                        s.getAge() +",  id : " + 
+                        s.getName() +",  id : " + 
                         s.getId() + ", role : " + 
                         s.getRole() + ", date : " + 
                 s.getBirthday());

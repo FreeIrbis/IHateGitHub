@@ -17,9 +17,7 @@ public class MainWorker {
         Worker w2 = new Worker();
 
         w1.setName("Black Black");
-        w1.setAge(11l);
         w2.setName("White White");
-        w2.setAge(12l);
 
         Factory.getInstance().getWorkerDAO().addWorker(w1);
         Factory.getInstance().getWorkerDAO().addWorker(w2);
@@ -27,8 +25,7 @@ public class MainWorker {
         System.out.println("========All workers=========");
         for (Worker w : workers) {
             System.out.println("Name of workers : "
-                + w.getName() + ", age : "
-                + w.getAge() + ",  id : "
+                + w.getName() + ",  id : "
                 + w.getId() + ", role : ");
             System.out.println("=============================");
         }

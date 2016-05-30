@@ -16,6 +16,6 @@ public interface GenderDAO {
 
     public List<Gender> getAllGender() throws SQLException;
 
-    public void deleteWorkersChild(Gender gender) throws SQLException;
+    public void deleteGender(Gender gender) throws SQLException;
     
 }

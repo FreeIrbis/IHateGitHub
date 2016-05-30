@@ -27,9 +27,6 @@ public class Student extends Model implements ExelModel, Serializable {
      
     @Column(name = "patronymic")
     private String patronymic;
-      
-    @Column(name = "age")
-    private Long age;
     
     // System.out.println(new Timestamp(new SimpleDateFormat("yyyy-MM-dd").parse(test[9]).getTime()));
     @Column(name = "birthday")
@@ -70,14 +67,6 @@ public class Student extends Model implements ExelModel, Serializable {
     
     public void setName(String s) {
         name = s;
-    }
-    
-    public Long getAge() {
-        return age;
-    }
-
-    public void setAge(Long l) {
-        age = l;
     }
     
     public String getSurname() {
@@ -150,7 +139,6 @@ public class Student extends Model implements ExelModel, Serializable {
         list.add(name);
         list.add(surname);
         list.add(patronymic);
-        list.add("" + age);
         list.add(birthday.toString());
         list.add(id_gender.getName());
         list.add(id_benefit.getName());
