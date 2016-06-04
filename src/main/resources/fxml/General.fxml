@@ -251,20 +251,20 @@
                                  </children>
                               </AnchorPane>
                            </content></Tab>
-                        <Tab text="Студенты">
+                        <Tab fx:id="tabStudent" text="Студенты">
                            <content>
                               <AnchorPane prefHeight="200.0" prefWidth="200.0">
                                  <children>
-                                    <Button fx:id="btnSearchStudent" layoutX="688.0" layoutY="288.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="28.0" text="O" />
-                                    <Button fx:id="btnDeleteStudent" layoutX="727.0" layoutY="288.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="69.0" text="Удалить" />
+                                    <Button fx:id="btnSearchStudent" layoutX="688.0" layoutY="288.0" mnemonicParsing="false" onAction="#BtnSearchStudent" prefHeight="25.0" prefWidth="28.0" text="O" />
+                                    <Button fx:id="btnDeleteStudent" layoutX="727.0" layoutY="288.0" mnemonicParsing="false" onAction="#BtnDeleteStudent" prefHeight="25.0" prefWidth="69.0" text="Удалить" />
                                     <TextField fx:id="textUpdatePatStudent" layoutX="527.0" layoutY="85.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите отчество" />
                                     <TextField fx:id="textUpdateSurStudent" layoutX="527.0" layoutY="18.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите фамилию" />
                                     <ComboBox fx:id="benUpdateStudent" layoutX="526.0" layoutY="252.0" prefHeight="25.0" prefWidth="270.0" promptText="Выберите льготу" />
                                     <ComboBox fx:id="groupUpdateStudent" layoutX="526.0" layoutY="175.0" prefHeight="25.0" prefWidth="270.0" promptText="Выберите группу" />
-                                    <Button fx:id="btnUpdateStudent" layoutX="688.0" layoutY="326.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="107.0" text="Редактировать" />
+                                    <Button fx:id="btnUpdateStudent" layoutX="688.0" layoutY="326.0" mnemonicParsing="false" onAction="#BtnUpdateStudent" prefHeight="25.0" prefWidth="107.0" text="Редактировать" />
                                     <TextField fx:id="textUpdateNameStudent" layoutX="527.0" layoutY="53.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите имя" />
                                     <ComboBox fx:id="depUpdateStudent" layoutX="526.0" layoutY="215.0" prefHeight="25.0" prefWidth="270.0" promptText="Выберите отделение" />
-                                    <Button fx:id="btnAddStudent" layoutX="272.0" layoutY="327.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="84.0" text="Добавить" />
+                                    <Button fx:id="btnAddStudent" layoutX="272.0" layoutY="327.0" mnemonicParsing="false" onAction="#BtnAddStudent" prefHeight="25.0" prefWidth="84.0" text="Добавить" />
                                     <ComboBox fx:id="benAddStudent" layoutX="86.0" layoutY="252.0" prefHeight="25.0" prefWidth="270.0" promptText="Выберите льготу" />
                                     <ComboBox fx:id="depAddStudent" layoutX="86.0" layoutY="215.0" prefHeight="25.0" prefWidth="270.0" promptText="Выберите отделение" />
                                     <ComboBox fx:id="groupAddStudent" layoutX="86.0" layoutY="175.0" prefHeight="25.0" prefWidth="270.0" promptText="Выберите группу" />
@@ -278,8 +278,8 @@
                                         <TableColumn fx:id="NameStudentColumn" prefWidth="74.0" text="Имя" />
                                         <TableColumn fx:id="PatStudentColumn" prefWidth="67.0" text="Отчество" />
                                         <TableColumn fx:id="GroupStudentColumn" prefWidth="75.0" text="Группа" />
-                                        <TableColumn fx:id="GenStudentColumn" prefWidth="54.0" text="Пол" />
-                                        <TableColumn fx:id="DataStudentColumn" prefWidth="78.0" text="Дата рождения" />
+                                        <TableColumn fx:id="GenderStudentColumn" prefWidth="54.0" text="Пол" />
+                                        <TableColumn fx:id="DateStudentColumn" prefWidth="78.0" text="Дата рождения" />
                                         <TableColumn fx:id="DepStudentColumn" prefWidth="93.0" text="Отделение" />
                                         <TableColumn fx:id="PosStudentColumn" prefWidth="104.0" text="Положение" />
                                         <TableColumn fx:id="BenStudentColumn" prefWidth="76.0" text="Льгота" />
@@ -304,7 +304,7 @@
                                           <CheckBox fx:id="checkUpdateGenderWomanStudent" layoutX="21.0" layoutY="148.0" mnemonicParsing="false" onAction="#CheckAddGenderWorkers" prefHeight="25.0" prefWidth="44.0" text="жен" textOverrun="CLIP" />
                                        </children>
                                     </VBox>
-                                    <TextField fx:id="textAddEmailPatStudent" layoutX="86.0" layoutY="288.0" prefHeight="25.0" prefWidth="270.0" />
+                                    <TextField fx:id="textAddEmailStudent" layoutX="86.0" layoutY="288.0" prefHeight="25.0" prefWidth="270.0" />
                                     <TextField fx:id="textAddPhoneStudent" layoutX="87.0" layoutY="326.0" prefHeight="25.0" prefWidth="166.0" />
                                     <TextField fx:id="textUpdateEmailStudent" layoutX="527.0" layoutY="288.0" prefHeight="25.0" prefWidth="147.0" />
                                     <TextField fx:id="textUpdatePhoneStudent" layoutX="526.0" layoutY="326.0" />

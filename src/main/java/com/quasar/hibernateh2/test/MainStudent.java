@@ -2,7 +2,6 @@ package com.quasar.hibernateh2.test;
 
 import com.quasar.hibernateh2.dao.Factory;
 import com.quasar.hibernateh2.dao.entity.Benefit;
-import com.quasar.hibernateh2.dao.entity.Branch;
 import com.quasar.hibernateh2.dao.entity.Department;
 import com.quasar.hibernateh2.dao.entity.Gender;
 import com.quasar.hibernateh2.dao.entity.Groups;

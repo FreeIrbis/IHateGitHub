@@ -17,7 +17,6 @@ import javax.persistence.TemporalType;
 @Table(name = "student")
 public class Student extends Model implements ExelModel, Serializable {
 
-    private static final long serialVersionUID = 1990501617629593245L;
 
     @Column(name = "name")
     private String name;
@@ -31,7 +30,7 @@ public class Student extends Model implements ExelModel, Serializable {
     // System.out.println(new Timestamp(new SimpleDateFormat("yyyy-MM-dd").parse(test[9]).getTime()));
     @Column(name = "birthday")
     @Temporal(value = TemporalType.DATE)
-    private Date birthday;
+    private String birthday;
     
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Gender.class)
     @JoinColumn(name = "gender")
@@ -123,11 +122,11 @@ public class Student extends Model implements ExelModel, Serializable {
         patronymic = s;
     }
     
-    public Date getBirthday() {
+    public String getBirthday() {
         return birthday;
     }
     
-    public void setBirthday(Date date) {
+    public void setBirthday(String date) {
         birthday = date;
     }
     
