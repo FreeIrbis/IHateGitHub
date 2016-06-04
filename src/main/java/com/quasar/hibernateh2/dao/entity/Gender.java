@@ -20,7 +20,7 @@ public class Gender extends Model implements Serializable {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "id_gender")
+    @OneToMany(mappedBy = "gender")
     private Set<Student> students;
 
     public void setStudents(Set<Student> students) {
@@ -39,7 +39,7 @@ public class Gender extends Model implements Serializable {
         return workers;
     }
 
-    @OneToMany(mappedBy = "id_gender")
+    @OneToMany(mappedBy = "gender")
     private Set<Worker> workers;
 
 //    @ManyToOne(fetch = FetchType.EAGER)
@@ -77,4 +77,9 @@ public class Gender extends Model implements Serializable {
 //    public void setRole(Role role) {
 //        this.role = role;
 //    }
+
+    @Override
+    public String toString() {
+        return getName();
+    }
 }

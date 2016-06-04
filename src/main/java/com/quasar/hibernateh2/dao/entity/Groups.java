@@ -25,7 +25,7 @@ public class Groups extends Model implements Serializable {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "id_group")
+    @OneToMany(mappedBy = "group")
     private Set<Student> students;
 
     public Groups() {

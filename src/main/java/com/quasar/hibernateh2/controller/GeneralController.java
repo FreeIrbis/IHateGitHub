@@ -9,15 +9,12 @@ import com.quasar.hibernateh2.dao.entity.Department;
 import com.quasar.hibernateh2.dao.entity.Gender;
 import com.quasar.hibernateh2.dao.entity.Groups;
 import com.quasar.hibernateh2.dao.entity.Position;
+import com.quasar.hibernateh2.dao.entity.Student;
 import com.quasar.hibernateh2.dao.entity.Worker;
-import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.Int;
 import java.net.URL;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -29,14 +26,11 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.chart.PieChart.Data;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -66,6 +60,8 @@ public class GeneralController extends AbstractController implements Initializab
     public Tab tabBenefit;
     @FXML
     public Tab tabWorker;
+    @FXML
+    public Tab tabStudent;
 
 
     /*Поля сотрудники на добавление*/
@@ -105,11 +101,11 @@ public class GeneralController extends AbstractController implements Initializab
     @FXML
     public TableColumn<Worker, String> PosWorkerColumn;
     @FXML
-    public TableColumn<Worker, String> DepWorkerColumn;
+    public TableColumn<Worker, Long> DepWorkerColumn;
     @FXML
-    public TableColumn<Worker, String> BenWorkerColumn;
+    public TableColumn<Worker, Long> BenWorkerColumn;
     @FXML
-    public TableColumn<Worker, String> GenderWorkerColumn;
+    public TableColumn<Worker, Long> GenderWorkerColumn;
 
     /*Поля сотрудники на редактирование*/
     @FXML
@@ -135,6 +131,90 @@ public class GeneralController extends AbstractController implements Initializab
 
     Worker worker = new Worker();
     private ObservableList<Worker> listWorker = FXCollections.observableArrayList();
+    private ObservableList<Worker> listSearchWorker = FXCollections.observableArrayList();
+    List<String> listWorkersString = null;
+    
+    /*Поля студентов на добавление*/
+    @FXML
+    public TextField textAddSurStudent;
+    @FXML
+    public TextField textAddNameStudent;
+    @FXML
+    public TextField textAddPatStudent;
+    @FXML
+    public DatePicker dataAddStudent;
+    @FXML
+    public CheckBox checkAddGenderManStudent;
+    @FXML
+    public CheckBox checkAddGenderWomanStudent;
+    @FXML
+    public TextField textAddPhoneStudent;
+    @FXML
+    public TextField textAddEmailPatStudent;
+    @FXML
+    public ComboBox groupAddStudent;
+    @FXML
+    public ComboBox depAddStudent;
+    @FXML
+    public ComboBox benAddStudent;
+    @FXML
+    public Button btnAddStudent;
+    @FXML
+    public TableView tableStudent;
+    @FXML
+    public Label errorAddStudent;
+
+    @FXML
+    public TableColumn<Student, String> SurStudentColumn;
+    @FXML
+    public TableColumn<Student, String> NameStudentColumn;
+    @FXML
+    public TableColumn<Student, String> PatStudentColumn;
+    @FXML
+    public TableColumn<Student, String> DateStudentColumn;
+    @FXML
+    public TableColumn<Student, String> GroupStudentColumn;
+    @FXML
+    public TableColumn<Student, Long> DepStudentColumn;
+    @FXML
+    public TableColumn<Student, Long> BenStudentColumn;
+    @FXML
+    public TableColumn<Student, Long> GenderStudentColumn;
+    @FXML
+    public TableColumn<Student, String> PhoneStudentColumn;
+    @FXML
+    public TableColumn<Student, String> EmailStudentColumn;
+
+    /*Поля студентов на редактирование*/
+    @FXML
+    public TextField textUpdateSurStudent;
+    @FXML
+    public TextField textUpdateNameStudent;
+    @FXML
+    public TextField textUpdatePatStudent;
+    @FXML
+    public DatePicker dataUpdateStudent;
+    @FXML
+    public CheckBox checkUpdateGenderManStudent;
+    @FXML
+    public CheckBox checkUpdateGenderWomanStudent;
+    @FXML
+    public TextField textUpdatePhoneStudent;
+    @FXML
+    public TextField textUpdateEmailPatStudent;
+    @FXML
+    public ComboBox depUpdateStudent;
+    @FXML
+    public ComboBox posUpdateStudent;
+    @FXML
+    public ComboBox benUpdateStudent;
+    @FXML
+    public Button btnUpdateStudent;
+
+    Student student = new Student();
+    private ObservableList<Student> listStudent = FXCollections.observableArrayList();
+    private ObservableList<Student> listSearchStudent = FXCollections.observableArrayList();
+    List<String> listStudentsString = null;
 
     /*Поля должностей на добавление*/
     private ObservableList<Position> listPosition = FXCollections.observableArrayList();
@@ -350,7 +430,7 @@ public class GeneralController extends AbstractController implements Initializab
             }
         });
 
-        //Отделы
+        //Льготы
         NameBenefitColumn.setCellValueFactory(new PropertyValueFactory<Benefit, String>("name"));
         tabBenefit.setOnSelectionChanged(new EventHandler<Event>() {
             @Override
@@ -370,13 +450,14 @@ public class GeneralController extends AbstractController implements Initializab
         NameWorkerColumn.setCellValueFactory(new PropertyValueFactory<Worker, String>("name"));
         PatWorkerColumn.setCellValueFactory(new PropertyValueFactory<Worker, String>("patronymic"));
         DateWorkerColumn.setCellValueFactory(new PropertyValueFactory<Worker, String>("birthday"));
-        PosWorkerColumn.setCellValueFactory(new PropertyValueFactory<Worker, String>("id_position"));
-        DepWorkerColumn.setCellValueFactory(new PropertyValueFactory<Worker, String>("id_department"));
-        BenWorkerColumn.setCellValueFactory(new PropertyValueFactory<Worker, String>("id_benefit"));
-        GenderWorkerColumn.setCellValueFactory(new PropertyValueFactory<Worker, String>("id_gender"));
+        PosWorkerColumn.setCellValueFactory(new PropertyValueFactory<Worker, String>("position"));
+        DepWorkerColumn.setCellValueFactory(new PropertyValueFactory<Worker, Long>("department"));
+        BenWorkerColumn.setCellValueFactory(new PropertyValueFactory<Worker, Long>("benefit"));
+        GenderWorkerColumn.setCellValueFactory(new PropertyValueFactory<Worker, Long>("gender"));
         tabWorker.setOnSelectionChanged(new EventHandler<Event>() {
             @Override
             public void handle(Event event) {
+                tableWorker.getItems().clear();
                 try {
                     listWorker.addAll(Factory.getInstance().getWorkerDAO().getAllWorkers());
                 } catch (SQLException ex) {
@@ -401,14 +482,15 @@ public class GeneralController extends AbstractController implements Initializab
                         System.out.println(p.getName());
                         listBenefitsString.add(p.getName());
                     }
-                    tableWorker.setItems(listWorker);
+                    ;
+
                     benAddWorker.setItems(FXCollections.observableArrayList(listBenefitsString));
                     posAddWorker.setItems(FXCollections.observableArrayList(listPositionsString));
                     depAddWorker.setItems(FXCollections.observableArrayList(listDepartmentsString));
                 } catch (SQLException ex) {
                     Logger.getLogger(GeneralController.class.getName()).log(Level.SEVERE, null, ex);
                 }
-
+                tableWorker.setItems(listWorker);
             }
         });
 
@@ -442,6 +524,9 @@ public class GeneralController extends AbstractController implements Initializab
             benAddWorker.setItems(FXCollections.observableArrayList(listBenefitsString));
             posAddWorker.setItems(FXCollections.observableArrayList(listPositionsString));
             depAddWorker.setItems(FXCollections.observableArrayList(listDepartmentsString));
+            benUpdateWorker.setItems(FXCollections.observableArrayList(listBenefitsString));
+            posUpdateWorker.setItems(FXCollections.observableArrayList(listPositionsString));
+            depUpdateWorker.setItems(FXCollections.observableArrayList(listDepartmentsString));
         } catch (SQLException ex) {
             Logger.getLogger(GeneralController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1102,22 +1187,134 @@ public class GeneralController extends AbstractController implements Initializab
     }
 
     public int BtnSearchWorker() throws SQLException {
-        TableView.TableViewSelectionModel selectionModel = tableWorker.getSelectionModel();
-        int number = selectionModel.getFocusedIndex();
-        worker = listWorker.get(selectionModel.getFocusedIndex());
-        textUpdateSurWorker.setText(worker.getSurname());
-        textUpdateNameWorker.setText(worker.getName());
-        textUpdatePatWorker.setText(worker.getPatronymic());
-        //dataAddWorker.setValue(worker.getBirthday());
-        depAddWorker.setValue(worker.getDepartment());
-        posAddWorker.setValue(worker.getPosition());
-        benAddWorker.setValue(worker.getBenefit());
-        if (worker.getGender().getId() == 1L) {
-            checkUpdateGenderMan.setSelected(true);
-        } else {
-            checkUpdateGenderWoman.setSelected(true);
+        boolean searchBool = true;
+        Worker searchWorker = new Worker();
+        if (textUpdateSurWorker.getText().length() > 1) {
+            searchWorker.setSurname(textUpdateSurWorker.getText());
         }
-        return number;
+        if (textUpdateNameWorker.getText().length() > 1) {
+            searchWorker.setName(textUpdateNameWorker.getText());
+        }
+        if (textUpdatePatWorker.getText().length() > 4) {
+            searchWorker.setPatronymic(textUpdatePatWorker.getText());
+        }
+        if (depUpdateWorker.getValue() != null) {
+            Department department = new Department();
+            department = listDepartments.get(listDepartmentsString.indexOf(depUpdateWorker.getValue()));
+            searchWorker.setDepartment(department);
+        }
+        if (benUpdateWorker.getValue() != null) {
+            Benefit benefit = new Benefit();
+            benefit = listBenefits.get(listBenefitsString.indexOf(benUpdateWorker.getValue()));
+            searchWorker.setBenefit(benefit);
+        }
+        if (posUpdateWorker.getValue() != null) {
+            Position position = new Position();
+            position = listPositions.get(listPositionsString.indexOf(posUpdateWorker.getValue()));
+            searchWorker.setPosition(position);
+        }
+        if (dataUpdateWorker.getValue() != null) {
+            searchWorker.setBirthday(dataUpdateWorker.getValue().toString());
+        }
+        if (SelectOneCheckBox(checkUpdateGenderMan, checkUpdateGenderWoman) != null) {
+            Gender gender = new Gender();
+            gender.setId(SelectOneCheckBox(checkUpdateGenderMan, checkUpdateGenderWoman));
+            searchWorker.setGender(gender);
+        }
+
+        for (int index = 0; index < listWorker.size(); index++) {
+            worker = listWorker.get(index);
+            System.out.println(worker);
+
+            if (searchWorker.getSurname() != null && searchBool == true) {
+                if (searchWorker.getSurname().toString().equals(worker.getSurname().toString())) {
+
+                } else {
+                    searchBool = false;
+                }
+            } else {
+            }
+            if (searchWorker.getName() != null && searchBool == true) {
+                if (worker.getName().toString().equals(searchWorker.getName().toString())) {
+
+                } else {
+                    searchBool = false;
+                }
+            } else {
+
+            }
+            if (searchWorker.getPatronymic() != null && searchBool == true) {
+                if (worker.getPatronymic().toString().equals(searchWorker.getPatronymic().toString())) {
+                } else {
+                    searchBool = false;
+                }
+            } else {
+
+            }
+            if (searchWorker.getBirthday() != null && searchBool == true) {
+                if (worker.getBirthday().toString().equals(searchWorker.getBirthday().toString())) {
+
+                } else {
+                    searchBool = false;
+                }
+            } else {
+
+            }
+            if (searchWorker.getBenefit() != null && searchBool == true) {
+                if (worker.getBenefit().toString().equals(searchWorker.getBenefit().toString())) {
+                    searchBool = false;
+                } else {
+
+                }
+            } else {
+
+            }
+            if (searchWorker.getDepartment() != null && searchBool == true) {
+                if (worker.getDepartment().toString().equals(searchWorker.getDepartment().toString())) {
+
+                } else {
+                    searchBool = false;
+                }
+            } else {
+
+            }
+            if (searchWorker.getGender() != null && searchBool == true) {
+                if (worker.getGender() == searchWorker.getGender()) {
+
+                } else {
+                    searchBool = false;
+                }
+            } else {
+
+            }
+            if (searchBool == true) {
+                listSearchWorker.add(worker);
+            } else {
+                searchBool = true;
+            }
+        }
+        tableWorker.getItems().clear();
+        tableWorker.setItems(listSearchWorker);
+
+        /*TableView.TableViewSelectionModel selectionModel = tableWorker.getSelectionModel();
+         int number = selectionModel.getFocusedIndex();
+         worker = listWorker.get(selectionModel.getFocusedIndex());
+         textUpdateSurWorker.setText(searchWorker.getSurname());
+         textUpdateNameWorker.setText(searchWorker.getName());
+         textUpdatePatWorker.setText(searchWorker.getPatronymic());
+         LocalDate date = LocalDate.parse(searchWorker.getBirthday().toString());
+         dataUpdateWorker.setValue(date);
+         /*depUpdateWorker.setValue(searchWorker.getDepartment().getName());
+         posUpdateWorker.setValue(searchWorker.getPosition().getName());
+         benUpdateWorker.setValue(searchWorker.getBenefit().getName());
+         checkUpdateGenderMan.setSelected(false);
+         checkUpdateGenderWoman.setSelected(false);
+         if (worker.getGender().getId() == 1L) {
+         checkUpdateGenderMan.setSelected(true);
+         } else {
+         checkUpdateGenderWoman.setSelected(true);
+         }*/
+        return /*number*/ 5;
     }
 
     public void SelectRowTableWorker() throws SQLException {
@@ -1129,9 +1326,9 @@ public class GeneralController extends AbstractController implements Initializab
         textUpdatePatWorker.setText(worker.getPatronymic());
         LocalDate date = LocalDate.parse(worker.getBirthday().toString());
         dataUpdateWorker.setValue(date);
-        depUpdateWorker.setValue(worker.getDepartment().getName());
-        posUpdateWorker.setValue(worker.getPosition().getName());
-        benUpdateWorker.setValue(worker.getBenefit().getName());
+        depUpdateWorker.setValue(listDepartments.get(listDepartmentsString.indexOf(worker.getDepartment().getName())).getName());
+        posUpdateWorker.setValue(listPositions.get(listPositionsString.indexOf(worker.getPosition().getName())).getName());
+        benUpdateWorker.setValue(listBenefits.get(listBenefitsString.indexOf(worker.getBenefit().getName())).getName());
         checkUpdateGenderMan.setSelected(false);
         checkUpdateGenderWoman.setSelected(false);
         if (worker.getGender().getId() == 1L) {
@@ -1148,12 +1345,52 @@ public class GeneralController extends AbstractController implements Initializab
             worker.setSurname(textUpdateSurWorker.getText());
         }
         if (textUpdateNameWorker.getText().length() > 1) {
-            worker.setSurname(textUpdateNameWorker.getText());
+            worker.setName(textUpdateNameWorker.getText());
         }
         if (textUpdatePatWorker.getText().length() > 4) {
-            worker.setSurname(textUpdatePatWorker.getText());
+            worker.setPatronymic(textUpdatePatWorker.getText());
         }
+        if (depUpdateWorker.getValue().toString() != worker.getDepartment().getName()) {
+            Department department = new Department();
+            department = listDepartments.get(listDepartmentsString.indexOf(depUpdateWorker.getValue()));
+            worker.setDepartment(department);
+        }
+        if (benUpdateWorker.getValue().toString() != worker.getBenefit().getName()) {
+            Benefit benefit = new Benefit();
+            benefit = listBenefits.get(listBenefitsString.indexOf(benUpdateWorker.getValue()));
+            worker.setBenefit(benefit);
+        }
+        if (posUpdateWorker.getValue().toString() != worker.getPosition().getName()) {
+            Position position = new Position();
+            position = listPositions.get(listPositionsString.indexOf(posUpdateWorker.getValue()));
+            worker.setPosition(position);
+        }
+        if (dataUpdateWorker.getValue().toString() != worker.getBirthday().toString() && dataUpdateWorker.getValue() != null) {
+            worker.setBirthday(dataUpdateWorker.getValue().toString());
+        }
+        Gender gender = new Gender();
+        gender.setId(SelectOneCheckBox(checkUpdateGenderMan, checkUpdateGenderWoman));
+        worker.setGender(gender);
+        System.out.println("SUR:" + worker.getSurname() + "PAT:"
+                + worker.getPatronymic() + "NAM:" + worker.getName() + "DR:"
+                + worker.getBirthday() + "BEN:" + worker.getBenefit()
+                + "DEP:" + worker.getDepartment() + "GEN:" + worker.getGender());
+        Factory.getInstance().getWorkerDAO().updateWorker(worker);
+        worker = null;
+        textUpdateSurWorker.setText(null);
+        textUpdateNameWorker.setText(null);
+        textUpdatePatWorker.setText(null);
+        dataUpdateWorker.setValue(null);
+        checkUpdateGenderMan.setSelected(false);
+        checkUpdateGenderWoman.setSelected(false);
+        depUpdateWorker.setValue(null);
+        posUpdateWorker.setValue(null);
+        benUpdateWorker.setValue(null);
 
+        listWorker.clear();
+        tableWorker.getItems().clear();
+        listWorker.addAll(Factory.getInstance().getWorkerDAO().getAllWorkers());
+        tableWorker.setItems(listWorker);
     }
 
     public void BtnDeleteWorker(int number) throws SQLException {

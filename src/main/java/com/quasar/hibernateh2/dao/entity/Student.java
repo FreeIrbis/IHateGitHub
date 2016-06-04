@@ -34,24 +34,54 @@ public class Student extends Model implements ExelModel, Serializable {
     private Date birthday;
     
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Gender.class)
-    @JoinColumn(name = "id_gender")
-    private Gender id_gender;
+    @JoinColumn(name = "gender")
+    private Gender gender;
     
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Groups.class)
-    @JoinColumn(name = "id_group")
-    private Groups id_group;
+    @JoinColumn(name = "group")
+    private Groups group;
     
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Benefit.class)
-    @JoinColumn(name = "id_benefit")
-    private Benefit id_benefit;
+    @JoinColumn(name = "benefit")
+    private Benefit benefit;
     
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Branch.class)
-    @JoinColumn(name = "id_branch")
-    private Branch id_branch;
+    @JoinColumn(name = "branch")
+    private Branch branch;
     
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Role.class)
     @JoinColumn(name = "role_id")
     private Role role;
+    
+    @Column(name = "phone")
+    private String phone;
+
+    public Groups getGroup() {
+        return group;
+    }
+
+    public void setGroup(Groups group) {
+        this.group = group;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    
+    @Column(name = "email")
+    private String email;
 
     public Student() {
         name = null;
@@ -94,35 +124,35 @@ public class Student extends Model implements ExelModel, Serializable {
     }
     
     public Gender getGender() {
-        return id_gender;
+        return gender;
     }
 
     public void setGender(Gender i) {
-        id_gender = i;
+        gender = i;
     }
     
     public Groups getGroups() {
-        return id_group;
+        return group;
     }
      
     public void setGroups(Groups i) {
-        id_group = i;
+        group = i;
     }
     
     public Benefit getBenefit() {
-        return id_benefit;
+        return benefit;
     }
        
      public void setBenefit(Benefit i) {
-        id_benefit = i;
+        benefit = i;
     }
         
     public Branch getBranch() {
-        return id_branch;
+        return branch;
     }
 
     public void setBranch(Branch i) {
-        id_branch = i;
+        branch = i;
     }
     
     public Role getRole() {
@@ -140,10 +170,10 @@ public class Student extends Model implements ExelModel, Serializable {
         list.add(surname);
         list.add(patronymic);
         list.add(birthday.toString());
-        list.add(id_gender.getName());
-        list.add(id_benefit.getName());
-        list.add(id_branch.getName());
-        list.add(id_group.getName());
+        list.add(gender.getName());
+        list.add(benefit.getName());
+        list.add(branch.getName());
+        list.add(group.getName());
         return list;
     }
 }

@@ -1,6 +1,8 @@
 package com.quasar.hibernateh2.dao.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -31,20 +33,20 @@ public class Worker extends Model implements Serializable {
     private String birthday;
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Gender.class)
-    @JoinColumn(name = "id_gender")
-    private Gender id_gender;
+    @JoinColumn(name = "gender")
+    private Gender gender;
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Department.class)
-    @JoinColumn(name = "id_department")
-    private Department id_department;
+    @JoinColumn(name = "department")
+    private Department department;
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Benefit.class)
-    @JoinColumn(name = "id_benefit")
-    private Benefit id_benefit;
+    @JoinColumn(name = "benefit")
+    private Benefit benefit;
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Position.class)
-    @JoinColumn(name = "id_position")
-    private Position id_position;
+    @JoinColumn(name = "position")
+    private Position position;
 
     public Worker() {
         name = null;
@@ -87,34 +89,53 @@ public class Worker extends Model implements Serializable {
     }
 
     public Department getDepartment() {
-        return id_department;
+        return department;
     }
 
     public void setDepartment(Department i) {
-        id_department = i;
+        department = i;
     }
 
     public Position getPosition() {
-        return id_position;
+        return position;
     }
 
     public void setPosition(Position i) {
-        id_position = i;
+        position = i;
     }
 
     public Benefit getBenefit() {
-        return id_benefit;
+        return benefit;
     }
 
     public void setBenefit(Benefit i) {
-        id_benefit = i;
+        benefit = i;
     }
 
     public Gender getGender() {
-        return id_gender;
+        return gender;
     }
 
     public void setGender(Gender i) {
-        id_gender = i;
+        gender = i;
+    }
+    
+    
+    public List<String> convertToListStrings() {
+        List<String> list = new ArrayList<>();
+        if(name==null){System.out.println("null");}else{list.add(name);}
+        if(surname==null){System.out.println("null");}else{list.add(surname);}
+        if(patronymic==null){System.out.println("null");}else{list.add(patronymic);}
+        if(birthday.toString()==null){System.out.println("null");}else{list.add(birthday.toString());}
+        if(gender.getName()==null){System.out.println("null");}else{list.add(gender.getName());}
+        if(benefit.getName()==null){System.out.println("null");}else{list.add(benefit.getName());}
+        if(department.getName()==null){System.out.println("null");}else{list.add(department.getName());}
+        /*list.add(surname);
+        list.add(patronymic);
+        list.add(birthday.toString());
+        list.add(gender.getName());
+        list.add(benefit.getName());
+        list.add(department.getName());*/
+        return list;
     }
 }

@@ -18,7 +18,7 @@ public class Branch extends Model implements Serializable {
 
     private static final long serialVersionUID = 1990501617629593245L;
 
-     @OneToMany(mappedBy = "id_branch")
+     @OneToMany(mappedBy = "branch")
     private Set<Student> students = new HashSet<>();
 
     public void setStudents(Set<Student> students) {

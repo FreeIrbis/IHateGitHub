@@ -18,7 +18,7 @@ public class Benefit extends Model implements Serializable {
 
    private static final long serialVersionUID = 1947601617629593245L;
 
-    @OneToMany(mappedBy = "id_benefit")
+    @OneToMany(mappedBy = "benefit")
     private Set<Student> students;
 
     public void setStudents(Set<Student> students) {
@@ -37,7 +37,7 @@ public class Benefit extends Model implements Serializable {
         return workers;
     }
     
-    @OneToMany(mappedBy = "id_benefit")
+    @OneToMany(mappedBy = "benefit")
     private Set<Worker> workers;
     
     @Column(name = "name")
@@ -57,5 +57,10 @@ public class Benefit extends Model implements Serializable {
    
     public void setName(String s) {
         name = s;
+    }
+
+    @Override
+    public String toString() {
+        return getName();
     }
 }

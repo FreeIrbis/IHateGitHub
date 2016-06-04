@@ -18,7 +18,7 @@ public class Department extends Model implements Serializable {
 
     private static final long serialVersionUID = 1990501617629593245L;
 
-     @OneToMany(mappedBy = "id_department")
+     @OneToMany(mappedBy = "department")
     private Set<Worker> workers = new HashSet<>();
 
     public void setWorkers(Set<Worker> workers) {
@@ -49,7 +49,9 @@ public class Department extends Model implements Serializable {
         name = s;
     }
 
-    public void setId(int number) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    @Override
+    public String toString() {
+        return getName();
     }
+
 }

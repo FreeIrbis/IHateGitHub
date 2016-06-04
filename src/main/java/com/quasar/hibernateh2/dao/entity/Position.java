@@ -17,7 +17,7 @@ public class Position extends Model implements Serializable {
 
     private static final long serialVersionUID = 1990501617629593245L;
 
-    @OneToMany(mappedBy = "id_position")
+    @OneToMany(mappedBy = "position")
     private Set<Worker> workers;
 
     public void setWorkers(Set<Worker> workers) {
@@ -51,4 +51,10 @@ public class Position extends Model implements Serializable {
     public void setName(String s) {
         name = s;
     }
+
+    @Override
+    public String toString() {
+        return getName();
+    }
+    
 }

@@ -15,10 +15,10 @@ public class OneCheckBox {
 
     public static Long SelectOneCheckBox(CheckBox chk1, CheckBox chk2) {
         Long check = null;
-        if (chk1.isSelected()) {
+        if (chk1.isSelected()==true) {
             check = 1L;
         }
-        if (chk2.isSelected()) {
+        if (chk2.isSelected()==true) {
             check = 2L;
         }
         return check;
