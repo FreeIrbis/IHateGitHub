@@ -45,9 +45,17 @@ public class Student extends Model implements ExelModel, Serializable {
     @JoinColumn(name = "benefit")
     private Benefit benefit;
     
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Branch.class)
-    @JoinColumn(name = "branch")
-    private Branch branch;
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Department.class)
+    @JoinColumn(name = "department")
+    private Department department;
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
     
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Role.class)
     @JoinColumn(name = "role_id")
@@ -146,14 +154,6 @@ public class Student extends Model implements ExelModel, Serializable {
      public void setBenefit(Benefit i) {
         benefit = i;
     }
-        
-    public Branch getBranch() {
-        return branch;
-    }
-
-    public void setBranch(Branch i) {
-        branch = i;
-    }
     
     public Role getRole() {
         return role;
@@ -172,7 +172,7 @@ public class Student extends Model implements ExelModel, Serializable {
         list.add(birthday.toString());
         list.add(gender.getName());
         list.add(benefit.getName());
-        list.add(branch.getName());
+        list.add(department.getName());
         list.add(group.getName());
         return list;
     }

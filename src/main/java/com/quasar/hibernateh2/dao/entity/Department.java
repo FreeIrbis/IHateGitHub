@@ -28,7 +28,17 @@ public class Department extends Model implements Serializable {
     public Set<Worker> getWorkers() {
         return workers;
     }
-     
+     @OneToMany(mappedBy = "department")
+    private Set<Student> students = new HashSet<>();
+
+    public void setStudents(Set<Student> students) {
+        this.students = students;
+    }
+
+    public Set<Student> getStudents() {
+        return students;
+    }
+    
     @Column(name = "name")
     private String name;
            

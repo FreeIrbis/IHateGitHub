@@ -22,7 +22,7 @@ public class StudentDAOImpl implements StudentDAO {
             session.update(student.getGender());
             session.save(student.getGroups());
             session.save(student.getBenefit());
-            session.save(student.getBranch());
+            session.save(student.getDepartment());
             if(student.getRole() != null) {
                 session.save(student.getRole());
             }

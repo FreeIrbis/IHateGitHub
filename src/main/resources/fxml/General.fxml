@@ -10,7 +10,7 @@
         <URL value="@../styles/General.css" />
     </stylesheets>
    <children>
-      <SplitPane dividerPositions="0.29797979797979796" focusTraversable="true" layoutX="49.0" layoutY="57.0" prefHeight="554.0" prefWidth="833.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="26.0">
+      <SplitPane focusTraversable="true" layoutX="49.0" layoutY="57.0" prefHeight="554.0" prefWidth="833.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="26.0">
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
@@ -255,24 +255,24 @@
                            <content>
                               <AnchorPane prefHeight="200.0" prefWidth="200.0">
                                  <children>
-                                    <Button layoutX="526.0" layoutY="314.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Найти" />
-                                    <Button layoutX="598.0" layoutY="314.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="81.0" text="Удалить" />
-                                    <TextField layoutX="526.0" layoutY="96.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите отчество" />
-                                    <TextField layoutX="526.0" layoutY="29.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите фамилию" />
-                                    <ComboBox layoutX="525.0" layoutY="263.0" prefHeight="25.0" prefWidth="270.0" promptText="Выберите льготу" />
-                                    <ComboBox layoutX="525.0" layoutY="186.0" prefHeight="25.0" prefWidth="270.0" promptText="Выберите группу" />
-                                    <Button layoutX="687.0" layoutY="313.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="107.0" text="Редактировать" />
-                                    <TextField layoutX="526.0" layoutY="64.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите имя" />
-                                    <ComboBox layoutX="525.0" layoutY="226.0" prefHeight="25.0" prefWidth="270.0" promptText="Выберите отделение" />
-                                    <Button fx:id="btnAddStudent" layoutX="272.0" layoutY="316.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="84.0" text="Добавить" />
-                                    <ComboBox fx:id="benAddStudent" layoutX="87.0" layoutY="266.0" prefHeight="25.0" prefWidth="270.0" promptText="Выберите льготу" />
-                                    <ComboBox fx:id="depAddStudent" layoutX="87.0" layoutY="229.0" prefHeight="25.0" prefWidth="270.0" promptText="Выберите отделение" />
-                                    <ComboBox fx:id="groupAddStudent" layoutX="87.0" layoutY="189.0" prefHeight="25.0" prefWidth="270.0" promptText="Выберите группу" />
-                                    <TextField fx:id="textAddPatStudent" layoutX="88.0" layoutY="99.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите отчество" />
-                                    <TextField fx:id="textAddNameStudent" layoutX="88.0" layoutY="67.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите имя" />
+                                    <Button fx:id="btnSearchStudent" layoutX="688.0" layoutY="288.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="28.0" text="O" />
+                                    <Button fx:id="btnDeleteStudent" layoutX="727.0" layoutY="288.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="69.0" text="Удалить" />
+                                    <TextField fx:id="textUpdatePatStudent" layoutX="527.0" layoutY="85.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите отчество" />
+                                    <TextField fx:id="textUpdateSurStudent" layoutX="527.0" layoutY="18.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите фамилию" />
+                                    <ComboBox fx:id="benUpdateStudent" layoutX="526.0" layoutY="252.0" prefHeight="25.0" prefWidth="270.0" promptText="Выберите льготу" />
+                                    <ComboBox fx:id="groupUpdateStudent" layoutX="526.0" layoutY="175.0" prefHeight="25.0" prefWidth="270.0" promptText="Выберите группу" />
+                                    <Button fx:id="btnUpdateStudent" layoutX="688.0" layoutY="326.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="107.0" text="Редактировать" />
+                                    <TextField fx:id="textUpdateNameStudent" layoutX="527.0" layoutY="53.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите имя" />
+                                    <ComboBox fx:id="depUpdateStudent" layoutX="526.0" layoutY="215.0" prefHeight="25.0" prefWidth="270.0" promptText="Выберите отделение" />
+                                    <Button fx:id="btnAddStudent" layoutX="272.0" layoutY="327.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="84.0" text="Добавить" />
+                                    <ComboBox fx:id="benAddStudent" layoutX="86.0" layoutY="252.0" prefHeight="25.0" prefWidth="270.0" promptText="Выберите льготу" />
+                                    <ComboBox fx:id="depAddStudent" layoutX="86.0" layoutY="215.0" prefHeight="25.0" prefWidth="270.0" promptText="Выберите отделение" />
+                                    <ComboBox fx:id="groupAddStudent" layoutX="86.0" layoutY="175.0" prefHeight="25.0" prefWidth="270.0" promptText="Выберите группу" />
+                                    <TextField fx:id="textAddPatStudent" layoutX="87.0" layoutY="85.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите отчество" />
+                                    <TextField fx:id="textAddNameStudent" layoutX="87.0" layoutY="53.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите имя" />
                                     <Separator layoutX="447.0" layoutY="-4.0" orientation="VERTICAL" prefHeight="347.0" prefWidth="11.0" />
-                                    <TextField fx:id="textAddSurStudent" layoutX="88.0" layoutY="32.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите фамилию" />
-                                    <TableView fx:id="tableStudent" layoutY="347.0" prefHeight="243.0" prefWidth="894.0">
+                                    <TextField fx:id="textAddSurStudent" layoutX="87.0" layoutY="18.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите фамилию" />
+                                    <TableView fx:id="tableStudent" layoutY="361.0" prefHeight="229.0" prefWidth="894.0">
                                       <columns>
                                         <TableColumn fx:id="SurStudentColumn" prefWidth="84.0" text="Фамилия" />
                                         <TableColumn fx:id="NameStudentColumn" prefWidth="74.0" text="Имя" />
@@ -290,20 +290,24 @@
                                           <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                        </columnResizePolicy>
                                     </TableView>
-                                    <DatePicker fx:id="dataAddStudent" layoutX="182.0" layoutY="149.0" />
-                                    <DatePicker layoutX="620.0" layoutY="147.0" />
-                                    <VBox layoutX="88.0" layoutY="136.0" prefHeight="39.0" prefWidth="52.0" spacing="5.0">
+                                    <DatePicker fx:id="dataAddStudent" layoutX="181.0" layoutY="135.0" />
+                                    <DatePicker fx:id="dataUpdateStudent" layoutX="621.0" layoutY="136.0" />
+                                    <VBox layoutX="87.0" layoutY="122.0" prefHeight="39.0" prefWidth="52.0" spacing="5.0">
                                        <children>
                                           <CheckBox fx:id="checkAddGenderManStudent" layoutX="21.0" layoutY="127.0" mnemonicParsing="false" onAction="#CheckAddGenderWorkers" text="муж" textOverrun="CLIP" />
                                           <CheckBox fx:id="checkAddGenderWomanStudent" layoutX="21.0" layoutY="148.0" mnemonicParsing="false" onAction="#CheckAddGenderWorkers" prefHeight="25.0" prefWidth="44.0" text="жен" textOverrun="CLIP" />
                                        </children>
                                     </VBox>
-                                    <VBox layoutX="526.0" layoutY="136.0" prefHeight="39.0" prefWidth="52.0" spacing="5.0">
+                                    <VBox layoutX="527.0" layoutY="125.0" prefHeight="39.0" prefWidth="52.0" spacing="5.0">
                                        <children>
-                                          <CheckBox layoutX="21.0" layoutY="127.0" mnemonicParsing="false" onAction="#CheckAddGenderWorkers" text="муж" textOverrun="CLIP" />
-                                          <CheckBox layoutX="21.0" layoutY="148.0" mnemonicParsing="false" onAction="#CheckAddGenderWorkers" prefHeight="25.0" prefWidth="44.0" text="жен" textOverrun="CLIP" />
+                                          <CheckBox fx:id="checkUpdateGenderManStudent" layoutX="21.0" layoutY="127.0" mnemonicParsing="false" onAction="#CheckAddGenderWorkers" text="муж" textOverrun="CLIP" />
+                                          <CheckBox fx:id="checkUpdateGenderWomanStudent" layoutX="21.0" layoutY="148.0" mnemonicParsing="false" onAction="#CheckAddGenderWorkers" prefHeight="25.0" prefWidth="44.0" text="жен" textOverrun="CLIP" />
                                        </children>
                                     </VBox>
+                                    <TextField fx:id="textAddEmailPatStudent" layoutX="86.0" layoutY="288.0" prefHeight="25.0" prefWidth="270.0" />
+                                    <TextField fx:id="textAddPhoneStudent" layoutX="87.0" layoutY="326.0" prefHeight="25.0" prefWidth="166.0" />
+                                    <TextField fx:id="textUpdateEmailStudent" layoutX="527.0" layoutY="288.0" prefHeight="25.0" prefWidth="147.0" />
+                                    <TextField fx:id="textUpdatePhoneStudent" layoutX="526.0" layoutY="326.0" />
                                  </children>
                               </AnchorPane>
                            </content>

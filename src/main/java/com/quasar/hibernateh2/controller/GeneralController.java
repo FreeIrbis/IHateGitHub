@@ -201,15 +201,19 @@ public class GeneralController extends AbstractController implements Initializab
     @FXML
     public TextField textUpdatePhoneStudent;
     @FXML
-    public TextField textUpdateEmailPatStudent;
+    public TextField textUpdateEmailStudent;
     @FXML
     public ComboBox depUpdateStudent;
     @FXML
-    public ComboBox posUpdateStudent;
+    public ComboBox groupUpdateStudent;
     @FXML
     public ComboBox benUpdateStudent;
     @FXML
     public Button btnUpdateStudent;
+    @FXML
+    public Button btnSearchStudent;
+    @FXML
+    public Button btnDeleteStudent;
 
     Student student = new Student();
     private ObservableList<Student> listStudent = FXCollections.observableArrayList();

@@ -3,6 +3,7 @@ package com.quasar.hibernateh2.test;
 import com.quasar.hibernateh2.dao.Factory;
 import com.quasar.hibernateh2.dao.entity.Benefit;
 import com.quasar.hibernateh2.dao.entity.Branch;
+import com.quasar.hibernateh2.dao.entity.Department;
 import com.quasar.hibernateh2.dao.entity.Gender;
 import com.quasar.hibernateh2.dao.entity.Groups;
 import com.quasar.hibernateh2.dao.entity.Role;
@@ -27,8 +28,8 @@ public class MainStudent {
         group.setName("A1");
         Benefit benefit = new Benefit();
         benefit.setName("Starosta");
-        Branch branch = new Branch();
-        branch.setName("Potok");
+        Department department = new Department();
+        department.setName("Potok");
 //        Role r2 = new Role();
 //        r2.setTitle("sdf sdfs");
 
@@ -41,7 +42,8 @@ public class MainStudent {
         s1.setGender(gender);
         s1.setGroups(group);
         s1.setBenefit(benefit);
-        s1.setBranch(branch);
+        
+        s1.setDepartment(department);
         //s1.setRole(r1);
 //        s2.setName("Petrova Alisa");
 //        s2.setAge(24l);

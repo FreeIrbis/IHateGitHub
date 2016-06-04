@@ -23,8 +23,8 @@ public class WorkersChildDAOImpl implements WorkersChildDAO {
             SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
             session = sessionFactory.openSession();
             session.beginTransaction();
-            session.save(ws.getWorker());
-            session.save(ws.getChild());
+            session.save(ws.getId_worker());
+            session.save(ws.getId_child());
             session.save(ws);
             session.getTransaction().commit();
         } catch (Exception e) {
