@@ -173,7 +173,7 @@ public class GeneralController extends AbstractController implements Initializab
     @FXML
     public TableColumn<Student, String> DateStudentColumn;
     @FXML
-    public TableColumn<Student, String> GroupStudentColumn;
+    public TableColumn<Student, Long> GroupStudentColumn;
     @FXML
     public TableColumn<Student, Long> DepStudentColumn;
     @FXML
@@ -457,7 +457,7 @@ public class GeneralController extends AbstractController implements Initializab
         DateStudentColumn.setCellValueFactory(new PropertyValueFactory<Student, String>("birthday"));
         PhoneStudentColumn.setCellValueFactory(new PropertyValueFactory<Student, String>("phone"));
         EmailStudentColumn.setCellValueFactory(new PropertyValueFactory<Student, String>("email"));
-        GroupStudentColumn.setCellValueFactory(new PropertyValueFactory<Student, String>("group"));
+        GroupStudentColumn.setCellValueFactory(new PropertyValueFactory<Student, Long>("group"));
         DepStudentColumn.setCellValueFactory(new PropertyValueFactory<Student, Long>("department"));
         BenStudentColumn.setCellValueFactory(new PropertyValueFactory<Student, Long>("benefit"));
         GenderStudentColumn.setCellValueFactory(new PropertyValueFactory<Student, Long>("gender"));
@@ -557,14 +557,16 @@ public class GeneralController extends AbstractController implements Initializab
             }
         });
 
+       
         try {
             /*Инициализаия компонентов добавления работников*/
             listWorker.addAll(Factory.getInstance().getWorkerDAO().getAllWorkers());
-            tableWorker.setItems(listWorker);
-            System.out.println(listWorker.toArray().toString());
         } catch (SQLException ex) {
             Logger.getLogger(GeneralController.class.getName()).log(Level.SEVERE, null, ex);
         }
+            tableWorker.setItems(listWorker);
+            System.out.println(listWorker.toArray().toString());
+     
         try {
             listPositions = Factory.getInstance().getPositionDAO().getAllPositions();
             listPositionsString = new ArrayList<>();
@@ -1404,14 +1406,14 @@ public class GeneralController extends AbstractController implements Initializab
     public void BtnUpdateWorker() throws SQLException {
         TableView.TableViewSelectionModel selectionModel = tableWorker.getSelectionModel();
         worker = listWorker.get(selectionModel.getFocusedIndex());
-        if (textUpdateSurWorker.getText().length() > 1) {
-            worker.setSurname(textUpdateSurWorker.getText());
+        if (textUpdateSurWorker.getText().trim().length() > 1) {
+            worker.setSurname(textUpdateSurWorker.getText().trim());
         }
-        if (textUpdateNameWorker.getText().length() > 1) {
-            worker.setName(textUpdateNameWorker.getText());
+        if (textUpdateNameWorker.getText().trim().length() > 1) {
+            worker.setName(textUpdateNameWorker.getText().trim());
         }
-        if (textUpdatePatWorker.getText().length() > 4) {
-            worker.setPatronymic(textUpdatePatWorker.getText());
+        if (textUpdatePatWorker.getText().trim().length() > 4) {
+            worker.setPatronymic(textUpdatePatWorker.getText().trim());
         }
         if (depUpdateWorker.getValue().toString() != worker.getDepartment().getName()) {
             Department department = new Department();
@@ -1429,7 +1431,7 @@ public class GeneralController extends AbstractController implements Initializab
             worker.setPosition(position);
         }
         if (dataUpdateWorker.getValue().toString() != worker.getBirthday().toString() && dataUpdateWorker.getValue() != null) {
-            worker.setBirthday(dataUpdateWorker.getValue().toString());
+            worker.setBirthday(dataUpdateWorker.getValue().toString().trim());
         }
         Gender gender = new Gender();
         gender.setId(SelectOneCheckBox(checkUpdateGenderMan, checkUpdateGenderWoman));
@@ -1474,28 +1476,28 @@ public class GeneralController extends AbstractController implements Initializab
     }
 
     public void BtnAddWorker() throws SQLException {
-        if (textAddSurWorker.getText().length() > 4
-                && textAddNameWorker.getText().length() > 4
-                && textAddPatWorker.getText().length() > 4
-                && dataAddWorker.getValue().toString().length() > 4
+        if (textAddSurWorker.getText().trim().length() > 4
+                && textAddNameWorker.getText().trim().length() > 4
+                && textAddPatWorker.getText().trim().length() > 4
+                && dataAddWorker.getValue().toString().trim().length() > 4
                 && depAddWorker.getValue() != null
                 && posAddWorker.getValue() != null
                 && benAddWorker.getValue() != null) {
-            worker.setSurname(textAddSurWorker.getText());
-            worker.setName(textAddNameWorker.getText());
-            worker.setPatronymic(textAddPatWorker.getText());
+            worker.setSurname(textAddSurWorker.getText().trim());
+            worker.setName(textAddNameWorker.getText().trim());
+            worker.setPatronymic(textAddPatWorker.getText().trim());
             Gender gender = new Gender();
             gender = Factory.getInstance().getGenderDAO().getGenderById(SelectOneCheckBox(checkAddGenderMan, checkAddGenderWoman));
             worker.setGender(gender);
-            worker.setBirthday(dataAddWorker.getValue().toString());
-            int number = listDepartmentsString.indexOf(depAddWorker.getValue().toString());
+            worker.setBirthday(dataAddWorker.getValue().toString().trim());
+            int number = listDepartmentsString.indexOf(depAddWorker.getValue().toString().trim());
             Department department = new Department();
             department = listDepartments.get(number);
             worker.setDepartment(department);
-            number = listPositionsString.indexOf(posAddWorker.getValue().toString());
+            number = listPositionsString.indexOf(posAddWorker.getValue().toString().trim());
             position = listPositions.get(number);
             worker.setPosition(position);
-            number = listBenefitsString.indexOf(benAddWorker.getValue().toString());
+            number = listBenefitsString.indexOf(benAddWorker.getValue().toString().trim());
             Benefit benefit = new Benefit();
             benefit = listBenefits.get(number);
             worker.setBenefit(benefit);
@@ -1511,14 +1513,14 @@ public class GeneralController extends AbstractController implements Initializab
  public int BtnSearchStudent() throws SQLException {
         boolean searchBool = true;
         Student searchStudent = new Student();
-        if (textUpdateSurWorker.getText().length() > 1) {
-            searchStudent.setSurname(textUpdateSurWorker.getText());
+        if (textUpdateSurWorker.getText().trim().length() > 1) {
+            searchStudent.setSurname(textUpdateSurWorker.getText().trim());
         }
-        if (textUpdateNameWorker.getText().length() > 1) {
-            searchStudent.setName(textUpdateNameWorker.getText());
+        if (textUpdateNameWorker.getText().trim().length() > 1) {
+            searchStudent.setName(textUpdateNameWorker.getText().trim());
         }
-        if (textUpdatePatWorker.getText().length() > 4) {
-            searchStudent.setPatronymic(textUpdatePatWorker.getText());
+        if (textUpdatePatWorker.getText().trim().length() > 4) {
+            searchStudent.setPatronymic(textUpdatePatWorker.getText().trim());
         }
         if (depUpdateWorker.getValue() != null) {
             Department department = new Department();
@@ -1536,7 +1538,7 @@ public class GeneralController extends AbstractController implements Initializab
             searchStudent.setGroup(group);
         }
         if (dataUpdateStudent.getValue() != null) {
-            searchStudent.setBirthday(dataUpdateStudent.getValue().toString());
+            searchStudent.setBirthday(dataUpdateStudent.getValue().toString().trim());
         }
         if (SelectOneCheckBox(checkUpdateGenderManStudent, checkUpdateGenderWomanStudent) != null) {
             Gender gender = new Gender();
@@ -1663,14 +1665,14 @@ public class GeneralController extends AbstractController implements Initializab
     public void BtnUpdateStudent() throws SQLException {
         TableView.TableViewSelectionModel selectionModel = tableStudent.getSelectionModel();
         student = listStudent.get(selectionModel.getFocusedIndex());
-        if (textUpdateSurStudent.getText().length() > 1) {
-            student.setSurname(textUpdateSurStudent.getText());
+        if (textUpdateSurStudent.getText().trim().length() > 1) {
+            student.setSurname(textUpdateSurStudent.getText().trim());
         }
-        if (textUpdateNameStudent.getText().length() > 1) {
-            student.setName(textUpdateNameStudent.getText());
+        if (textUpdateNameStudent.getText().trim().length() > 1) {
+            student.setName(textUpdateNameStudent.getText().trim());
         }
-        if (textUpdatePatStudent.getText().length() > 4) {
-            student.setPatronymic(textUpdatePatStudent.getText());
+        if (textUpdatePatStudent.getText().trim().length() > 4) {
+            student.setPatronymic(textUpdatePatStudent.getText().trim());
         }
         if (depUpdateStudent.getValue().toString() != student.getDepartment().getName()) {
             Department department = new Department();
@@ -1689,14 +1691,14 @@ public class GeneralController extends AbstractController implements Initializab
         }
                 
         if (dataUpdateStudent.getValue().toString() != student.getBirthday().toString() && dataUpdateStudent.getValue() != null) {
-            student.setBirthday(dataUpdateStudent.getValue().toString());
+            student.setBirthday(dataUpdateStudent.getValue().toString().trim());
         }
         
-         if (textUpdatePhoneStudent.getText().length() > 1) {
-            student.setPhone(textUpdatePhoneStudent.getText());
+         if (textUpdatePhoneStudent.getText().trim().length() > 1) {
+            student.setPhone(textUpdatePhoneStudent.getText().trim());
         }
-        if (textUpdateEmailStudent.getText().length() > 1) {
-            student.setEmail(textUpdateEmailStudent.getText());
+        if (textUpdateEmailStudent.getText().trim().length() > 1) {
+            student.setEmail(textUpdateEmailStudent.getText().trim());
         }
         Gender gender = new Gender();
         gender.setId(SelectOneCheckBox(checkUpdateGenderManStudent, checkUpdateGenderWomanStudent));
@@ -1741,22 +1743,22 @@ public class GeneralController extends AbstractController implements Initializab
     }
 
     public void BtnAddStudent() throws SQLException {
-        if (textAddSurStudent.getText().length() > 4
-                && textAddNameStudent.getText().length() > 4
-                && textAddPatStudent.getText().length() > 4
-                && dataAddStudent.getValue().toString().length() > 4
+        if (textAddSurStudent.getText().trim().length() > 4
+                && textAddNameStudent.getText().trim().length() > 4
+                && textAddPatStudent.getText().trim().length() > 4
+                && dataAddStudent.getValue().toString().trim().length() > 4
                 && depAddStudent.getValue() != null
                 && groupAddStudent.getValue() != null
                 && benAddStudent.getValue() != null) {
-            student.setSurname(textAddSurStudent.getText());
-            student.setName(textAddNameStudent.getText());
-            student.setPatronymic(textAddPatStudent.getText());
-            student.setPhone(textAddPhoneStudent.getText());
-            student.setEmail(textAddEmailStudent.getText());
+            student.setSurname(textAddSurStudent.getText().trim());
+            student.setName(textAddNameStudent.getText().trim());
+            student.setPatronymic(textAddPatStudent.getText().trim());
+            student.setPhone(textAddPhoneStudent.getText().trim());
+            student.setEmail(textAddEmailStudent.getText().trim());
             Gender gender = new Gender();
             gender = Factory.getInstance().getGenderDAO().getGenderById(SelectOneCheckBox(checkAddGenderMan, checkAddGenderWoman));
             student.setGender(gender);
-            student.setBirthday(dataAddStudent.getValue().toString());
+            student.setBirthday(dataAddStudent.getValue().toString().trim());
             int number = listDepartmentsString.indexOf(depAddStudent.getValue().toString());
             Department department = new Department();
             department = listDepartments.get(number);
@@ -1773,7 +1775,7 @@ public class GeneralController extends AbstractController implements Initializab
             listStudent.addAll(Factory.getInstance().getStudentDAO().getAllStudents());
             tableStudent.setItems(listStudent);
         } else {
-            errorAddWorker.setText("Заполнены не все поля");
+            errorAddStudent.setText("Заполнены не все поля");
         }
     }
 }

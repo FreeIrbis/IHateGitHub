@@ -2,7 +2,6 @@ package com.quasar.hibernateh2.dao.entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,8 +9,6 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "student")
@@ -29,7 +26,6 @@ public class Student extends Model implements ExelModel, Serializable {
     
     // System.out.println(new Timestamp(new SimpleDateFormat("yyyy-MM-dd").parse(test[9]).getTime()));
     @Column(name = "birthday")
-    @Temporal(value = TemporalType.DATE)
     private String birthday;
     
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Gender.class)
@@ -168,7 +164,9 @@ public class Student extends Model implements ExelModel, Serializable {
         list.add(name);
         list.add(surname);
         list.add(patronymic);
-        list.add(birthday.toString());
+        list.add(birthday);
+        list.add(email);
+        list.add(phone);
         list.add(gender.getName());
         list.add(benefit.getName());
         list.add(department.getName());

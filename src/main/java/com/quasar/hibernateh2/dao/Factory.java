@@ -1,6 +1,5 @@
 package com.quasar.hibernateh2.dao;
 
-import com.quasar.hibernateh2.dao.entity.Benefit;
 import com.quasar.hibernateh2.dao.impl.BenefitDAOImpl;
 import com.quasar.hibernateh2.dao.impl.BranchDAOImpl;
 import com.quasar.hibernateh2.dao.impl.DepartmentDAOImpl;

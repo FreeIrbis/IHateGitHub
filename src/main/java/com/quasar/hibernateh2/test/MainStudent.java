@@ -37,7 +37,7 @@ public class MainStudent {
         s1.setSurname("Ivanov");
         //System.out.println(new Timestamp(new SimpleDateFormat("yyyy-MM-dd").parse(test[9]).getTime()));
         
-        s1.setBirthday(new Date(new SimpleDateFormat("dd-MM-yyyy").parse("2016-05-20").getTime()));/*"20-02-2016"*/
+        s1.setBirthday("20-03-2015");/*"20-02-2016"*/
         s1.setGender(gender);
         s1.setGroups(group);
         s1.setBenefit(benefit);
