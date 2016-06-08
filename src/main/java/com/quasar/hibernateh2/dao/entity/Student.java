@@ -33,7 +33,7 @@ public class Student extends Model implements ExelModel, Serializable {
     private Gender gender;
     
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Groups.class)
-    @JoinColumn(name = "group")
+    @JoinColumn(name = "group_s")
     private Groups group;
     
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Benefit.class)
@@ -53,7 +53,7 @@ public class Student extends Model implements ExelModel, Serializable {
     }
     
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Role.class)
-    @JoinColumn(name = "role_id")
+    @JoinColumn(name = "role")
     private Role role;
     
     @Column(name = "phone")

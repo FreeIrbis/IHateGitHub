@@ -63,7 +63,6 @@ public class StudentDAOImpl implements StudentDAO {
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
-            session.update(stud.getRole());
             session.update(stud);
             session.getTransaction().commit();
         } catch (Exception e) {

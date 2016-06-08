@@ -48,4 +48,9 @@ public class Groups extends Model implements Serializable {
         return students;
     }
 
+    @Override
+    public String toString() {
+        return getName();
+    }
+
 }
