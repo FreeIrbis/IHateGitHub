@@ -2,6 +2,7 @@ package com.quasar.hibernateh2.app;
 
 import com.quasar.hibernateh2.controller.GeneralController;
 import com.quasar.hibernateh2.controller.LoginController;
+import com.quasar.hibernateh2.controller.SettingsController;
 import com.quasar.hibernateh2.dao.hiber_util.HibernateUtil;
 import java.io.InputStream;
 import java.util.logging.Level;
@@ -87,6 +88,7 @@ public class MainApp extends Application {
             Logger.getLogger(MainApp.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
 
     private Initializable replaceSceneContent(String fxml, int width, int height) throws Exception {
         FXMLLoader loader = new FXMLLoader();

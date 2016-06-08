@@ -8,6 +8,7 @@ import com.quasar.hibernateh2.dao.impl.GroupDAOImpl;
 import com.quasar.hibernateh2.dao.impl.PositionDAOImpl;
 import com.quasar.hibernateh2.dao.impl.SqlImpl;
 import com.quasar.hibernateh2.dao.impl.StudentDAOImpl;
+import com.quasar.hibernateh2.dao.impl.UserDAOImpl;
 import com.quasar.hibernateh2.dao.impl.WorkerDAOImpl;
 
 public class Factory {
@@ -20,6 +21,7 @@ public class Factory {
     private static BenefitDAO benefitDAO = null;
     private static BranchDAO branchDAO = null;
     private static DepartmentDAO departmentDAO = null;
+    private static UserDAO userDAO = null;
     private static Factory instance = null;
     private static SqlImpl sqlDAO = null;
 
@@ -35,6 +37,13 @@ public class Factory {
             studentDAO = new StudentDAOImpl();
         }
         return studentDAO;
+    }
+    
+     public UserDAO getUserDAO() {
+        if (userDAO == null) {
+            userDAO = new UserDAOImpl();
+        }
+        return userDAO;
     }
 
     public WorkerDAO getWorkerDAO() {

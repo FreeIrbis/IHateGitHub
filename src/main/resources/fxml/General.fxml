@@ -175,35 +175,47 @@
                                     <Button layoutX="612.0" layoutY="312.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="81.0" text="Удалить" />
                                     <TextField layoutX="540.0" layoutY="94.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите отчество" />
                                     <TextField layoutX="540.0" layoutY="27.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите фамилию" />
-                                    <RadioButton layoutX="540.0" layoutY="129.0" mnemonicParsing="false" text="муж." />
                                     <Button layoutX="701.0" layoutY="311.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="107.0" text="Редактировать" />
                                     <TextField layoutX="540.0" layoutY="62.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите имя" />
-                                    <RadioButton layoutX="540.0" layoutY="156.0" mnemonicParsing="false" text="жен." />
-                                    <Button layoutX="277.0" layoutY="311.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="84.0" text="Добавить" />
-                                    <RadioButton layoutX="93.0" layoutY="156.0" mnemonicParsing="false" text="жен." />
-                                    <RadioButton layoutX="93.0" layoutY="129.0" mnemonicParsing="false" text="муж." />
+                                    <Button layoutX="277.0" layoutY="312.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="84.0" text="Добавить" />
                                     <TextField layoutX="93.0" layoutY="94.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите отчество" />
                                     <TextField layoutX="93.0" layoutY="62.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите имя" />
                                     <Separator layoutX="447.0" layoutY="4.0" orientation="VERTICAL" prefHeight="339.0" prefWidth="11.0" />
                                     <TextField layoutX="93.0" layoutY="27.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите фамилию" />
                                     <TableView layoutY="347.0" prefHeight="245.0" prefWidth="894.0">
                                        <columns>
-                                        <TableColumn fx:id="PerentColumn" prefWidth="84.0" text="Родитель" />
                                         <TableColumn fx:id="SurChildColumn" prefWidth="84.0" text="Фамилия ребёнка" />
-                                        <TableColumn fx:id="NameChildColumn" prefWidth="74.0" text="Имя ребёнка" />                       
-                                        <TableColumn fx:id="PatChildColumn" prefWidth="74.0" text="Отчества ребёнок" />
-                                        <TableColumn fx:id="GenderChildColumn" prefWidth="84.0" text="Пол ребёнка" />
-                                        <TableColumn fx:id="ChildColumn" prefWidth="74.0" text="Ребёнок" />
+                                        <TableColumn fx:id="NameChildColumn" prefWidth="105.0" text="Имя ребёнка" />                       
+                                        <TableColumn fx:id="PatChildColumn" prefWidth="137.0" text="Отчество ребёнка" />
+                                        <TableColumn fx:id="GenderChildColumn" prefWidth="110.0" text="Пол ребёнка" />
+                                          <TableColumn prefWidth="75.0" text="Фамилия родителя" />
+                                          <TableColumn prefWidth="75.0" text="Имя родителя" />
+                                          <TableColumn prefWidth="75.0" text="Отчество родителя" />
                                        </columns>
+                                       <columnResizePolicy>
+                                          <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                       </columnResizePolicy>
                                     </TableView>
                                     <DatePicker layoutX="187.0" layoutY="144.0" />
-                                    <DatePicker layoutX="634.0" layoutY="145.0" />
+                                    <DatePicker layoutX="634.0" layoutY="144.0" />
                                     <TextField layoutX="93.0" layoutY="189.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите фамилию родителя" />
                                     <TextField layoutX="93.0" layoutY="224.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите имя родителя" />
                                     <TextField layoutX="93.0" layoutY="256.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите отчество родителя" />
-                                    <TextField layoutX="540.0" layoutY="190.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите фамилию родителя" />
-                                    <TextField layoutX="540.0" layoutY="257.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите отчество родителя" />
-                                    <TextField layoutX="540.0" layoutY="225.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите имя родителя" />
+                                    <TextField layoutX="540.0" layoutY="189.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите фамилию родителя" />
+                                    <TextField layoutX="540.0" layoutY="256.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите отчество родителя" />
+                                    <TextField layoutX="540.0" layoutY="224.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите имя родителя" />
+                                    <VBox layoutX="93.0" layoutY="137.0" prefHeight="39.0" prefWidth="52.0" spacing="5.0">
+                                       <children>
+                                          <CheckBox fx:id="checkAddGenderMan1" layoutX="21.0" layoutY="127.0" mnemonicParsing="false" onAction="#CheckAddGenderWorkers" text="муж" textOverrun="CLIP" />
+                                          <CheckBox fx:id="checkAddGenderWoman1" layoutX="21.0" layoutY="148.0" mnemonicParsing="false" onAction="#CheckAddGenderWorkers" prefHeight="25.0" prefWidth="44.0" text="жен" textOverrun="CLIP" />
+                                       </children>
+                                    </VBox>
+                                    <VBox layoutX="540.0" layoutY="137.0" prefHeight="39.0" prefWidth="52.0" spacing="5.0">
+                                       <children>
+                                          <CheckBox fx:id="checkAddGenderMan2" layoutX="21.0" layoutY="127.0" mnemonicParsing="false" onAction="#CheckAddGenderWorkers" text="муж" textOverrun="CLIP" />
+                                          <CheckBox fx:id="checkAddGenderWoman2" layoutX="21.0" layoutY="148.0" mnemonicParsing="false" onAction="#CheckAddGenderWorkers" prefHeight="25.0" prefWidth="44.0" text="жен" textOverrun="CLIP" />
+                                       </children>
+                                    </VBox>
                                  </children>
                               </AnchorPane>
                           </content>
@@ -229,28 +241,6 @@
                                  </children></AnchorPane>
                           </content>
                         </Tab>
-                        <Tab text="Системные настройки">
-                           <content>
-                              <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                                 <children>
-                                    <TextField layoutX="26.0" layoutY="75.0" prefHeight="25.0" prefWidth="240.0" />
-                                    <TextField layoutX="26.0" layoutY="128.0" prefHeight="25.0" prefWidth="240.0" />
-                                    <Button layoutX="44.0" layoutY="180.0" mnemonicParsing="false" text="Изменить данные" />
-                                    <TextField layoutX="28.0" layoutY="349.0" prefHeight="25.0" prefWidth="276.0" />
-                                    <Button layoutX="59.0" layoutY="483.0" mnemonicParsing="false" text="Изменить" />
-                                    <TextField layoutX="28.0" layoutY="401.0" prefHeight="25.0" prefWidth="276.0" />
-                                    <TextField layoutX="333.0" layoutY="348.0" prefHeight="25.0" prefWidth="263.0" />
-                                    <TextField layoutX="333.0" layoutY="400.0" prefHeight="25.0" prefWidth="263.0" />
-                                    <Label layoutX="26.0" layoutY="58.0" text="Логин для входа" />
-                                    <Label layoutX="26.0" layoutY="111.0" text="Пароль для входа" />
-                                    <Separator layoutX="12.0" layoutY="278.0" prefHeight="17.0" prefWidth="602.0" />
-                                    <Label layoutX="31.0" layoutY="325.0" text="Имя базы данных" />
-                                    <Label layoutX="31.0" layoutY="384.0" text="Путь к базе данных" />
-                                    <Label layoutX="340.0" layoutY="383.0" text="Пароль для базы данных" />
-                                    <Label layoutX="340.0" layoutY="324.0" text="Логин базы данных" />
-                                 </children>
-                              </AnchorPane>
-                           </content></Tab>
                         <Tab fx:id="tabStudent" text="Студенты">
                            <content>
                               <AnchorPane prefHeight="200.0" prefWidth="200.0">
@@ -325,19 +315,14 @@
       </SplitPane>
       <MenuBar layoutY="-1.0" prefHeight="28.0" prefWidth="896.0">
         <menus>
-          <Menu mnemonicParsing="false" text="File">
+          <Menu mnemonicParsing="false" text="Отчёт">
             <items>
               <MenuItem mnemonicParsing="false" text="Close" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
+          <Menu fx:id="MenuSettings" mnemonicParsing="false" onAction="#ClickSettings" text="Настройки">
             <items>
               <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
             </items>
           </Menu>
         </menus>

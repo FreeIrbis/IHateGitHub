@@ -387,7 +387,13 @@ public class GeneralController extends AbstractController implements Initializab
     private void CheckUpdateGenderWorkers(ActionEvent e) {
         ChekedOneCheckBox(checkUpdateGenderMan, checkUpdateGenderWoman);
     }
-
+    
+    
+    /*Метод открытия окна настроек*/
+    @FXML
+    private void ClickSettings(ActionEvent e) {
+    }
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         /*Заполнение таблиц*/
