@@ -14,18 +14,21 @@ import javax.persistence.Table;
 public class Branch extends Model implements Serializable {
 
     private static final long serialVersionUID = 1990501617629593245L;
-
      
      
     @Column(name = "name")
     private String name;
 
     public Branch() {
-        name = null;
+        this.name = null;
+    }
+    
+    public Branch(String name) {
+        this.name = null;
     }
 
     public Branch(Branch s) {
-        name = s.getName();
+        this.name = s.getName();
     }
     
     public String getName() {

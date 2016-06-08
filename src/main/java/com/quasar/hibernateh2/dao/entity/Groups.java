@@ -32,6 +32,10 @@ public class Groups extends Model implements Serializable {
         name = null;
     }
 
+    public Groups(String name) {
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }

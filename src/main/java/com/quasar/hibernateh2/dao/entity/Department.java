@@ -18,7 +18,7 @@ public class Department extends Model implements Serializable {
 
     private static final long serialVersionUID = 1990501617629593245L;
 
-     @OneToMany(mappedBy = "department")
+    @OneToMany(mappedBy = "department")
     private Set<Worker> workers = new HashSet<>();
 
     public void setWorkers(Set<Worker> workers) {
@@ -28,7 +28,8 @@ public class Department extends Model implements Serializable {
     public Set<Worker> getWorkers() {
         return workers;
     }
-     @OneToMany(mappedBy = "department")
+    
+    @OneToMany(mappedBy = "department")
     private Set<Student> students = new HashSet<>();
 
     public void setStudents(Set<Student> students) {
@@ -38,23 +39,26 @@ public class Department extends Model implements Serializable {
     public Set<Student> getStudents() {
         return students;
     }
-    
+
     @Column(name = "name")
     private String name;
-           
+
     public Department() {
-        name = null;
+        this.name = null;
+    }
+    
+    public Department(String name) {
+        this.name = name;
     }
 
     public Department(Department s) {
         name = s.getName();
     }
-    
+
     public String getName() {
         return name;
     }
-    
-   
+
     public void setName(String s) {
         name = s;
     }

@@ -108,6 +108,20 @@ public class HibernateUtil {
             Factory.getInstance().getPositionDAO().addPosition(new Position("Ректор"));
             Factory.getInstance().getPositionDAO().addPosition(new Position("Сотрудник"));
             Factory.getInstance().getPositionDAO().addPosition(new Position("Прочее"));
+            
+            Factory.getInstance().getGroupDAO().addGroups(new Groups("АТР"));
+            Factory.getInstance().getGroupDAO().addGroups(new Groups("АД"));
+            Factory.getInstance().getGroupDAO().addGroups(new Groups("ЭМО"));
+            
+            Factory.getInstance().getDepartmentDAO().addDepartment(new Department("Факультет Дороги"));
+            Factory.getInstance().getDepartmentDAO().addDepartment(new Department("Факультет Транспорт"));
+        
+            Factory.getInstance().getBenefitDAO().addBenefit(new Benefit("Инвалиды"));
+            Factory.getInstance().getBenefitDAO().addBenefit(new Benefit("Сироты"));
+            Factory.getInstance().getBenefitDAO().addBenefit(new Benefit("Прочее"));
+            
+            Factory.getInstance().getBranchDAO().addBranch(new Branch("123"));
+            Factory.getInstance().getBranchDAO().addBranch(new Branch("456"));
         } catch (SQLException ex) {
             Logger.getLogger(HibernateUtil.class.getName()).log(Level.SEVERE, null, ex);
         }

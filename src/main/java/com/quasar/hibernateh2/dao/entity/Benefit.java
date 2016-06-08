@@ -45,6 +45,10 @@ public class Benefit extends Model implements Serializable {
 
     public Benefit() {
     }
+    
+    public Benefit(String name) {
+        this.name = name;
+    }
 
     public Benefit(Benefit s) {
         this.students = new HashSet<>();
