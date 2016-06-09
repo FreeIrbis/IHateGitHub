@@ -7,8 +7,11 @@ import com.quasar.hibernateh2.dao.hiber_util.HibernateUtil;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.InputStream;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.animation.FadeTransition;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -19,16 +22,17 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import javafx.util.Duration;
 
 /**
  *
  * @author Irbis
  */
 public class MainApp extends Application {
-    
+
     private static final Toolkit kit = Toolkit.getDefaultToolkit();
     private static final Dimension screenSize = kit.getScreenSize();
-    
+
     private static int lx;
     private static int ly;
 
@@ -98,7 +102,6 @@ public class MainApp extends Application {
             Logger.getLogger(MainApp.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
 
     private Initializable replaceSceneContent(String fxml, int width, int height) throws Exception {
         FXMLLoader loader = new FXMLLoader();
@@ -111,14 +114,48 @@ public class MainApp extends Application {
         } finally {
             in.close();
         }
+
+        FadeTransition ft = new FadeTransition(Duration.millis(3000), page);
+        ft.setFromValue(0.0);
+        ft.setToValue(1.0);
+        ft.play();
         Scene scene = new Scene(page, width, height);
         stage.setScene(scene);
         stage.sizeToScene();
         double x = lx / 2 - width / 2;
         double y = ly / 2 - height / 2;
-
+        
         stage.setX(x);
         stage.setY(y);
+
+//        double xW = stage.getX();
+//        double yW = stage.getY();
+        
+//        int step = 100;
+       
+//        double xTemp = (x - xW)/step;
+//        double yTemp = (y - yW)/step;
+        
+//        Timer animTimer = new Timer();
+//        animTimer.scheduleAtFixedRate(new TimerTask() {
+//            int i = 0;
+//            @Override
+//            public void run() {
+//                if (i < step) {
+//                    //stage.setWidth(stage.getWidth() + 3);
+//                    //stage.setHeight(stage.getHeight() + 3);        
+//                    stage.setX(stage.getX() + xTemp);
+//                    stage.setY(stage.getY() + yTemp);
+//                    
+//                } else {
+//                    this.cancel();
+//                }
+//                i++;
+//            }
+//        }, 2000, 25);
+
+        
+        
         return (Initializable) loader.getController();
     }
 
