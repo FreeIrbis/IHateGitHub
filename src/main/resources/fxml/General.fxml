@@ -6,7 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="647.0" prefWidth="896.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.quasar.hibernateh2.controller.GeneralController">
+<AnchorPane id="AnchorPane" prefHeight="700.0" prefWidth="900.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.quasar.hibernateh2.controller.GeneralController">
     <stylesheets>
         <URL value="@../styles/General.css" />
     </stylesheets>
@@ -21,24 +21,24 @@
                            <content>
                               <AnchorPane prefHeight="200.0" prefWidth="200.0">
                                  <children>
-                                    <TextField fx:id="textAddSurWorker" layoutX="82.0" layoutY="30.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите фамилию" />
-                                    <Separator layoutX="447.0" orientation="VERTICAL" prefHeight="339.0" prefWidth="11.0" />
-                                    <TextField fx:id="textAddNameWorker" layoutX="82.0" layoutY="65.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите имя" />
-                                    <TextField fx:id="textAddPatWorker" layoutX="82.0" layoutY="97.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите отчество" />
-                                    <ComboBox fx:id="depAddWorker" layoutX="81.0" layoutY="187.0" prefHeight="25.0" prefWidth="270.0" promptText="Отделение" />
-                                    <ComboBox fx:id="posAddWorker" layoutX="81.0" layoutY="227.0" prefHeight="25.0" prefWidth="270.0" promptText="Должность" />
-                                    <ComboBox fx:id="benAddWorker" layoutX="81.0" layoutY="264.0" prefHeight="25.0" prefWidth="270.0" promptText="Льгота" />
-                                    <Button fx:id="btnAddWorker" layoutX="266.0" layoutY="314.0" mnemonicParsing="false" onAction="#BtnAddWorker" prefHeight="25.0" prefWidth="84.0" text="Добавить" />
-                                    <ComboBox fx:id="posUpdateWorker" layoutX="538.0" layoutY="224.0" prefHeight="25.0" prefWidth="270.0" promptText="Должность" />
-                                    <TextField fx:id="textUpdateNameWorker" layoutX="539.0" layoutY="62.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите имя" />
-                                    <Button fx:id="btnUpdateWorker" layoutX="700.0" layoutY="311.0" mnemonicParsing="false" onAction="#BtnUpdateWorker" prefHeight="25.0" prefWidth="107.0" text="Редактировать" />
-                                    <ComboBox fx:id="depUpdateWorker" layoutX="538.0" layoutY="184.0" prefHeight="25.0" prefWidth="270.0" promptText="Отделение" />
-                                    <ComboBox fx:id="benUpdateWorker" layoutX="538.0" layoutY="261.0" prefHeight="25.0" prefWidth="270.0" promptText="Льгота" />
-                                    <TextField fx:id="textUpdateSurWorker" layoutX="539.0" layoutY="27.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите фамилию" />
-                                    <TextField fx:id="textUpdatePatWorker" layoutX="539.0" layoutY="94.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите отчество" />
-                                    <Button fx:id="btnDeleteWorker" layoutX="611.0" layoutY="312.0" mnemonicParsing="false" onAction="#BtnDeleteWorker" prefHeight="25.0" prefWidth="81.0" text="Удалить" />
-                                    <Button fx:id="btnSearchWorker" layoutX="539.0" layoutY="312.0" mnemonicParsing="false" onAction="#BtnSearchWorker" prefHeight="25.0" prefWidth="65.0" text="Найти" />
-                                    <TableView fx:id="tableWorker" layoutY="345.0" onMouseClicked="#SelectRowTableWorker" prefHeight="247.0" prefWidth="894.0">
+                                    <TextField fx:id="textAddSurWorker" layoutX="90.0" layoutY="30.0" prefHeight="25.0" prefWidth="270.0" promptText="Введите фамилию" />
+                                    <Separator layoutX="450.0" layoutY="4.0" orientation="VERTICAL" prefHeight="339.0" prefWidth="1.0" />
+                                    <TextField fx:id="textAddNameWorker" layoutX="90.0" layoutY="65.0" prefHeight="25.0" prefWidth="270.0" promptText="Введите имя" />
+                                    <TextField fx:id="textAddPatWorker" layoutX="90.0" layoutY="100.0" prefHeight="25.0" prefWidth="270.0" promptText="Введите отчество" />
+                                    <ComboBox fx:id="depAddWorker" layoutX="90.0" layoutY="185.0" prefHeight="25.0" prefWidth="270.0" promptText="Отделение" />
+                                    <ComboBox fx:id="posAddWorker" layoutX="90.0" layoutY="220.0" prefHeight="25.0" prefWidth="270.0" promptText="Должность" />
+                                    <ComboBox fx:id="benAddWorker" layoutX="90.0" layoutY="255.0" prefHeight="25.0" prefWidth="270.0" promptText="Льгота" />
+                                    <Button fx:id="btnAddWorker" layoutX="276.0" layoutY="300.0" mnemonicParsing="false" onAction="#BtnAddWorker" prefHeight="25.0" prefWidth="84.0" text="Добавить" />
+                                    <ComboBox fx:id="posUpdateWorker" layoutX="540.0" layoutY="220.0" prefHeight="25.0" prefWidth="270.0" promptText="Должность" />
+                                    <TextField fx:id="textUpdateNameWorker" layoutX="540.0" layoutY="65.0" prefHeight="25.0" prefWidth="270.0" promptText="Введите имя" />
+                                    <Button fx:id="btnUpdateWorker" layoutX="710.0" layoutY="300.0" mnemonicParsing="false" onAction="#BtnUpdateWorker" prefHeight="25.0" prefWidth="100.0" text="Редактировать" />
+                                    <ComboBox fx:id="depUpdateWorker" layoutX="540.0" layoutY="185.0" prefHeight="25.0" prefWidth="270.0" promptText="Отделение" />
+                                    <ComboBox fx:id="benUpdateWorker" layoutX="540.0" layoutY="255.0" prefHeight="25.0" prefWidth="270.0" promptText="Льгота" />
+                                    <TextField fx:id="textUpdateSurWorker" layoutX="540.0" layoutY="30.0" prefHeight="25.0" prefWidth="270.0" promptText="Введите фамилию" />
+                                    <TextField fx:id="textUpdatePatWorker" layoutX="540.0" layoutY="100.0" prefHeight="25.0" prefWidth="270.0" promptText="Введите отчество" />
+                                    <Button fx:id="btnDeleteWorker" layoutX="618.0" layoutY="300.0" mnemonicParsing="false" onAction="#BtnDeleteWorker" prefHeight="25.0" prefWidth="80.0" text="Удалить" />
+                                    <Button fx:id="btnSearchWorker" layoutX="540.0" layoutY="300.0" mnemonicParsing="false" onAction="#BtnSearchWorker" prefHeight="25.0" prefWidth="66.0" text="Найти" />
+                                    <TableView fx:id="tableWorker" layoutY="345.0" onMouseClicked="#SelectRowTableWorker" prefHeight="424.0" prefWidth="900.0">
                                       <columns>
                                         <TableColumn fx:id="SurWorkerColumn" prefWidth="84.0" text="Фамилия" />
                                         <TableColumn fx:id="NameWorkerColumn" prefWidth="74.0" text="Имя" />
@@ -53,15 +53,15 @@
                                           <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                        </columnResizePolicy>
                                     </TableView>
-                                    <DatePicker fx:id="dataAddWorker" layoutX="176.0" layoutY="147.0" />
-                                    <DatePicker fx:id="dataUpdateWorker" layoutX="633.0" layoutY="145.0" />
-                                    <VBox layoutX="83.0" layoutY="136.0" prefHeight="39.0" prefWidth="52.0" spacing="5.0">
+                                    <DatePicker fx:id="dataAddWorker" layoutX="186.0" layoutY="143.0" />
+                                    <DatePicker fx:id="dataUpdateWorker" layoutX="636.0" layoutY="143.0" />
+                                    <VBox layoutX="90.0" layoutY="135.0" prefHeight="40.0" prefWidth="50.0" spacing="5.0">
                                        <children>
                                           <CheckBox fx:id="checkAddGenderMan" layoutX="21.0" layoutY="127.0" mnemonicParsing="false" onAction="#CheckAddGenderWorkers" text="муж" textOverrun="CLIP" />
                                           <CheckBox fx:id="checkAddGenderWoman" layoutX="21.0" layoutY="148.0" mnemonicParsing="false" onAction="#CheckAddGenderWorkers" prefHeight="25.0" prefWidth="44.0" text="жен" textOverrun="CLIP" />
                                        </children>
                                     </VBox>
-                                    <VBox layoutX="539.0" layoutY="134.0" prefHeight="39.0" prefWidth="52.0" spacing="5.0">
+                                    <VBox layoutX="540.0" layoutY="135.0" prefHeight="40.0" prefWidth="50.0" spacing="5.0">
                                        <children>
                                           <CheckBox fx:id="checkUpdateGenderMan" layoutX="21.0" layoutY="127.0" mnemonicParsing="false" onAction="#CheckUpdateGenderWorkers" text="муж" textOverrun="CLIP" />
                                           <CheckBox fx:id="checkUpdateGenderWoman" layoutX="21.0" layoutY="148.0" mnemonicParsing="false" onAction="#CheckUpdateGenderWorkers" prefHeight="25.0" prefWidth="44.0" text="жен" textOverrun="CLIP" />
@@ -70,119 +70,22 @@
                                  </children>
                               </AnchorPane>
                            </content></Tab>
-                        <Tab fx:id="tabGroup" text="Группы">
-                          <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                 <children>
-                                    <AnchorPane prefHeight="523.0" prefWidth="625.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                       <children>
-                                          <Button fx:id="btnGroupAdd" layoutX="281.0" layoutY="97.0" mnemonicParsing="false" onAction="#BtnAddGroup" text="Добавить" />
-                                          <Button fx:id="btnUpdateGroup" layoutX="637.0" layoutY="157.0" mnemonicParsing="false" onAction="#BtnUpdateGroup" text="Изменить" />
-                                          <ComboBox fx:id="comboGroup" layoutX="539.0" layoutY="28.0" prefHeight="25.0" prefWidth="263.0" promptText="Выберите группу" />
-                                          <Button fx:id="btnDeleteGroup" layoutX="743.0" layoutY="157.0" mnemonicParsing="false" onAction="#BtnDeleteGroup" text="Удалить" />
-                                          <TextField fx:id="textUpdateNameGroup" layoutX="540.0" layoutY="94.0" prefHeight="25.0" prefWidth="263.0" promptText="Введите название для изменения" />
-                                          <Label fx:id="errorAddGroup" layoutX="74.0" layoutY="52.0" />
-                                          <Label fx:id="errorUpdateGroup" layoutX="396.0" layoutY="118.0" />
-                                          <Separator layoutX="442.0" layoutY="4.0" orientation="VERTICAL" prefHeight="208.0" prefWidth="11.0" />
-                                          <TextField fx:id="textAddNameGroup" layoutX="82.0" layoutY="29.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите название группы" />
-                                       </children>
-                                    </AnchorPane>
-                                    <TableView fx:id="tableGroup" layoutY="219.0" prefHeight="370.0" prefWidth="896.0">
-                                       <columns>
-                                          <TableColumn fx:id="NameGroupColumn" prefWidth="84.0" text="Группы" />
-                                       </columns>
-                                    </TableView>
-                                 </children></AnchorPane>
-                          </content>
-                        </Tab>
-                        <Tab fx:id="tabDepartment" text="Отделения">
-                          <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                 <children>
-                                    <AnchorPane layoutX="74.0" layoutY="62.0" prefHeight="523.0" prefWidth="625.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                       <children>
-                                          <TableView fx:id="tableDepartment" layoutY="219.0" prefHeight="371.0" prefWidth="896.0">
-                                            <columns>
-                                              <TableColumn fx:id="NameDepartmentColumn" prefWidth="84.0" text="Отделения" />
-                                            </columns>
-                                          </TableView>
-                                          <Label fx:id="errorAddDepartment" layoutX="72.0" layoutY="50.0" />
-                                          <Label fx:id="errorUpdateDepartment" layoutX="398.0" layoutY="119.0" />
-                                          <Button layoutX="650.0" layoutY="158.0" mnemonicParsing="false" onAction="#BtnUpdateDepartment" text="Изменить" />
-                                          <Button fx:id="btnDeleteDepartment" layoutX="746.0" layoutY="158.0" mnemonicParsing="false" onAction="#BtnDeleteDepartment" text="Удалить" />
-                                          <Separator layoutX="440.0" layoutY="-28.0" orientation="VERTICAL" prefHeight="211.0" prefWidth="11.0" />
-                                          <TextField fx:id="textUpdateNameDepartment" layoutX="543.0" layoutY="90.0" prefHeight="25.0" prefWidth="263.0" promptText="Введите название для изменения" />
-                                          <ComboBox fx:id="comboDepartment" layoutX="542.0" layoutY="24.0" prefHeight="25.0" prefWidth="263.0" promptText="Выберите отделение" />
-                                          <TextField fx:id="textAddNameDepartment" layoutX="82.0" layoutY="29.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите название отделения" />
-                                          <Button fx:id="btnAddDepartment" layoutX="281.0" layoutY="95.0" mnemonicParsing="false" onAction="#BtnAddDepartment" text="Добавить" />
-                                       </children></AnchorPane>
-                                 </children></AnchorPane>
-                          </content>
-                        </Tab>
-                        <Tab fx:id="tabBranch" text="Отделы">
-                          <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                 <children>
-                                    <AnchorPane layoutX="94.0" layoutY="36.0" prefHeight="523.0" prefWidth="625.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                       <children>
-                                          <Button fx:id="btnUpdateBranch" layoutX="655.0" layoutY="156.0" mnemonicParsing="false" onAction="#BtnUpdateBranch" text="Изменить" />
-                                          <Button fx:id="btnDeleteBranch" layoutX="752.0" layoutY="156.0" mnemonicParsing="false" onAction="#BtnDeleteBranch" text="Удалить" />
-                                          <Label fx:id="errorAddBranch" layoutX="76.0" layoutY="51.0" />
-                                          <Label fx:id="errorUpdateBranch" layoutX="427.0" layoutY="118.0" />
-                                          <TextField fx:id="textUpdateNameBranch" layoutX="550.0" layoutY="93.0" prefHeight="25.0" prefWidth="263.0" promptText="Введите название для изменения" />
-                                          <ComboBox fx:id="comboBranch" layoutX="549.0" layoutY="27.0" prefHeight="25.0" prefWidth="263.0" promptText="Выберите отдел" />
-                                          <TextField fx:id="textAddNameBranch" layoutX="83.0" layoutY="28.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите название отдела" />
-                                          <Button fx:id="btnAddBranch" layoutX="282.0" layoutY="94.0" mnemonicParsing="false" onAction="#BtnAddBranch" text="Добавить" />
-                                       </children></AnchorPane>
-                                    <TableView fx:id="tableBranch" layoutY="219.0" prefHeight="371.0" prefWidth="896.0">
-                                       <columns>
-                                          <TableColumn fx:id="NameBranchColumn" prefWidth="84.0" text="Отделы" />
-                                       </columns>
-                                    </TableView>
-                                    <Separator layoutX="440.0" layoutY="8.0" orientation="VERTICAL" prefHeight="213.0" prefWidth="11.0" />
-                                 </children></AnchorPane>
-                          </content>
-                        </Tab>
-                        <Tab fx:id="tabBenefit" text="Льготы">
-                          <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                 <children>
-                                    <AnchorPane layoutX="213.0" layoutY="75.0" prefHeight="523.0" prefWidth="625.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                       <children>
-                                          <Label fx:id="errorAddBenefit" layoutX="87.0" layoutY="53.0" />
-                                          <Label fx:id="errorUpdateBenefit" layoutX="421.0" layoutY="119.0" />
-                                          <Button fx:id="btnUpdateBenefit" layoutX="648.0" layoutY="149.0" mnemonicParsing="false" onAction="#BtnUpdateBenefit" prefHeight="25.0" prefWidth="70.0" text="Изменить" />
-                                          <Button fx:id="btnDeleteBenefit" layoutX="751.0" layoutY="149.0" mnemonicParsing="false" onAction="#BtnDeleteBenefit" text="Удалить" />
-                                          <Separator layoutX="442.0" layoutY="2.0" orientation="VERTICAL" prefHeight="210.0" prefWidth="11.0" />
-                                          <TextField fx:id="textUpdateNameBenefit" layoutX="549.0" layoutY="94.0" prefHeight="25.0" prefWidth="263.0" promptText="Введите название для изменения" />
-                                          <ComboBox fx:id="comboBenefit" layoutX="548.0" layoutY="28.0" prefHeight="25.0" prefWidth="263.0" promptText="Выберите льготу" />
-                                          <TextField fx:id="textAddNameBenefit" layoutX="83.0" layoutY="28.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите название льготы" />
-                                          <Button fx:id="btnAddBenefit" layoutX="282.0" layoutY="94.0" mnemonicParsing="false" onAction="#BtnAddBenefit" text="Добавить" />
-                                       </children></AnchorPane>
-                                    <TableView fx:id="tableBenefit" layoutY="219.0" prefHeight="371.0" prefWidth="894.0">
-                                       <columns>
-                                          <TableColumn fx:id="NameBenefitColumn" prefWidth="84.0" text="Льготы" />
-                                       </columns>
-                                    </TableView>
-                                 </children></AnchorPane>
-                          </content>
-                        </Tab>
                         <Tab text="Дети сотрудников">
                           <content>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
-                                    <Button layoutX="540.0" layoutY="312.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Найти" />
-                                    <Button layoutX="612.0" layoutY="312.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="81.0" text="Удалить" />
-                                    <TextField layoutX="540.0" layoutY="94.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите отчество" />
-                                    <TextField layoutX="540.0" layoutY="27.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите фамилию" />
-                                    <Button layoutX="701.0" layoutY="311.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="107.0" text="Редактировать" />
-                                    <TextField layoutX="540.0" layoutY="62.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите имя" />
-                                    <Button layoutX="277.0" layoutY="312.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="84.0" text="Добавить" />
-                                    <TextField layoutX="93.0" layoutY="94.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите отчество" />
-                                    <TextField layoutX="93.0" layoutY="62.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите имя" />
-                                    <Separator layoutX="447.0" layoutY="4.0" orientation="VERTICAL" prefHeight="339.0" prefWidth="11.0" />
-                                    <TextField layoutX="93.0" layoutY="27.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите фамилию" />
-                                    <TableView layoutY="347.0" prefHeight="245.0" prefWidth="894.0">
+                                    <Button layoutX="540.0" layoutY="300.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="66.0" text="Найти" />
+                                    <Button layoutX="618.0" layoutY="300.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" text="Удалить" />
+                                    <TextField layoutX="540.0" layoutY="100.0" prefHeight="25.0" prefWidth="270.0" promptText="Введите отчество" />
+                                    <TextField layoutX="540.0" layoutY="30.0" prefHeight="25.0" prefWidth="270.0" promptText="Введите фамилию" />
+                                    <Button layoutX="710.0" layoutY="300.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Редактировать" />
+                                    <TextField layoutX="540.0" layoutY="65.0" prefHeight="25.0" prefWidth="270.0" promptText="Введите имя" />
+                                    <Button layoutX="276.0" layoutY="300.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="84.0" text="Добавить" />
+                                    <TextField layoutX="90.0" layoutY="100.0" prefHeight="25.0" prefWidth="270.0" promptText="Введите отчество" />
+                                    <TextField layoutX="90.0" layoutY="65.0" prefHeight="25.0" prefWidth="270.0" promptText="Введите имя" />
+                                    <Separator layoutX="450.0" layoutY="4.0" orientation="VERTICAL" prefHeight="339.0" prefWidth="1.0" />
+                                    <TextField layoutX="90.0" layoutY="30.0" prefHeight="25.0" prefWidth="270.0" promptText="Введите фамилию" />
+                                    <TableView layoutY="345.0" prefHeight="424.0" prefWidth="900.0">
                                        <columns>
                                         <TableColumn fx:id="SurChildColumn" prefWidth="84.0" text="Фамилия ребёнка" />
                                         <TableColumn fx:id="NameChildColumn" prefWidth="105.0" text="Имя ребёнка" />                       
@@ -196,21 +99,21 @@
                                           <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                        </columnResizePolicy>
                                     </TableView>
-                                    <DatePicker layoutX="187.0" layoutY="144.0" />
-                                    <DatePicker layoutX="634.0" layoutY="144.0" />
-                                    <TextField layoutX="93.0" layoutY="189.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите фамилию родителя" />
-                                    <TextField layoutX="93.0" layoutY="224.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите имя родителя" />
-                                    <TextField layoutX="93.0" layoutY="256.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите отчество родителя" />
-                                    <TextField layoutX="540.0" layoutY="189.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите фамилию родителя" />
-                                    <TextField layoutX="540.0" layoutY="256.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите отчество родителя" />
-                                    <TextField layoutX="540.0" layoutY="224.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите имя родителя" />
-                                    <VBox layoutX="93.0" layoutY="137.0" prefHeight="39.0" prefWidth="52.0" spacing="5.0">
+                                    <DatePicker layoutX="186.0" layoutY="143.0" />
+                                    <DatePicker layoutX="634.0" layoutY="143.0" />
+                                    <TextField layoutX="90.0" layoutY="185.0" prefHeight="25.0" prefWidth="270.0" promptText="Введите фамилию родителя" />
+                                    <TextField layoutX="90.0" layoutY="220.0" prefHeight="25.0" prefWidth="270.0" promptText="Введите имя родителя" />
+                                    <TextField layoutX="90.0" layoutY="255.0" prefHeight="25.0" prefWidth="270.0" promptText="Введите отчество родителя" />
+                                    <TextField layoutX="540.0" layoutY="185.0" prefHeight="25.0" prefWidth="270.0" promptText="Введите фамилию родителя" />
+                                    <TextField layoutX="540.0" layoutY="255.0" prefHeight="25.0" prefWidth="270.0" promptText="Введите отчество родителя" />
+                                    <TextField layoutX="540.0" layoutY="220.0" prefHeight="25.0" prefWidth="270.0" promptText="Введите имя родителя" />
+                                    <VBox layoutX="90.0" layoutY="135.0" prefHeight="40.0" prefWidth="50.0" spacing="5.0">
                                        <children>
                                           <CheckBox fx:id="checkAddGenderMan1" layoutX="21.0" layoutY="127.0" mnemonicParsing="false" onAction="#CheckAddGenderWorkers" text="муж" textOverrun="CLIP" />
                                           <CheckBox fx:id="checkAddGenderWoman1" layoutX="21.0" layoutY="148.0" mnemonicParsing="false" onAction="#CheckAddGenderWorkers" prefHeight="25.0" prefWidth="44.0" text="жен" textOverrun="CLIP" />
                                        </children>
                                     </VBox>
-                                    <VBox layoutX="540.0" layoutY="137.0" prefHeight="39.0" prefWidth="52.0" spacing="5.0">
+                                    <VBox layoutX="540.0" layoutY="135.0" prefHeight="40.0" prefWidth="50.0" spacing="5.0">
                                        <children>
                                           <CheckBox fx:id="checkAddGenderMan2" layoutX="21.0" layoutY="127.0" mnemonicParsing="false" onAction="#CheckAddGenderWorkers" text="муж" textOverrun="CLIP" />
                                           <CheckBox fx:id="checkAddGenderWoman2" layoutX="21.0" layoutY="148.0" mnemonicParsing="false" onAction="#CheckAddGenderWorkers" prefHeight="25.0" prefWidth="44.0" text="жен" textOverrun="CLIP" />
@@ -220,18 +123,66 @@
                               </AnchorPane>
                           </content>
                         </Tab>
+                        <Tab fx:id="tabDepartment" text="Отделения">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <AnchorPane layoutX="74.0" layoutY="62.0" prefHeight="523.0" prefWidth="625.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <TableView fx:id="tableDepartment" layoutY="219.0" prefHeight="424.0" prefWidth="900.0">
+                                            <columns>
+                                              <TableColumn fx:id="NameDepartmentColumn" prefWidth="84.0" text="Отделения" />
+                                            </columns>
+                                          </TableView>
+                                          <Label fx:id="errorAddDepartment" layoutX="72.0" layoutY="50.0" />
+                                          <Label fx:id="errorUpdateDepartment" layoutX="398.0" layoutY="119.0" />
+                                          <Button layoutX="710.0" layoutY="150.0" mnemonicParsing="false" onAction="#BtnUpdateDepartment" text="Изменить" />
+                                          <Button fx:id="btnDeleteDepartment" layoutX="810.0" layoutY="150.0" mnemonicParsing="false" onAction="#BtnDeleteDepartment" text="Удалить" />
+                                          <Separator layoutX="450.0" layoutY="4.0" orientation="VERTICAL" prefHeight="208.0" prefWidth="1.0" />
+                                          <TextField fx:id="textUpdateNameDepartment" layoutX="480.0" layoutY="90.0" prefHeight="25.0" prefWidth="390.0" promptText="Введите название для изменения" />
+                                          <ComboBox fx:id="comboDepartment" layoutX="480.0" layoutY="30.0" prefHeight="25.0" prefWidth="390.0" promptText="Выберите отделение" />
+                                          <TextField fx:id="textAddNameDepartment" layoutX="30.0" layoutY="30.0" prefHeight="25.0" prefWidth="390.0" promptText="Введите название отделения" />
+                                          <Button fx:id="btnAddDepartment" layoutX="351.0" layoutY="90.0" mnemonicParsing="false" onAction="#BtnAddDepartment" text="Добавить" />
+                                       </children></AnchorPane>
+                                 </children></AnchorPane>
+                          </content>
+                        </Tab>
+                        <Tab fx:id="tabBranch" text="Отделы">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <AnchorPane layoutX="94.0" layoutY="36.0" prefHeight="523.0" prefWidth="625.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <Button fx:id="btnUpdateBranch" layoutX="710.0" layoutY="150.0" mnemonicParsing="false" onAction="#BtnUpdateBranch" text="Изменить" />
+                                          <Button fx:id="btnDeleteBranch" layoutX="810.0" layoutY="150.0" mnemonicParsing="false" onAction="#BtnDeleteBranch" text="Удалить" />
+                                          <Label fx:id="errorAddBranch" layoutX="76.0" layoutY="51.0" />
+                                          <Label fx:id="errorUpdateBranch" layoutX="427.0" layoutY="118.0" />
+                                          <TextField fx:id="textUpdateNameBranch" layoutX="480.0" layoutY="90.0" prefHeight="25.0" prefWidth="390.0" promptText="Введите название для изменения" />
+                                          <ComboBox fx:id="comboBranch" layoutX="480.0" layoutY="30.0" prefHeight="25.0" prefWidth="390.0" promptText="Выберите отдел" />
+                                          <TextField fx:id="textAddNameBranch" layoutX="30.0" layoutY="30.0" prefHeight="25.0" prefWidth="390.0" promptText="Введите название отдела" />
+                                          <Button fx:id="btnAddBranch" layoutX="351.0" layoutY="90.0" mnemonicParsing="false" onAction="#BtnAddBranch" text="Добавить" />
+                                       </children></AnchorPane>
+                                    <TableView fx:id="tableBranch" layoutY="219.0" prefHeight="424.0" prefWidth="900.0">
+                                       <columns>
+                                          <TableColumn fx:id="NameBranchColumn" prefWidth="84.0" text="Отделы" />
+                                       </columns>
+                                    </TableView>
+                                    <Separator layoutX="450.0" layoutY="4.0" orientation="VERTICAL" prefHeight="208.0" prefWidth="1.0" />
+                                 </children></AnchorPane>
+                          </content>
+                        </Tab>
                         <Tab fx:id="tabPos" text="Должности">
                           <content>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
-                                    <Separator layoutX="432.0" orientation="VERTICAL" prefHeight="219.0" prefWidth="11.0" />
-                                    <TextField fx:id="textAddNamePos" layoutX="82.0" layoutY="27.0" prefHeight="25.0" prefWidth="268.0" promptText="Введите название должности" />
-                                    <TextField fx:id="textUpdatePos" layoutX="554.0" layoutY="93.0" prefHeight="25.0" prefWidth="263.0" promptText="Введите название для изменения" />
-                                    <Button fx:id="btnDelPos" layoutX="757.0" layoutY="153.0" mnemonicParsing="false" onAction="#BtnDeletePosition" text="Удалить" />
-                                    <ComboBox fx:id="comboPos" layoutX="554.0" layoutY="27.0" prefHeight="25.0" prefWidth="263.0" promptText="Выберите должность" />
-                                    <Button fx:id="btnRedPos" layoutX="651.0" layoutY="153.0" mnemonicParsing="false" onAction="#BtnUpdatePosition" text="Изменить" />
-                                    <Button fx:id="btnAddPos" layoutX="281.0" layoutY="93.0" mnemonicParsing="false" onAction="#BtnAddPos" text="Добавить" />
-                                    <TableView fx:id="tablePosition" layoutY="219.0" prefHeight="373.0" prefWidth="894.0" tableMenuButtonVisible="true">
+                                    <Separator layoutX="450.0" layoutY="4.0" orientation="VERTICAL" prefHeight="208.0" prefWidth="1.0" />
+                                    <TextField fx:id="textAddNamePos" layoutX="30.0" layoutY="30.0" prefHeight="25.0" prefWidth="390.0" promptText="Введите название должности" />
+                                    <TextField fx:id="textUpdatePos" layoutX="480.0" layoutY="90.0" prefHeight="25.0" prefWidth="390.0" promptText="Введите название для изменения" />
+                                    <Button fx:id="btnDelPos" layoutX="810.0" layoutY="150.0" mnemonicParsing="false" onAction="#BtnDeletePosition" text="Удалить" />
+                                    <ComboBox fx:id="comboPos" layoutX="480.0" layoutY="30.0" prefHeight="25.0" prefWidth="390.0" promptText="Выберите должность" />
+                                    <Button fx:id="btnRedPos" layoutX="710.0" layoutY="150.0" mnemonicParsing="false" onAction="#BtnUpdatePosition" text="Изменить" />
+                                    <Button fx:id="btnAddPos" layoutX="351.0" layoutY="90.0" mnemonicParsing="false" onAction="#BtnAddPos" text="Добавить" />
+                                    <TableView fx:id="tablePosition" layoutY="219.0" prefHeight="424.0" prefWidth="900.0" tableMenuButtonVisible="true">
                                        <columns>
                                           <TableColumn fx:id="NamePositionColumn" prefWidth="84.0" text="Должности" />
                                        </columns>
@@ -245,18 +196,18 @@
                            <content>
                               <AnchorPane prefHeight="200.0" prefWidth="200.0">
                                  <children>
-                                    <Button fx:id="btnSearchStudent" layoutX="582.0" layoutY="326.0" mnemonicParsing="false" onAction="#BtnSearchStudent" prefHeight="25.0" prefWidth="67.0" text="Найти" />
-                                    <Button fx:id="btnDeleteStudent" layoutX="805.0" layoutY="326.0" mnemonicParsing="false" onAction="#BtnDeleteStudent" prefHeight="25.0" prefWidth="69.0" text="Удалить" />
-                                    <Button fx:id="btnUpdateStudent" layoutX="672.0" layoutY="326.0" mnemonicParsing="false" onAction="#BtnUpdateStudent" prefHeight="25.0" prefWidth="107.0" text="Редактировать" />
-                                    <Button fx:id="btnAddStudent" layoutX="285.0" layoutY="326.0" mnemonicParsing="false" onAction="#BtnAddStudent" prefHeight="25.0" prefWidth="142.0" text="Добавить" />
-                                    <ComboBox fx:id="benAddStudent" layoutX="25.0" layoutY="291.0" prefHeight="25.0" prefWidth="237.0" promptText="Выберите льготу" />
-                                    <ComboBox fx:id="depAddStudent" layoutX="25.0" layoutY="254.0" prefHeight="25.0" prefWidth="238.0" promptText="Выберите отделение" />
-                                    <ComboBox fx:id="groupAddStudent" layoutX="25.0" layoutY="214.0" prefHeight="25.0" prefWidth="238.0" promptText="Выберите группу" />
-                                    <TextField fx:id="textAddPatStudent" layoutX="25.0" layoutY="91.0" prefHeight="25.0" prefWidth="401.0" promptText="Введите отчество" />
-                                    <TextField fx:id="textAddNameStudent" layoutX="25.0" layoutY="56.0" prefHeight="25.0" prefWidth="401.0" promptText="Введите имя" />
-                                    <Separator layoutX="445.0" layoutY="-3.0" orientation="VERTICAL" prefHeight="347.0" prefWidth="11.0" />
-                                    <TextField fx:id="textAddSurStudent" layoutX="25.0" layoutY="21.0" prefHeight="25.0" prefWidth="402.0" promptText="Введите фамилию" />
-                                    <TableView fx:id="tableStudent" layoutY="361.0" onMouseClicked="#SelectRowTableStudent" prefHeight="229.0" prefWidth="894.0">
+                                    <Button fx:id="btnSearchStudent" layoutX="585.0" layoutY="325.0" mnemonicParsing="false" onAction="#BtnSearchStudent" prefHeight="25.0" prefWidth="70.0" text="Найти" />
+                                    <Button fx:id="btnDeleteStudent" layoutX="805.0" layoutY="326.0" mnemonicParsing="false" onAction="#BtnDeleteStudent" prefHeight="25.0" prefWidth="70.0" text="Удалить" />
+                                    <Button fx:id="btnUpdateStudent" layoutX="680.0" layoutY="326.0" mnemonicParsing="false" onAction="#BtnUpdateStudent" prefHeight="25.0" prefWidth="100.0" text="Редактировать" />
+                                    <Button fx:id="btnAddStudent" layoutX="280.0" layoutY="325.0" mnemonicParsing="false" onAction="#BtnAddStudent" prefHeight="25.0" prefWidth="145.0" text="Добавить" />
+                                    <ComboBox fx:id="benAddStudent" layoutX="25.0" layoutY="285.0" prefHeight="25.0" prefWidth="240.0" promptText="Выберите льготу" />
+                                    <ComboBox fx:id="depAddStudent" layoutX="25.0" layoutY="250.0" prefHeight="25.0" prefWidth="240.0" promptText="Выберите отделение" />
+                                    <ComboBox fx:id="groupAddStudent" layoutX="25.0" layoutY="215.0" prefHeight="25.0" prefWidth="240.0" promptText="Выберите группу" />
+                                    <TextField fx:id="textAddPatStudent" layoutX="25.0" layoutY="90.0" prefHeight="25.0" prefWidth="401.0" promptText="Введите отчество" />
+                                    <TextField fx:id="textAddNameStudent" layoutX="25.0" layoutY="55.0" prefHeight="25.0" prefWidth="400.0" promptText="Введите имя" />
+                                    <Separator layoutX="450.0" layoutY="4.0" orientation="VERTICAL" prefHeight="354.0" prefWidth="1.0" />
+                                    <TextField fx:id="textAddSurStudent" layoutX="25.0" layoutY="20.0" prefHeight="25.0" prefWidth="400.0" promptText="Введите фамилию" />
+                                    <TableView fx:id="tableStudent" layoutY="361.0" onMouseClicked="#SelectRowTableStudent" prefHeight="424.0" prefWidth="900.0">
                                       <columns>
                                         <TableColumn fx:id="SurStudentColumn" prefWidth="84.0" text="Фамилия" />
                                         <TableColumn fx:id="NameStudentColumn" prefWidth="74.0" text="Имя" />
@@ -274,38 +225,87 @@
                                           <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                        </columnResizePolicy>
                                     </TableView>
-                                    <DatePicker fx:id="dataAddStudent" layoutX="282.0" layoutY="214.0" prefHeight="25.0" prefWidth="145.0" />
-                                    <VBox layoutX="48.0" layoutY="142.0" prefHeight="39.0" prefWidth="52.0" spacing="15.0">
+                                    <DatePicker fx:id="dataAddStudent" layoutX="280.0" layoutY="215.0" prefHeight="25.0" prefWidth="145.0" />
+                                    <VBox layoutX="50.0" layoutY="140.0" prefHeight="40.0" prefWidth="50.0" spacing="15.0">
                                        <children>
-                                          <CheckBox fx:id="checkAddGenderManStudent" layoutX="21.0" layoutY="127.0" mnemonicParsing="false" onAction="#CheckAddGenderStudents" text="муж" textOverrun="CLIP" />
-                                          <CheckBox fx:id="checkAddGenderWomanStudent" layoutX="21.0" layoutY="148.0" mnemonicParsing="false" onAction="#CheckAddGenderStudents" prefHeight="25.0" prefWidth="44.0" text="жен" textOverrun="CLIP" />
+                                          <CheckBox fx:id="checkAddGenderManStudent" layoutX="20.0" layoutY="125.0" mnemonicParsing="false" onAction="#CheckAddGenderStudents" text="муж" textOverrun="CLIP" />
+                                          <CheckBox fx:id="checkAddGenderWomanStudent" layoutX="20.0" layoutY="145.0" mnemonicParsing="false" onAction="#CheckAddGenderStudents" prefHeight="25.0" prefWidth="44.0" text="жен" textOverrun="CLIP" />
                                        </children>
                                     </VBox>
-                                    <TextField fx:id="textAddEmailStudent" layoutX="181.0" layoutY="136.0" prefHeight="25.0" prefWidth="245.0" promptText="Введите  email" />
-                                    <TextField fx:id="textAddPhoneStudent" layoutX="181.0" layoutY="175.0" prefHeight="25.0" prefWidth="244.0" />
-                                    <ComboBox fx:id="roleAddStudent" layoutX="284.0" layoutY="254.0" prefHeight="25.0" prefWidth="143.0" />
-                                    <DatePicker fx:id="dataUpdateStudent" layoutX="728.0" layoutY="213.0" prefHeight="25.0" prefWidth="145.0" />
-                                    <TextField fx:id="textUpdateNameStudent" layoutX="471.0" layoutY="55.0" prefHeight="25.0" prefWidth="401.0" promptText="Введите имя" />
-                                    <ComboBox fx:id="depUpdateStudent" layoutX="471.0" layoutY="253.0" prefHeight="25.0" prefWidth="238.0" promptText="Выберите отделение" />
-                                    <TextField fx:id="textUpdatePhoneStudent" layoutX="627.0" layoutY="174.0" prefHeight="25.0" prefWidth="244.0" />
-                                    <VBox layoutX="488.0" layoutY="140.0" prefHeight="68.0" prefWidth="52.0" spacing="15.0">
+                                    <TextField fx:id="textAddEmailStudent" layoutX="180.0" layoutY="135.0" prefHeight="25.0" prefWidth="245.0" promptText="Введите  email" />
+                                    <TextField fx:id="textAddPhoneStudent" layoutX="180.0" layoutY="175.0" prefHeight="25.0" prefWidth="244.0" />
+                                    <ComboBox fx:id="roleAddStudent" layoutX="280.0" layoutY="250.0" prefHeight="25.0" prefWidth="145.0" />
+                                    <DatePicker fx:id="dataUpdateStudent" layoutX="728.0" layoutY="215.0" prefHeight="25.0" prefWidth="145.0" />
+                                    <TextField fx:id="textUpdateNameStudent" layoutX="475.0" layoutY="55.0" prefHeight="25.0" prefWidth="400.0" promptText="Введите имя" />
+                                    <ComboBox fx:id="depUpdateStudent" layoutX="475.0" layoutY="250.0" prefHeight="25.0" prefWidth="240.0" promptText="Выберите отделение" />
+                                    <TextField fx:id="textUpdatePhoneStudent" layoutX="630.0" layoutY="175.0" prefHeight="25.0" prefWidth="244.0" />
+                                    <VBox layoutX="500.0" layoutY="140.0" prefHeight="40.0" prefWidth="50.0" spacing="15.0">
                                        <children>
-                                          <CheckBox fx:id="checkUpdateGenderManStudent" layoutX="21.0" layoutY="127.0" mnemonicParsing="false" onAction="#CheckUpdateGenderStudents" text="муж" textOverrun="CLIP" />
-                                          <CheckBox fx:id="checkUpdateGenderWomanStudent" layoutX="21.0" layoutY="148.0" mnemonicParsing="false" onAction="#CheckUpdateGenderStudents" prefHeight="25.0" prefWidth="44.0" text="жен" textOverrun="CLIP" />
+                                          <CheckBox fx:id="checkUpdateGenderManStudent" layoutX="20.0" layoutY="125.0" mnemonicParsing="false" onAction="#CheckUpdateGenderStudents" text="муж" textOverrun="CLIP" />
+                                          <CheckBox fx:id="checkUpdateGenderWomanStudent" layoutX="20.0" layoutY="145.0" mnemonicParsing="false" onAction="#CheckUpdateGenderStudents" prefHeight="25.0" prefWidth="44.0" text="жен" textOverrun="CLIP" />
                                        </children>
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>
                                     </VBox>
-                                    <ComboBox fx:id="benUpdateStudent" layoutX="471.0" layoutY="290.0" prefHeight="25.0" prefWidth="237.0" promptText="Выберите льготу" />
-                                    <TextField fx:id="textUpdateSurStudent" layoutX="471.0" layoutY="20.0" prefHeight="25.0" prefWidth="402.0" promptText="Введите фамилию" />
-                                    <ComboBox fx:id="roleUpdateStudent" layoutX="730.0" layoutY="253.0" prefHeight="25.0" prefWidth="143.0" />
-                                    <TextField fx:id="textUpdatePatStudent" layoutX="471.0" layoutY="90.0" prefHeight="25.0" prefWidth="401.0" promptText="Введите отчество" />
-                                    <ComboBox fx:id="groupUpdateStudent" layoutX="471.0" layoutY="213.0" prefHeight="25.0" prefWidth="238.0" promptText="Выберите группу" />
-                                    <TextField fx:id="textUpdateEmailStudent" layoutX="627.0" layoutY="135.0" prefHeight="25.0" prefWidth="245.0" promptText="Введите  email" />
+                                    <ComboBox fx:id="benUpdateStudent" layoutX="475.0" layoutY="285.0" prefHeight="25.0" prefWidth="240.0" promptText="Выберите льготу" />
+                                    <TextField fx:id="textUpdateSurStudent" layoutX="475.0" layoutY="20.0" prefHeight="25.0" prefWidth="400.0" promptText="Введите фамилию" />
+                                    <ComboBox fx:id="roleUpdateStudent" layoutX="730.0" layoutY="250.0" prefHeight="25.0" prefWidth="143.0" />
+                                    <TextField fx:id="textUpdatePatStudent" layoutX="475.0" layoutY="90.0" prefHeight="25.0" prefWidth="400.0" promptText="Введите отчество" />
+                                    <ComboBox fx:id="groupUpdateStudent" layoutX="475.0" layoutY="215.0" prefHeight="25.0" prefWidth="240.0" promptText="Выберите группу" />
+                                    <TextField fx:id="textUpdateEmailStudent" layoutX="630.0" layoutY="135.0" prefHeight="25.0" prefWidth="245.0" promptText="Введите  email" />
                                  </children>
                               </AnchorPane>
                            </content>
+                        </Tab>
+                        <Tab fx:id="tabGroup" text="Группы">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <AnchorPane prefHeight="523.0" prefWidth="625.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <Button fx:id="btnGroupAdd" layoutX="351.0" layoutY="90.0" mnemonicParsing="false" onAction="#BtnAddGroup" text="Добавить" />
+                                          <Button fx:id="btnUpdateGroup" layoutX="710.0" layoutY="150.0" mnemonicParsing="false" onAction="#BtnUpdateGroup" text="Изменить" />
+                                          <ComboBox fx:id="comboGroup" layoutX="480.0" layoutY="30.0" prefHeight="25.0" prefWidth="390.0" promptText="Выберите группу" />
+                                          <Button fx:id="btnDeleteGroup" layoutX="810.0" layoutY="150.0" mnemonicParsing="false" onAction="#BtnDeleteGroup" text="Удалить" />
+                                          <TextField fx:id="textUpdateNameGroup" layoutX="480.0" layoutY="90.0" prefHeight="25.0" prefWidth="390.0" promptText="Введите название для изменения" />
+                                          <Label fx:id="errorAddGroup" layoutX="74.0" layoutY="52.0" />
+                                          <Label fx:id="errorUpdateGroup" layoutX="396.0" layoutY="118.0" />
+                                          <Separator layoutX="450.0" layoutY="4.0" orientation="VERTICAL" prefHeight="208.0" prefWidth="1.0" />
+                                          <TextField fx:id="textAddNameGroup" layoutX="30.0" layoutY="30.0" prefHeight="25.0" prefWidth="390.0" promptText="Введите название группы" />
+                                       </children>
+                                    </AnchorPane>
+                                    <TableView fx:id="tableGroup" layoutY="219.0" prefHeight="424.0" prefWidth="900.0">
+                                       <columns>
+                                          <TableColumn fx:id="NameGroupColumn" prefWidth="84.0" text="Группы" />
+                                       </columns>
+                                    </TableView>
+                                 </children></AnchorPane>
+                          </content>
+                        </Tab>
+                        <Tab fx:id="tabBenefit" text="Льготы">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <AnchorPane layoutX="213.0" layoutY="75.0" prefHeight="523.0" prefWidth="625.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <Label fx:id="errorAddBenefit" layoutX="87.0" layoutY="53.0" />
+                                          <Label fx:id="errorUpdateBenefit" layoutX="421.0" layoutY="119.0" />
+                                          <Button fx:id="btnUpdateBenefit" layoutX="710.0" layoutY="150.0" mnemonicParsing="false" onAction="#BtnUpdateBenefit" prefHeight="25.0" prefWidth="70.0" text="Изменить" />
+                                          <Button fx:id="btnDeleteBenefit" layoutX="810.0" layoutY="150.0" mnemonicParsing="false" onAction="#BtnDeleteBenefit" text="Удалить" />
+                                          <Separator layoutX="450.0" layoutY="4.0" orientation="VERTICAL" prefHeight="208.0" prefWidth="1.0" />
+                                          <TextField fx:id="textUpdateNameBenefit" layoutX="480.0" layoutY="90.0" prefHeight="25.0" prefWidth="390.0" promptText="Введите название для изменения" />
+                                          <ComboBox fx:id="comboBenefit" layoutX="480.0" layoutY="30.0" prefHeight="25.0" prefWidth="390.0" promptText="Выберите льготу" />
+                                          <TextField fx:id="textAddNameBenefit" layoutX="30.0" layoutY="30.0" prefHeight="25.0" prefWidth="390.0" promptText="Введите название льготы" />
+                                          <Button fx:id="btnAddBenefit" layoutX="351.0" layoutY="90.0" mnemonicParsing="false" onAction="#BtnAddBenefit" text="Добавить" />
+                                       </children></AnchorPane>
+                                    <TableView fx:id="tableBenefit" layoutY="219.0" prefHeight="424.0" prefWidth="900.0">
+                                       <columns>
+                                          <TableColumn fx:id="NameBenefitColumn" prefWidth="84.0" text="Льготы" />
+                                       </columns>
+                                    </TableView>
+                                 </children></AnchorPane>
+                          </content>
                         </Tab>
                     </tabs>
                   </TabPane>
@@ -313,7 +313,7 @@
             </AnchorPane>
         </items>
       </SplitPane>
-      <MenuBar layoutY="-1.0" prefHeight="28.0" prefWidth="896.0">
+      <MenuBar layoutY="-1.0" prefHeight="28.0" prefWidth="900.0">
         <menus>
           <Menu mnemonicParsing="false" text="Отчёт">
             <items>

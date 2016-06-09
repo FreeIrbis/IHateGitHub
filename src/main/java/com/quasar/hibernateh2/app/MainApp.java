@@ -4,6 +4,8 @@ import com.quasar.hibernateh2.controller.GeneralController;
 import com.quasar.hibernateh2.controller.LoginController;
 import com.quasar.hibernateh2.controller.SettingsController;
 import com.quasar.hibernateh2.dao.hiber_util.HibernateUtil;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,14 +25,22 @@ import javafx.stage.WindowEvent;
  * @author Irbis
  */
 public class MainApp extends Application {
+    
+    private static final Toolkit kit = Toolkit.getDefaultToolkit();
+    private static final Dimension screenSize = kit.getScreenSize();
+    
+    private static int lx;
+    private static int ly;
 
-    private static final String TITLE = "Main programm";
+    private static final String TITLE = "Dtpa Prof";
     private Stage stage;
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        lx = screenSize.width;
+        ly = screenSize.height;
         launch(args);
     }
 
@@ -38,7 +48,7 @@ public class MainApp extends Application {
     public void start(Stage primaryStage) throws Exception {
         try {
             stage = primaryStage;
-            stage.setTitle("Dtpa Prof");
+            stage.setTitle(TITLE);
             // установка иконки
             Image ix = new Image("/icon/lock.png");
             stage.getIcons().add(ix);
@@ -63,12 +73,12 @@ public class MainApp extends Application {
 
     private void gotoLogin() {
         try {
-            LoginController login = (LoginController) replaceSceneContent("/fxml/Login.fxml", 600, 420);
+            int xLogin = 600;
+            int yLogin = 420;
+            LoginController login = (LoginController) replaceSceneContent("/fxml/Login.fxml", xLogin, yLogin);
             login.setApp(this);
             Scene scene = stage.getScene();
             scene.getStylesheets().add("/styles/Login.css");
-
-//        stage.setTitle("JavaFX and Maven");
             stage.setMinWidth(stage.getWidth());
             stage.setMinHeight(stage.getHeight());
             // запрет изменения размера окна
@@ -80,7 +90,7 @@ public class MainApp extends Application {
 
     private void gotoGeneral() {
         try {
-            GeneralController login = (GeneralController) replaceSceneContent("/fxml/General.fxml", 896, 647);
+            GeneralController login = (GeneralController) replaceSceneContent("/fxml/General.fxml", 900, 700);
             login.setApp(this);
             Scene scene = stage.getScene();
             scene.getStylesheets().add("/styles/General.css");
@@ -104,6 +114,11 @@ public class MainApp extends Application {
         Scene scene = new Scene(page, width, height);
         stage.setScene(scene);
         stage.sizeToScene();
+        double x = lx / 2 - width / 2;
+        double y = ly / 2 - height / 2;
+
+        stage.setX(x);
+        stage.setY(y);
         return (Initializable) loader.getController();
     }
 
