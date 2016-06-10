@@ -52,7 +52,7 @@ public class Worker extends Model implements Serializable {
     @JoinColumn(name = "position")
     private Position position;
     
-    @ManyToMany//(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "children_of_workers",
             joinColumns = {@JoinColumn(name="worker_id")},
             inverseJoinColumns = {@JoinColumn(name="child_id")})
@@ -64,6 +64,10 @@ public class Worker extends Model implements Serializable {
 
     public Worker(Worker s) {
         name = s.getName();
+    }
+    
+    public Worker(String name) {
+        this.name = name;
     }
 
     public String getName() {

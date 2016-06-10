@@ -64,6 +64,10 @@ public class Child extends Model implements Serializable {
         name = s.getName();
     }
     
+    public Child(String name) {
+        this.name = name;
+    }
+    
     public String getName() {
         return name;
     }

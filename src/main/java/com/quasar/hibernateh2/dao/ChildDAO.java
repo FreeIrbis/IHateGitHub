@@ -15,7 +15,7 @@ public interface ChildDAO {
 
     public Child getChildById(Long id) throws SQLException;
 
-    public List getAllChildren() throws SQLException;
+    public List<Child> getAllChildren() throws SQLException;
 
     public void deleteChildren(Child student) throws SQLException;
     

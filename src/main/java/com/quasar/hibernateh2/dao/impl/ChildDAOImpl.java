@@ -2,7 +2,6 @@ package com.quasar.hibernateh2.dao.impl;
 
 import com.quasar.hibernateh2.dao.ChildDAO;
 import com.quasar.hibernateh2.dao.entity.Child;
-import com.quasar.hibernateh2.dao.entity.Student;
 import com.quasar.hibernateh2.dao.hiber_util.HibernateUtil;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -24,7 +23,7 @@ public class ChildDAOImpl implements ChildDAO {
             SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
             session = sessionFactory.openSession();
             session.beginTransaction();
-            session.save(child.getGender());
+            //session.save(child.getGender());
             session.save(child);
             session.getTransaction().commit();
         } catch (Exception e) {
@@ -69,7 +68,7 @@ public class ChildDAOImpl implements ChildDAO {
         return child;}
 
     @Override
-    public List getAllChildren() throws SQLException {
+    public List<Child> getAllChildren() throws SQLException {
     Session session = null;
         List<Child> childs = new ArrayList<>();
         try {
