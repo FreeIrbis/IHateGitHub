@@ -335,7 +335,6 @@ public class GeneralController extends AbstractController implements Initializab
     @FXML
     Label errorUpdateGroup;
 
-    Groups group = new Groups();
     @FXML
     public TextField textAddNameGroup;
     @FXML
@@ -361,7 +360,6 @@ public class GeneralController extends AbstractController implements Initializab
     @FXML
     Label errorUpdateDepartment;
 
-    Department department = new Department();
     @FXML
     public TextField textAddNameDepartment;
     @FXML
@@ -415,7 +413,6 @@ public class GeneralController extends AbstractController implements Initializab
     @FXML
     Label errorUpdateBenefit;
 
-    Benefit benefit = new Benefit();
     @FXML
     public TextField textAddNameBenefit;
     @FXML
@@ -1869,7 +1866,7 @@ public class GeneralController extends AbstractController implements Initializab
             Department department = depAddStudent.getSelectionModel().getSelectedItem();
 
             student.setDepartment(department);
-            group = groupAddStudent.getSelectionModel().getSelectedItem();
+            Groups group = groupAddStudent.getSelectionModel().getSelectedItem();
             student.setGroup(group);
 
             Benefit benefit = benAddStudent.getSelectionModel().getSelectedItem();
@@ -1878,10 +1875,6 @@ public class GeneralController extends AbstractController implements Initializab
             listStudent.clear();
             listStudent.addAll(Factory.getInstance().getStudentDAO().getAllStudents());
             tableStudent.setItems(listStudent);
-            group = null;
-            benefit = null;
-            department = null;
-
         } else {
             JOptionPane.showMessageDialog(null, "Заполнены не все поля");
 
