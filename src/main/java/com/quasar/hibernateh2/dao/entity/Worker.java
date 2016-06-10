@@ -2,11 +2,15 @@ package com.quasar.hibernateh2.dao.entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -47,6 +51,12 @@ public class Worker extends Model implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Position.class)
     @JoinColumn(name = "position")
     private Position position;
+    
+    @ManyToMany//(fetch = FetchType.EAGER)
+    @JoinTable(name = "children_of_workers",
+            joinColumns = {@JoinColumn(name="worker_id")},
+            inverseJoinColumns = {@JoinColumn(name="child_id")})
+    private Set<Child> children = new HashSet<>();
 
     public Worker() {
         name = null;
@@ -119,23 +129,58 @@ public class Worker extends Model implements Serializable {
     public void setGender(Gender i) {
         gender = i;
     }
-    
-    
+
+    public Set<Child> getChildren() {
+        return children;
+    }
+
+    public void setChildren(Set<Child> children) {
+        this.children = children;
+    }
+
     public List<String> convertToListStrings() {
         List<String> list = new ArrayList<>();
-        if(name==null){System.out.println("null");}else{list.add(name);}
-        if(surname==null){System.out.println("null");}else{list.add(surname);}
-        if(patronymic==null){System.out.println("null");}else{list.add(patronymic);}
-        if(birthday.toString()==null){System.out.println("null");}else{list.add(birthday.toString());}
-        if(gender.getName()==null){System.out.println("null");}else{list.add(gender.getName());}
-        if(benefit.getName()==null){System.out.println("null");}else{list.add(benefit.getName());}
-        if(department.getName()==null){System.out.println("null");}else{list.add(department.getName());}
+        if (name == null) {
+            System.out.println("null");
+        } else {
+            list.add(name);
+        }
+        if (surname == null) {
+            System.out.println("null");
+        } else {
+            list.add(surname);
+        }
+        if (patronymic == null) {
+            System.out.println("null");
+        } else {
+            list.add(patronymic);
+        }
+        if (birthday == null) {
+            System.out.println("null");
+        } else {
+            list.add(birthday);
+        }
+        if (gender.getName() == null) {
+            System.out.println("null");
+        } else {
+            list.add(gender.getName());
+        }
+        if (benefit.getName() == null) {
+            System.out.println("null");
+        } else {
+            list.add(benefit.getName());
+        }
+        if (department.getName() == null) {
+            System.out.println("null");
+        } else {
+            list.add(department.getName());
+        }
         /*list.add(surname);
-        list.add(patronymic);
-        list.add(birthday.toString());
-        list.add(gender.getName());
-        list.add(benefit.getName());
-        list.add(department.getName());*/
+         list.add(patronymic);
+         list.add(birthday.toString());
+         list.add(gender.getName());
+         list.add(benefit.getName());
+         list.add(department.getName());*/
         return list;
     }
 }
