@@ -48,7 +48,6 @@ import javax.swing.JOptionPane;
  */
 public class GeneralController extends AbstractController implements Initializable {
 
-    boolean addOrNot = true;
     /*Все табы*/
 
     @FXML
@@ -83,7 +82,7 @@ public class GeneralController extends AbstractController implements Initializab
     @FXML
     public CheckBox checkAddGenderWoman;
     @FXML
-    public ComboBox depAddWorker;
+    public ComboBox<Department> depAddWorker;
     @FXML
     public ComboBox<Position> posAddWorker;
     @FXML
@@ -126,7 +125,7 @@ public class GeneralController extends AbstractController implements Initializab
     @FXML
     public CheckBox checkUpdateGenderWoman;
     @FXML
-    public ComboBox depUpdateWorker;
+    public ComboBox<Department> depUpdateWorker;
     @FXML
     public ComboBox<Position> posUpdateWorker;
     @FXML
@@ -161,7 +160,7 @@ public class GeneralController extends AbstractController implements Initializab
     @FXML
     public ComboBox roleAddStudent;
     @FXML
-    public ComboBox depAddStudent;
+    public ComboBox<Department> depAddStudent;
     @FXML
     public ComboBox<Benefit> benAddStudent;
     @FXML
@@ -284,7 +283,7 @@ public class GeneralController extends AbstractController implements Initializab
     @FXML
     public TextField textUpdateEmailStudent;
     @FXML
-    public ComboBox depUpdateStudent;
+    public ComboBox<Department> depUpdateStudent;
     @FXML
     public ComboBox roleUpdateStudent;
     @FXML
@@ -357,7 +356,6 @@ public class GeneralController extends AbstractController implements Initializab
     List<Groups> listGroups = null;
 
     /*Поля отделений на добавление*/
-    private ObservableList<Department> listDepartment = FXCollections.observableArrayList();
     @FXML
     Label errorAddDepartment;
     @FXML
@@ -371,7 +369,7 @@ public class GeneralController extends AbstractController implements Initializab
     @FXML
     public Button btnAddDepartment;
     @FXML
-    public ComboBox comboDepartment;
+    public ComboBox<Department> comboDepartment;
     @FXML
     public TableView<Department> tableDepartment;
     @FXML
@@ -382,7 +380,6 @@ public class GeneralController extends AbstractController implements Initializab
     public Button btnDeleteDepartment;
 
     List<Department> listDepartments = null;
-    List<String> listDepartmentsString = null;
 
     /*Поля Отделов на добавление*/
     private ObservableList<Branch> listBranch = FXCollections.observableArrayList();
@@ -510,12 +507,12 @@ public class GeneralController extends AbstractController implements Initializab
             public void handle(Event event) {
                 tableDepartment.getItems().clear();
                 try {
-                    listDepartment.clear();
-                    listDepartment.addAll(Factory.getInstance().getDepartmentDAO().getAllDepartments());
+                    listDepartments.clear();
+                    listDepartments.addAll(Factory.getInstance().getDepartmentDAO().getAllDepartments());
                 } catch (SQLException ex) {
                     Logger.getLogger(GeneralController.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                tableDepartment.setItems(listDepartment);
+                tableDepartment.setItems(FXCollections.observableArrayList(listDepartments));
             }
         });
 
@@ -573,13 +570,7 @@ public class GeneralController extends AbstractController implements Initializab
                 }
                 try {
                     listDepartments = Factory.getInstance().getDepartmentDAO().getAllDepartments();
-                    listDepartmentsString = new ArrayList<>();
-                    for (Department p : listDepartments) {
-                        System.out.println(p.getName());
-                        listDepartmentsString.add(p.getName());
-                    }
                     listBenefits = Factory.getInstance().getBenefitDAO().getAllBenefits();
-
                     listGroups = Factory.getInstance().getGroupDAO().getAllGroups();
 
                     benAddStudent.setItems(FXCollections.observableArrayList(listBenefits));
@@ -599,7 +590,7 @@ public class GeneralController extends AbstractController implements Initializab
                     });
 
                     groupAddStudent.setItems(FXCollections.observableArrayList(listGroups));
-                    depAddStudent.setItems(FXCollections.observableArrayList(listDepartmentsString));
+                    depAddStudent.setItems(FXCollections.observableArrayList(listDepartments));
 
                     benUpdateStudent.setItems(FXCollections.observableArrayList(listBenefits));
                     benUpdateStudent.setCellFactory((comboBox) -> {
@@ -618,7 +609,7 @@ public class GeneralController extends AbstractController implements Initializab
                     });
 
                     groupUpdateStudent.setItems(FXCollections.observableArrayList(listGroups));
-                    depUpdateStudent.setItems(FXCollections.observableArrayList(listDepartmentsString));
+                    depUpdateStudent.setItems(FXCollections.observableArrayList(listDepartments));
                 } catch (SQLException ex) {
                     Logger.getLogger(GeneralController.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -663,11 +654,6 @@ public class GeneralController extends AbstractController implements Initializab
                     });
 
                     listDepartments = Factory.getInstance().getDepartmentDAO().getAllDepartments();
-                    listDepartmentsString = new ArrayList<>();
-                    for (Department p : listDepartments) {
-                        System.out.println(p.getName());
-                        listDepartmentsString.add(p.getName());
-                    }
                     listBenefits = Factory.getInstance().getBenefitDAO().getAllBenefits();
                     benAddWorker.setItems(FXCollections.observableArrayList(listBenefits));
                     benAddWorker.setCellFactory((comboBox) -> {
@@ -685,7 +671,7 @@ public class GeneralController extends AbstractController implements Initializab
                         };
                     });
 
-                    depAddWorker.setItems(FXCollections.observableArrayList(listDepartmentsString));
+                    depAddWorker.setItems(FXCollections.observableArrayList(listDepartments));
 
                     posUpdateWorker.setItems(FXCollections.observableArrayList(listPositions));
                     posUpdateWorker.setCellFactory((comboBox) -> {
@@ -758,11 +744,6 @@ public class GeneralController extends AbstractController implements Initializab
         try {
             listPositions = Factory.getInstance().getPositionDAO().getAllPositions();
             listDepartments = Factory.getInstance().getDepartmentDAO().getAllDepartments();
-            listDepartmentsString = new ArrayList<>();
-            for (Department p : listDepartments) {
-                System.out.println(p.getName());
-                listDepartmentsString.add(p.getName());
-            }
             listBenefits = Factory.getInstance().getBenefitDAO().getAllBenefits();
             benAddWorker.setItems(FXCollections.observableArrayList(listBenefits));
             benAddWorker.setCellFactory((comboBox) -> {
@@ -796,7 +777,7 @@ public class GeneralController extends AbstractController implements Initializab
                 };
             });
 
-            depAddWorker.setItems(FXCollections.observableArrayList(listDepartmentsString));
+            depAddWorker.setItems(FXCollections.observableArrayList(listDepartments));
             benUpdateWorker.setItems(FXCollections.observableArrayList(listBenefits));
             benUpdateWorker.setCellFactory((comboBox) -> {
                 return new ListCell<Benefit>() {
@@ -829,7 +810,7 @@ public class GeneralController extends AbstractController implements Initializab
                 };
             });
 
-            depUpdateWorker.setItems(FXCollections.observableArrayList(listDepartmentsString));
+            depUpdateWorker.setItems(FXCollections.observableArrayList(listDepartments));
 
         } catch (SQLException ex) {
             Logger.getLogger(GeneralController.class.getName()).log(Level.SEVERE, null, ex);
@@ -869,11 +850,7 @@ public class GeneralController extends AbstractController implements Initializab
         /*Инициализаия компонентов ред.-уд. отделений*/
         try {
             listDepartments = Factory.getInstance().getDepartmentDAO().getAllDepartments();
-            listDepartmentsString = new ArrayList<>();
-            for (Department p : listDepartments) {
-                listDepartmentsString.add(p.getName());
-            }
-            comboDepartment.setItems(FXCollections.observableArrayList(listDepartmentsString));
+            comboDepartment.setItems(FXCollections.observableArrayList(listDepartments));
         } catch (SQLException ex) {
             Logger.getLogger(GeneralController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -985,14 +962,14 @@ public class GeneralController extends AbstractController implements Initializab
         textAddNamePos.setStyle("");
         errorAddPos.setText("");
         if (textAddNamePos.getText().length() > 4) {
-            boolean addOrNot1 = true;
+            boolean addOrNot = true;
             //Поиск одинаковых записей
             for (Position p : listPositions) {
                 if (p.getName().equals(textAddNamePos.getText())) {
-                    addOrNot1 = false;
+                    addOrNot = false;
                 }
             }
-            if (addOrNot1 == false) {
+            if (addOrNot == false) {
                 textAddNamePos.setStyle("-fx-border-color: green;");
                 errorAddPos.setText("Запись уже существует");
             } else {
@@ -1075,6 +1052,7 @@ public class GeneralController extends AbstractController implements Initializab
         errorAddGroup.setText("");
         if (textAddNameGroup.getText().trim().length() > 4) {
             //Поиск одинаковых записей
+            boolean addOrNot = true;
             for (Groups p : listGroups) {
                 if (p.getName().equals(textAddNameGroup.getText().trim())) {
                     addOrNot = false;
@@ -1094,12 +1072,10 @@ public class GeneralController extends AbstractController implements Initializab
                 comboGroup.setItems(FXCollections.observableArrayList(listGroups));
                 tableGroup.setItems(FXCollections.observableArrayList(listGroups));
             }
-            addOrNot = true;
         } else {
             textAddNameGroup.setStyle("-fx-border-color: red;");
             errorAddGroup.setText("Введите корректную должность");
         }
-        addOrNot = true;
     }
 
     /*Изменение Отделения через кнопку*/
@@ -1112,31 +1088,18 @@ public class GeneralController extends AbstractController implements Initializab
                 if (reply == JOptionPane.YES_OPTION) {
                     textUpdateNameDepartment.setStyle("");
                     errorUpdateDepartment.setText("");
-                    String name = comboDepartment.getValue().toString();
+                    Department selectedDepartment = comboDepartment.getSelectionModel().getSelectedItem();
                     String reName = textUpdateNameDepartment.getText();
-                    System.out.println(name);
-                    listDepartment.clear();
-                    listDepartmentsString.clear();
-                    listDepartment.addAll(Factory.getInstance().getDepartmentDAO().getAllDepartments());
-                    for (Department p : listDepartment) {
-                        listDepartmentsString.add(p.getName());
-                    }
-                    int number = listDepartmentsString.indexOf(name);
-                    System.out.println(number);
-                    Department getDepartment = listDepartment.get(number);
-                    System.out.println(getDepartment.getName());
-                    getDepartment.setName(reName);
-                    System.out.println(getDepartment.getName());
-                    Factory.getInstance().getDepartmentDAO().updateDepartment(getDepartment);
-                    listDepartment.clear();
-                    listDepartmentsString.clear();
-                    listDepartment.addAll(Factory.getInstance().getDepartmentDAO().getAllDepartments());
-                    for (Department p : listDepartment) {
-                        listDepartmentsString.add(p.getName());
-                    }
+                    selectedDepartment.setName(reName);
+
+                    Factory.getInstance().getDepartmentDAO().updateDepartment(selectedDepartment);
+                    
+                    listDepartments.clear();
+                    listDepartments.addAll(Factory.getInstance().getDepartmentDAO().getAllDepartments());
+
                     textUpdateNameDepartment.clear();
-                    comboDepartment.setItems(FXCollections.observableArrayList(listDepartmentsString));
-                    tableDepartment.setItems(listDepartment);
+                    comboDepartment.setItems(FXCollections.observableArrayList(listDepartments));
+                    tableDepartment.setItems(FXCollections.observableArrayList(listDepartments));
                 }
             } else {
                 textUpdateNameDepartment.setStyle("-fx-border-color: red;");
@@ -1155,26 +1118,15 @@ public class GeneralController extends AbstractController implements Initializab
         if (comboDepartment.getValue() != null) {
             int reply = JOptionPane.showConfirmDialog(null, "Вы действительно хотите удалить эту запись?", "Удаление", JOptionPane.YES_NO_OPTION);
             if (reply == JOptionPane.YES_OPTION) {
-                listDepartment.clear();
-                listDepartmentsString.clear();
-                listDepartment.addAll(Factory.getInstance().getDepartmentDAO().getAllDepartments());
-                for (Department p : listDepartment) {
-                    listDepartmentsString.add(p.getName());
-                }
-                String name = comboDepartment.getValue().toString();
-                int number = listDepartmentsString.indexOf(name);
-                System.out.println(number);
-                Department getDepartment = listDepartment.get(number);
-                System.out.println(getDepartment.getName());
-                Factory.getInstance().getDepartmentDAO().deleteDepartment(getDepartment);
-                listDepartment.clear();
-                listDepartmentsString.clear();
-                listDepartment.addAll(Factory.getInstance().getDepartmentDAO().getAllDepartments());
-                for (Department p : listDepartment) {
-                    listDepartmentsString.add(p.getName());
-                }
-                comboDepartment.setItems(FXCollections.observableArrayList(listDepartmentsString));
-                tableDepartment.setItems(listDepartment);
+                Department selectedDepartment = comboDepartment.getSelectionModel().getSelectedItem();
+                
+                Factory.getInstance().getDepartmentDAO().deleteDepartment(selectedDepartment);
+                
+                listDepartments.clear();
+                listDepartments.addAll(Factory.getInstance().getDepartmentDAO().getAllDepartments());
+
+                comboDepartment.setItems(FXCollections.observableArrayList(listDepartments));
+                tableDepartment.setItems(FXCollections.observableArrayList(listDepartments));
             }
         } else {
             comboDepartment.setStyle("-fx-border-color: red;");
@@ -1187,13 +1139,9 @@ public class GeneralController extends AbstractController implements Initializab
         textAddNameDepartment.setStyle("");
         errorAddDepartment.setText("");
         if (textAddNameDepartment.getText().trim().length() > 4) {
-            List<String> listDepartmentsString = new ArrayList<>();
-            //Создание листа названий должностей
-            for (Department p : listDepartment) {
-                listDepartmentsString.add(p.getName());
-            }
+            boolean addOrNot = true;
             //Поиск одинаковых записей
-            for (Department p : listDepartment) {
+            for (Department p : listDepartments) {
                 if (p.getName().equals(textAddNameDepartment.getText().trim())) {
                     addOrNot = false;
                 }
@@ -1202,21 +1150,20 @@ public class GeneralController extends AbstractController implements Initializab
                 textAddNameDepartment.setStyle("-fx-border-color: green;");
                 errorAddDepartment.setText("Запись уже существует");
             } else {
-                department.setName(textAddNameDepartment.getText().trim());
-                Factory.getInstance().getDepartmentDAO().addDepartment(department);
-                listDepartment.clear();
-                listDepartment.addAll(Factory.getInstance().getDepartmentDAO().getAllDepartments());
-                listDepartmentsString.add(department.getName());
+                Department newDepartment = new Department(textAddNameDepartment.getText().trim());
+                Factory.getInstance().getDepartmentDAO().addDepartment(newDepartment);
+                
+                listDepartments.clear();
+                listDepartments.addAll(Factory.getInstance().getDepartmentDAO().getAllDepartments());
+
                 textAddNameDepartment.clear();
-                comboDepartment.setItems(FXCollections.observableArrayList(listDepartmentsString));
-                tableDepartment.setItems(listDepartment);
+                comboDepartment.setItems(FXCollections.observableArrayList(listDepartments));
+                tableDepartment.setItems(FXCollections.observableArrayList(listDepartments));
             }
-            addOrNot = true;
         } else {
             textAddNameDepartment.setStyle("-fx-border-color: red;");
             errorAddDepartment.setText("Введите корректное отделение");
         }
-        addOrNot = true;
     }
 
     /*Изменение Отделения через кнопку*/
@@ -1304,11 +1251,7 @@ public class GeneralController extends AbstractController implements Initializab
         textAddNameBranch.setStyle("");
         errorAddBranch.setText("");
         if (textAddNameBranch.getText().trim().length() > 4) {
-            List<String> listBranchsString = new ArrayList<>();
-            //Создание листа названий должностей
-            for (Branch p : listBranch) {
-                listBranchsString.add(p.getName());
-            }
+            boolean addOrNot = true;
             //Поиск одинаковых записей
             for (Branch p : listBranch) {
                 if (p.getName().equals(textAddNameBranch.getText().trim())) {
@@ -1330,12 +1273,10 @@ public class GeneralController extends AbstractController implements Initializab
                 comboBranch.setItems(FXCollections.observableArrayList(listBranchsString));
                 tableBranch.setItems(listBranch);
             }
-            addOrNot = true;
         } else {
             textAddNameDepartment.setStyle("-fx-border-color: red;");
             errorAddDepartment.setText("Введите корректное отделение");
         }
-        addOrNot = true;
     }
 
     /*Изменение Отделения через кнопку*/
@@ -1398,14 +1339,14 @@ public class GeneralController extends AbstractController implements Initializab
         textAddNameBenefit.setStyle("");
         errorAddBenefit.setText("");
         if (textAddNameBenefit.getText().trim().length() > 4) {
-            boolean addOrNot1 = true;
+            boolean addOrNot = true;
             //Поиск одинаковых записей
             for (Benefit p : listBenefits) {
                 if (p.getName().equals(textAddNameBenefit.getText().trim())) {
-                    addOrNot1 = false;
+                    addOrNot = false;
                 }
             }
-            if (addOrNot1 == false) {
+            if (addOrNot == false) {
                 textAddNameBenefit.setStyle("-fx-border-color: green;");
                 errorAddBenefit.setText("Запись уже существует");
             } else {
@@ -1438,8 +1379,7 @@ public class GeneralController extends AbstractController implements Initializab
             searchWorker.setPatronymic(textUpdatePatWorker.getText());
         }
         if (depUpdateWorker.getValue() != null) {
-            Department department = new Department();
-            department = listDepartments.get(listDepartmentsString.indexOf(depUpdateWorker.getValue()));
+            Department department = depUpdateWorker.getSelectionModel().getSelectedItem();
             searchWorker.setDepartment(department);
         }
         if (benUpdateWorker.getValue() != null) {
@@ -1570,7 +1510,7 @@ public class GeneralController extends AbstractController implements Initializab
         textUpdatePatWorker.setText(worker.getPatronymic());
         LocalDate date = LocalDate.parse(worker.getBirthday().toString());
         dataUpdateWorker.setValue(date);
-        depUpdateWorker.setValue(listDepartments.get(listDepartmentsString.indexOf(worker.getDepartment().getName())).getName());
+        depUpdateWorker.setValue(worker.getDepartment());
         posUpdateWorker.setValue(worker.getPosition());
         benUpdateWorker.setValue(worker.getBenefit());
         checkUpdateGenderMan.setSelected(false);
@@ -1595,8 +1535,7 @@ public class GeneralController extends AbstractController implements Initializab
             worker.setPatronymic(textUpdatePatWorker.getText().trim());
         }
         if (depUpdateWorker.getValue().toString() != worker.getDepartment().getName()) {
-            Department department = new Department();
-            department = listDepartments.get(listDepartmentsString.indexOf(depUpdateWorker.getValue()));
+            Department department = depUpdateWorker.getSelectionModel().getSelectedItem();
             worker.setDepartment(department);
         }
         if (benUpdateWorker.getValue().toString() != worker.getBenefit().getName()) {
@@ -1667,9 +1606,7 @@ public class GeneralController extends AbstractController implements Initializab
             gender = Factory.getInstance().getGenderDAO().getGenderById(SelectOneCheckBox(checkAddGenderMan, checkAddGenderWoman));
             worker.setGender(gender);
             worker.setBirthday(dataAddWorker.getValue().toString());
-            int number = listDepartmentsString.indexOf(depAddWorker.getValue().toString().trim());
-            Department department = new Department();
-            department = listDepartments.get(number);
+            Department department = depAddWorker.getSelectionModel().getSelectedItem();
             worker.setDepartment(department);
 
             position = posAddWorker.getSelectionModel().getSelectedItem();
@@ -1698,8 +1635,7 @@ public class GeneralController extends AbstractController implements Initializab
             searchStudent.setPatronymic(textUpdatePatStudent.getText().trim());
         }
         if (depUpdateStudent.getValue() != null) {
-            Department department = new Department();
-            department = listDepartments.get(listDepartmentsString.indexOf(depUpdateStudent.getValue()));
+            Department department = depUpdateStudent.getSelectionModel().getSelectedItem();
             searchStudent.setDepartment(department);
         }
         if (benUpdateStudent.getValue() != null) {
@@ -1723,7 +1659,7 @@ public class GeneralController extends AbstractController implements Initializab
             student = listStudent.get(index);
 
             if (searchStudent.getSurname() != null && searchBool == true) {
-                if (searchStudent.getSurname().toString().equals(student.getSurname().toString())) {
+                if (searchStudent.getSurname().equals(student.getSurname())) {
 
                 } else {
                     searchBool = false;
@@ -1731,7 +1667,7 @@ public class GeneralController extends AbstractController implements Initializab
             } else {
             }
             if (searchStudent.getName() != null && searchBool == true) {
-                if (searchStudent.getName().toString().equals(student.getName().toString())) {
+                if (searchStudent.getName().equals(student.getName())) {
 
                 } else {
                     searchBool = false;
@@ -1740,7 +1676,7 @@ public class GeneralController extends AbstractController implements Initializab
 
             }
             if (searchStudent.getPatronymic() != null && searchBool == true) {
-                if (student.getPatronymic().toString().equals(searchStudent.getPatronymic().toString())) {
+                if (student.getPatronymic().equals(searchStudent.getPatronymic())) {
                 } else {
                     searchBool = false;
                 }
@@ -1748,7 +1684,7 @@ public class GeneralController extends AbstractController implements Initializab
 
             }
             if (searchStudent.getBirthday() != null && searchBool == true) {
-                if (student.getBirthday().toString().equals(searchStudent.getBirthday().toString())) {
+                if (student.getBirthday().equals(searchStudent.getBirthday())) {
 
                 } else {
                     searchBool = false;
@@ -1813,9 +1749,9 @@ public class GeneralController extends AbstractController implements Initializab
         textUpdatePatStudent.setText(student.getPatronymic());
         textUpdatePhoneStudent.setText(student.getPhone());
         textUpdateEmailStudent.setText(student.getEmail());
-        LocalDate date = LocalDate.parse(student.getBirthday().toString());
+        LocalDate date = LocalDate.parse(student.getBirthday());
         dataUpdateStudent.setValue(date);
-        depUpdateStudent.setValue(listDepartments.get(listDepartmentsString.indexOf(student.getDepartment().getName())).getName());
+        depUpdateStudent.setValue(student.getDepartment());
         groupUpdateStudent.setValue(student.getGroup());
         benUpdateStudent.setValue(student.getBenefit());
         checkUpdateGenderManStudent.setSelected(false);
@@ -1847,8 +1783,7 @@ public class GeneralController extends AbstractController implements Initializab
             student.setEmail(textUpdateEmailStudent.getText().trim());
         }
         if (depUpdateStudent.getValue().toString() != student.getDepartment().getName()) {
-            Department department = new Department();
-            department = listDepartments.get(listDepartmentsString.indexOf(depUpdateStudent.getValue()));
+            Department department = depUpdateStudent.getSelectionModel().getSelectedItem();
             student.setDepartment(department);
         }
         if (benUpdateStudent.getValue().toString() != student.getBenefit().getName()) {
@@ -1930,9 +1865,9 @@ public class GeneralController extends AbstractController implements Initializab
             gender = Factory.getInstance().getGenderDAO().getGenderById(SelectOneCheckBox(checkAddGenderManStudent, checkAddGenderWomanStudent));
             student.setGender(gender);
             student.setBirthday(dataAddStudent.getValue().toString().trim());
-            int number = listDepartmentsString.indexOf(depAddStudent.getValue().toString());
-            Department department = new Department();
-            department = listDepartments.get(number);
+
+            Department department = depAddStudent.getSelectionModel().getSelectedItem();
+
             student.setDepartment(department);
             group = groupAddStudent.getSelectionModel().getSelectedItem();
             student.setGroup(group);
@@ -1991,7 +1926,7 @@ public class GeneralController extends AbstractController implements Initializab
             ).getId_worker()
         ).getPatronymic());
 
-        LocalDate date = LocalDate.parse(child.getBirthday().toString());
+        LocalDate date = LocalDate.parse(child.getBirthday());
         dataUpdateChild.setValue(date);
         checkUpdateGenderChildMan.setSelected(false);
         checkUpdateGenderChildWoman.setSelected(false);
@@ -2033,18 +1968,18 @@ public class GeneralController extends AbstractController implements Initializab
             if (listWorker.size() == 1) {
                 System.out.println("Первая приблуда");
                 worker = listWorker.get(0);
-                if (worker.getName().toString().equals(searchWorker.getName().toString())
-                    && worker.getSurname().toString().equals(searchWorker.getSurname().toString())
-                    && worker.getPatronymic().toString().equals(searchWorker.getPatronymic().toString())) {
+                if (worker.getName().equals(searchWorker.getName())
+                    && worker.getSurname().equals(searchWorker.getSurname())
+                    && worker.getPatronymic().equals(searchWorker.getPatronymic())) {
                     workersChild.setId_worker(worker.getId());
                     Factory.getInstance().getWorkersChildDAO().addWorkersChild(workersChild);
                 } else if (listWorker.size() > 1) {
                     for (int i = 0; i < listWorker.size(); i++) {
                         System.out.println("Цикл номер " + i);
                         worker = listWorker.get(i);
-                        if (worker.getName().toString().equals(searchWorker.getName().toString())
-                            && worker.getSurname().toString().equals(searchWorker.getSurname().toString())
-                            && worker.getPatronymic().toString().equals(searchWorker.getPatronymic().toString())) {
+                        if (worker.getName().equals(searchWorker.getName())
+                            && worker.getSurname().equals(searchWorker.getSurname())
+                            && worker.getPatronymic().equals(searchWorker.getPatronymic())) {
                             workersChild.setId_child(worker.getId());
                         }
                         Factory.getInstance().getWorkersChildDAO().addWorkersChild(workersChild);
@@ -2102,18 +2037,18 @@ public class GeneralController extends AbstractController implements Initializab
         }
         if (listWorker.size() == 1) {
             worker = listWorker.get(0);
-            if (worker.getName().toString().equals(searchWorker.getName().toString())
-                && worker.getSurname().toString().equals(searchWorker.getSurname().toString())
-                && worker.getPatronymic().toString().equals(searchWorker.getPatronymic().toString())) {
+            if (worker.getName().equals(searchWorker.getName())
+                && worker.getSurname().equals(searchWorker.getSurname())
+                && worker.getPatronymic().equals(searchWorker.getPatronymic())) {
                 workersChild.setId_worker(worker.getId());
                 Factory.getInstance().getWorkersChildDAO().updateWorkersChild(workersChild);
             } else if (listWorker.size() > 1) {
                 for (int i = 0; i < listWorker.size(); i++) {
                     System.out.println("Цикл номер " + i);
                     worker = listWorker.get(i);
-                    if (worker.getName().toString().equals(searchWorker.getName().toString())
-                        && worker.getSurname().toString().equals(searchWorker.getSurname().toString())
-                        && worker.getPatronymic().toString().equals(searchWorker.getPatronymic().toString())) {
+                    if (worker.getName().equals(searchWorker.getName())
+                        && worker.getSurname().equals(searchWorker.getSurname())
+                        && worker.getPatronymic().equals(searchWorker.getPatronymic())) {
                         workersChild.setId_child(worker.getId());
                     }
                     Factory.getInstance().getWorkersChildDAO().updateWorkersChild(workersChild);
