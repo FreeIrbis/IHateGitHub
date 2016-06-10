@@ -69,7 +69,7 @@ public class BenefitDAOImpl implements BenefitDAO {
     }
 
     @Override
-    public List getAllBenefits() throws SQLException {
+    public List<Benefit> getAllBenefits() throws SQLException {
      Session session = null;
         List<Benefit> benefits = new ArrayList<>();
         try {

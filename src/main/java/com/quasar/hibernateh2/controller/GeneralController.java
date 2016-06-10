@@ -1,6 +1,5 @@
 package com.quasar.hibernateh2.controller;
 
-import com.quasar.hibernateh2.app.AboutDialog;
 import static com.quasar.hibernateh2.app.OneCheckBox.ChekedOneCheckBox;
 import static com.quasar.hibernateh2.app.OneCheckBox.SelectOneCheckBox;
 import com.quasar.hibernateh2.dao.Factory;
@@ -40,7 +39,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -89,7 +87,7 @@ public class GeneralController extends AbstractController implements Initializab
     @FXML
     public ComboBox<Position> posAddWorker;
     @FXML
-    public ComboBox benAddWorker;
+    public ComboBox<Benefit> benAddWorker;
     @FXML
     public Button btnAddWorker;
     @FXML
@@ -132,7 +130,7 @@ public class GeneralController extends AbstractController implements Initializab
     @FXML
     public ComboBox<Position> posUpdateWorker;
     @FXML
-    public ComboBox benUpdateWorker;
+    public ComboBox<Benefit> benUpdateWorker;
     @FXML
     public Button btnUpdateWorker;
 
@@ -165,7 +163,7 @@ public class GeneralController extends AbstractController implements Initializab
     @FXML
     public ComboBox depAddStudent;
     @FXML
-    public ComboBox benAddStudent;
+    public ComboBox<Benefit> benAddStudent;
     @FXML
     public Button btnAddStudent;
     @FXML
@@ -292,7 +290,7 @@ public class GeneralController extends AbstractController implements Initializab
     @FXML
     public ComboBox groupUpdateStudent;
     @FXML
-    public ComboBox benUpdateStudent;
+    public ComboBox<Benefit> benUpdateStudent;
     @FXML
     public Button btnUpdateStudent;
     @FXML
@@ -307,7 +305,6 @@ public class GeneralController extends AbstractController implements Initializab
     List<Student> listStudents = null;
 
     /*Поля должностей на добавление*/
-    private ObservableList<Position> listPosition = FXCollections.observableArrayList();
     @FXML
     Label errorAddPos;
     @FXML
@@ -331,7 +328,6 @@ public class GeneralController extends AbstractController implements Initializab
     @FXML
     public Button btnDelPos;
 
-    private ObservableList<Position> listPositionsAfterDelete = FXCollections.observableArrayList();
     List<Position> listPositions = null;
 
     /*Поля групп на добавление*/
@@ -419,7 +415,6 @@ public class GeneralController extends AbstractController implements Initializab
     List<String> listBranchsString = null;
 
     /*Поля Льгот на добавление*/
-    private ObservableList<Benefit> listBenefit = FXCollections.observableArrayList();
     @FXML
     Label errorAddBenefit;
     @FXML
@@ -433,7 +428,7 @@ public class GeneralController extends AbstractController implements Initializab
     @FXML
     public Button btnAddBenefit;
     @FXML
-    public ComboBox comboBenefit;
+    public ComboBox<Benefit> comboBenefit;
     @FXML
     public TableView<Benefit> tableBenefit;
     @FXML
@@ -444,7 +439,6 @@ public class GeneralController extends AbstractController implements Initializab
     public Button btnDeleteBenefit;
 
     List<Benefit> listBenefits = null;
-    List<String> listBenefitsString = null;
 
     @FXML
     private void CheckAddGenderWorkers(ActionEvent e) {
@@ -486,11 +480,12 @@ public class GeneralController extends AbstractController implements Initializab
             public void handle(Event event) {
                 tablePosition.getItems().clear();
                 try {
-                    listPosition.addAll(Factory.getInstance().getPositionDAO().getAllPositions());
+                    listPositions.clear();
+                    listPositions.addAll(Factory.getInstance().getPositionDAO().getAllPositions());
                 } catch (SQLException ex) {
                     Logger.getLogger(GeneralController.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                tablePosition.setItems(listPosition);
+                tablePosition.setItems(FXCollections.observableArrayList(listPositions));
             }
         });
 
@@ -501,6 +496,7 @@ public class GeneralController extends AbstractController implements Initializab
             public void handle(Event event) {
                 tableGroup.getItems().clear();
                 try {
+                    listGroup.clear();
                     listGroup.addAll(Factory.getInstance().getGroupDAO().getAllGroups());
                 } catch (SQLException ex) {
                     Logger.getLogger(GeneralController.class.getName()).log(Level.SEVERE, null, ex);
@@ -516,6 +512,7 @@ public class GeneralController extends AbstractController implements Initializab
             public void handle(Event event) {
                 tableDepartment.getItems().clear();
                 try {
+                    listDepartment.clear();
                     listDepartment.addAll(Factory.getInstance().getDepartmentDAO().getAllDepartments());
                 } catch (SQLException ex) {
                     Logger.getLogger(GeneralController.class.getName()).log(Level.SEVERE, null, ex);
@@ -531,6 +528,7 @@ public class GeneralController extends AbstractController implements Initializab
             public void handle(Event event) {
                 tableBranch.getItems().clear();
                 try {
+                    listBranch.clear();
                     listBranch.addAll(Factory.getInstance().getBranchDAO().getAllBranchs());
                 } catch (SQLException ex) {
                     Logger.getLogger(GeneralController.class.getName()).log(Level.SEVERE, null, ex);
@@ -546,11 +544,12 @@ public class GeneralController extends AbstractController implements Initializab
             public void handle(Event event) {
                 tableBenefit.getItems().clear();
                 try {
-                    listBenefit.addAll(Factory.getInstance().getBenefitDAO().getAllBenefits());
+                    listBenefits.clear();
+                    listBenefits.addAll(Factory.getInstance().getBenefitDAO().getAllBenefits());
                 } catch (SQLException ex) {
                     Logger.getLogger(GeneralController.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                tableBenefit.setItems(listBenefit);
+                tableBenefit.setItems(FXCollections.observableArrayList(listBenefits));
             }
         });
 
@@ -582,11 +581,6 @@ public class GeneralController extends AbstractController implements Initializab
                         listDepartmentsString.add(p.getName());
                     }
                     listBenefits = Factory.getInstance().getBenefitDAO().getAllBenefits();
-                    listBenefitsString = new ArrayList<>();
-                    for (Benefit p : listBenefits) {
-                        System.out.println(p.getName());
-                        listBenefitsString.add(p.getName());
-                    }
 
                     listGroups = Factory.getInstance().getGroupDAO().getAllGroups();
                     listGroupsString = new ArrayList<>();
@@ -594,10 +588,41 @@ public class GeneralController extends AbstractController implements Initializab
                         System.out.println(p.getName());
                         listGroupsString.add(p.getName());
                     }
-                    benAddStudent.setItems(FXCollections.observableArrayList(listBenefitsString));
+                    benAddStudent.setItems(FXCollections.observableArrayList(listBenefits));
+                    benAddStudent.setCellFactory((comboBox) -> {
+                        return new ListCell<Benefit>() {
+                            @Override
+                            protected void updateItem(Benefit item, boolean empty) {
+                                super.updateItem(item, empty);
+
+                                if (item == null || empty) {
+                                    setText(null);
+                                } else {
+                                    setText(item.getName());
+                                }
+                            }
+                        };
+                    });
+
                     groupAddStudent.setItems(FXCollections.observableArrayList(listGroupsString));
                     depAddStudent.setItems(FXCollections.observableArrayList(listDepartmentsString));
-                    benUpdateStudent.setItems(FXCollections.observableArrayList(listBenefitsString));
+
+                    benUpdateStudent.setItems(FXCollections.observableArrayList(listBenefits));
+                    benUpdateStudent.setCellFactory((comboBox) -> {
+                        return new ListCell<Benefit>() {
+                            @Override
+                            protected void updateItem(Benefit item, boolean empty) {
+                                super.updateItem(item, empty);
+
+                                if (item == null || empty) {
+                                    setText(null);
+                                } else {
+                                    setText(item.getName());
+                                }
+                            }
+                        };
+                    });
+
                     groupUpdateStudent.setItems(FXCollections.observableArrayList(listGroupsString));
                     depUpdateStudent.setItems(FXCollections.observableArrayList(listDepartmentsString));
                 } catch (SQLException ex) {
@@ -627,6 +652,22 @@ public class GeneralController extends AbstractController implements Initializab
                 }
                 try {
                     listPositions = Factory.getInstance().getPositionDAO().getAllPositions();
+                    posAddWorker.setItems(FXCollections.observableArrayList(listPositions));
+                    posAddWorker.setCellFactory((comboBox) -> {
+                        return new ListCell<Position>() {
+                            @Override
+                            protected void updateItem(Position item, boolean empty) {
+                                super.updateItem(item, empty);
+
+                                if (item == null || empty) {
+                                    setText(null);
+                                } else {
+                                    setText(item.getName());
+                                }
+                            }
+                        };
+                    });
+
                     listDepartments = Factory.getInstance().getDepartmentDAO().getAllDepartments();
                     listDepartmentsString = new ArrayList<>();
                     for (Department p : listDepartments) {
@@ -634,16 +675,55 @@ public class GeneralController extends AbstractController implements Initializab
                         listDepartmentsString.add(p.getName());
                     }
                     listBenefits = Factory.getInstance().getBenefitDAO().getAllBenefits();
-                    listBenefitsString = new ArrayList<>();
-                    for (Benefit p : listBenefits) {
-                        System.out.println(p.getName());
-                        listBenefitsString.add(p.getName());
-                    }
-                    ;
+                    benAddWorker.setItems(FXCollections.observableArrayList(listBenefits));
+                    benAddWorker.setCellFactory((comboBox) -> {
+                        return new ListCell<Benefit>() {
+                            @Override
+                            protected void updateItem(Benefit item, boolean empty) {
+                                super.updateItem(item, empty);
 
-                    benAddWorker.setItems(FXCollections.observableArrayList(listBenefitsString));
-                    posAddWorker.setItems(FXCollections.observableArrayList(listPositions));
+                                if (item == null || empty) {
+                                    setText(null);
+                                } else {
+                                    setText(item.getName());
+                                }
+                            }
+                        };
+                    });
+
                     depAddWorker.setItems(FXCollections.observableArrayList(listDepartmentsString));
+
+                    posUpdateWorker.setItems(FXCollections.observableArrayList(listPositions));
+                    posUpdateWorker.setCellFactory((comboBox) -> {
+                        return new ListCell<Position>() {
+                            @Override
+                            protected void updateItem(Position item, boolean empty) {
+                                super.updateItem(item, empty);
+
+                                if (item == null || empty) {
+                                    setText(null);
+                                } else {
+                                    setText(item.getName());
+                                }
+                            }
+                        };
+                    });
+
+                    benUpdateWorker.setItems(FXCollections.observableArrayList(listBenefits));
+                    benUpdateWorker.setCellFactory((comboBox) -> {
+                        return new ListCell<Benefit>() {
+                            @Override
+                            protected void updateItem(Benefit item, boolean empty) {
+                                super.updateItem(item, empty);
+
+                                if (item == null || empty) {
+                                    setText(null);
+                                } else {
+                                    setText(item.getName());
+                                }
+                            }
+                        };
+                    });
                 } catch (SQLException ex) {
                     Logger.getLogger(GeneralController.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -657,7 +737,7 @@ public class GeneralController extends AbstractController implements Initializab
         PatChildColumn.setCellValueFactory(new PropertyValueFactory<Child, String>("patronymic"));
         DateChildColumn.setCellValueFactory(new PropertyValueFactory<Child, String>("birthday"));
         GenderChildColumn.setCellValueFactory(new PropertyValueFactory<Child, Long>("gender"));
-        tabWorker.setOnSelectionChanged(new EventHandler<Event>() {
+        tabChild.setOnSelectionChanged(new EventHandler<Event>() {
             @Override
             public void handle(Event event) {
                 tableChild.getItems().clear();
@@ -690,13 +770,22 @@ public class GeneralController extends AbstractController implements Initializab
                 listDepartmentsString.add(p.getName());
             }
             listBenefits = Factory.getInstance().getBenefitDAO().getAllBenefits();
-            listBenefitsString = new ArrayList<>();
-            for (Benefit p : listBenefits) {
-                System.out.println(p.getName());
-                listBenefitsString.add(p.getName());
-            }
-            benAddWorker.setItems(FXCollections.observableArrayList(listBenefitsString));
-            
+            benAddWorker.setItems(FXCollections.observableArrayList(listBenefits));
+            benAddWorker.setCellFactory((comboBox) -> {
+                return new ListCell<Benefit>() {
+                    @Override
+                    protected void updateItem(Benefit item, boolean empty) {
+                        super.updateItem(item, empty);
+
+                        if (item == null || empty) {
+                            setText(null);
+                        } else {
+                            setText(item.getName());
+                        }
+                    }
+                };
+            });
+
             posAddWorker.setItems(FXCollections.observableArrayList(listPositions));
             posAddWorker.setCellFactory((comboBox) -> {
                 return new ListCell<Position>() {
@@ -712,10 +801,24 @@ public class GeneralController extends AbstractController implements Initializab
                     }
                 };
             });
-            
+
             depAddWorker.setItems(FXCollections.observableArrayList(listDepartmentsString));
-            benUpdateWorker.setItems(FXCollections.observableArrayList(listBenefitsString));
-            
+            benUpdateWorker.setItems(FXCollections.observableArrayList(listBenefits));
+            benUpdateWorker.setCellFactory((comboBox) -> {
+                return new ListCell<Benefit>() {
+                    @Override
+                    protected void updateItem(Benefit item, boolean empty) {
+                        super.updateItem(item, empty);
+
+                        if (item == null || empty) {
+                            setText(null);
+                        } else {
+                            setText(item.getName());
+                        }
+                    }
+                };
+            });
+
             posUpdateWorker.setItems(FXCollections.observableArrayList(listPositions));
             posUpdateWorker.setCellFactory((comboBox) -> {
                 return new ListCell<Position>() {
@@ -731,7 +834,7 @@ public class GeneralController extends AbstractController implements Initializab
                     }
                 };
             });
-            
+
             depUpdateWorker.setItems(FXCollections.observableArrayList(listDepartmentsString));
 
         } catch (SQLException ex) {
@@ -799,11 +902,21 @@ public class GeneralController extends AbstractController implements Initializab
         /*Инициализаия компонентов ред.-уд. льгот*/
         try {
             listBenefits = Factory.getInstance().getBenefitDAO().getAllBenefits();
-            listBenefitsString = new ArrayList<>();
-            for (Benefit p : listBenefits) {
-                listBenefitsString.add(p.getName());
-            }
-            comboBenefit.setItems(FXCollections.observableArrayList(listBenefitsString));
+            comboBenefit.setItems(FXCollections.observableArrayList(listBenefits));
+            comboBenefit.setCellFactory((comboBox) -> {
+                return new ListCell<Benefit>() {
+                    @Override
+                    protected void updateItem(Benefit item, boolean empty) {
+                        super.updateItem(item, empty);
+
+                        if (item == null || empty) {
+                            setText(null);
+                        } else {
+                            setText(item.getName());
+                        }
+                    }
+                };
+            });
         } catch (SQLException ex) {
             Logger.getLogger(GeneralController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -832,18 +945,16 @@ public class GeneralController extends AbstractController implements Initializab
 
                     // обновление должности в БД
                     Factory.getInstance().getPositionDAO().updatePosition(selectedPosition);
-                    
+
                     // очистка списка должностей
-                    listPosition.clear();
-                    listPosition.addAll(Factory.getInstance().getPositionDAO().getAllPositions());
+                    listPositions.clear();
+                    listPositions.addAll(Factory.getInstance().getPositionDAO().getAllPositions());
 
                     textUpdatePos.clear();
-                    
+
                     // установка нового списка должностей в комбобокс
-                    comboPos.setItems(FXCollections.observableArrayList(listPosition));
-                    
-                    // ? 
-                    tablePosition.setItems(listPosition);
+                    comboPos.setItems(FXCollections.observableArrayList(listPositions));
+                    tablePosition.setItems(FXCollections.observableArrayList(listPositions));
                 }
             } else {
                 textUpdatePos.setStyle("-fx-border-color: red;");
@@ -858,26 +969,24 @@ public class GeneralController extends AbstractController implements Initializab
 
     /*Удаление должности через кнопку*/
     public void BtnDeletePosition() throws SQLException {
-
         if (comboPos.getValue() != null) {
             int reply = JOptionPane.showConfirmDialog(null, "Вы действительно хотите удалить эту запись?", "Удаление", JOptionPane.YES_NO_OPTION);
             if (reply == JOptionPane.YES_OPTION) {
                 Position selectedPosition = comboPos.getSelectionModel().getSelectedItem();
                 // Удаление должности
                 Factory.getInstance().getPositionDAO().deletePosition(selectedPosition);
-                
+
                 // Обновление списка должностей
-                listPosition.clear();
-                listPosition.addAll(Factory.getInstance().getPositionDAO().getAllPositions());
-                
+                listPositions.clear();
+                listPositions.addAll(Factory.getInstance().getPositionDAO().getAllPositions());
+
                 // Установка обновленного списка должностей
-                comboPos.setItems(FXCollections.observableArrayList(listPosition));
-                tablePosition.setItems(listPosition);
+                comboPos.setItems(FXCollections.observableArrayList(listPositions));
+                tablePosition.setItems(FXCollections.observableArrayList(listPositions));
             }
         } else {
             comboPos.setStyle("-fx-border-color: red;");
         }
-
     }
 
     /*Добавление должности через кнопку*/
@@ -885,36 +994,30 @@ public class GeneralController extends AbstractController implements Initializab
         textAddNamePos.setStyle("");
         errorAddPos.setText("");
         if (textAddNamePos.getText().length() > 4) {
-            List<String> listPositionsString = new ArrayList<>();
-            //Создание листа названий должностей
-            for (Position p : listPosition) {
-                listPositionsString.add(p.getName());
-            }
-            boolean addOrNot = true;
+            boolean addOrNot1 = true;
             //Поиск одинаковых записей
-            for (Position p : listPosition) {
+            for (Position p : listPositions) {
                 if (p.getName().equals(textAddNamePos.getText())) {
-                    addOrNot = false;
+                    addOrNot1 = false;
                 }
             }
-            if (addOrNot == false) {
+            if (addOrNot1 == false) {
                 textAddNamePos.setStyle("-fx-border-color: green;");
                 errorAddPos.setText("Запись уже существует");
             } else {
                 position.setName(textAddNamePos.getText().trim());
                 Factory.getInstance().getPositionDAO().addPosition(position);
-                listPosition.clear();
-                listPosition.addAll(Factory.getInstance().getPositionDAO().getAllPositions());
-                listPositionsString.add(position.getName());
+                listPositions.clear();
+                listPositions.addAll(Factory.getInstance().getPositionDAO().getAllPositions());
+
                 textAddNamePos.clear();
-                comboPos.setItems(FXCollections.observableArrayList(listPosition));
-                tablePosition.setItems(listPosition);
+                comboPos.setItems(FXCollections.observableArrayList(listPositions));
+                tablePosition.setItems(FXCollections.observableArrayList(listPositions));
             }
         } else {
             textAddNamePos.setStyle("-fx-border-color: red;");
             errorAddPos.setText("Введите корректную должность");
         }
-        boolean addOrNot = true;
     }
 
     /*Изменение должности через кнопку*/
@@ -1285,31 +1388,18 @@ public class GeneralController extends AbstractController implements Initializab
                 if (reply == JOptionPane.YES_OPTION) {
                     textUpdateNameBenefit.setStyle("");
                     errorUpdateBenefit.setText("");
-                    String name = comboBenefit.getValue().toString();
+                    Benefit selectionBenefit = comboBenefit.getSelectionModel().getSelectedItem();
                     String reName = textUpdateNameBenefit.getText();
-                    System.out.println(name);
-                    listBenefit.clear();
-                    listBenefitsString.clear();
-                    listBenefit.addAll(Factory.getInstance().getBenefitDAO().getAllBenefits());
-                    for (Benefit p : listBenefit) {
-                        listBenefitsString.add(p.getName());
-                    }
-                    int number = listBenefitsString.indexOf(name);
-                    System.out.println(number);
-                    Benefit getBenefit = listBenefit.get(number);
-                    System.out.println(getBenefit.getName());
-                    getBenefit.setName(reName);
-                    System.out.println(getBenefit.getName());
-                    Factory.getInstance().getBenefitDAO().updateBenefit(getBenefit);
-                    listBenefit.clear();
-                    listBenefitsString.clear();
-                    listBenefit.addAll(Factory.getInstance().getBenefitDAO().getAllBenefits());
-                    for (Benefit p : listBenefit) {
-                        listBenefitsString.add(p.getName());
-                    }
+                    selectionBenefit.setName(reName);
+
+                    Factory.getInstance().getBenefitDAO().updateBenefit(selectionBenefit);
+
+                    listBenefits.clear();
+                    listBenefits.addAll(Factory.getInstance().getBenefitDAO().getAllBenefits());
+
                     textUpdateNameBenefit.clear();
-                    comboBenefit.setItems(FXCollections.observableArrayList(listBenefitsString));
-                    tableBenefit.setItems(listBenefit);
+                    comboBenefit.setItems(FXCollections.observableArrayList(listBenefits));
+                    tableBenefit.setItems(FXCollections.observableArrayList(listBenefits));
                 }
             } else {
                 textUpdateNameBenefit.setStyle("-fx-border-color: red;");
@@ -1317,7 +1407,6 @@ public class GeneralController extends AbstractController implements Initializab
             }
         } else {
             comboBenefit.setStyle("-fx-border-color: red;");
-
         }
 
     }
@@ -1328,26 +1417,15 @@ public class GeneralController extends AbstractController implements Initializab
         if (comboBenefit.getValue() != null) {
             int reply = JOptionPane.showConfirmDialog(null, "Вы действительно хотите удалить эту запись?", "Удаление", JOptionPane.YES_NO_OPTION);
             if (reply == JOptionPane.YES_OPTION) {
-                listBenefit.clear();
-                listBenefitsString.clear();
-                listBenefit.addAll(Factory.getInstance().getBenefitDAO().getAllBenefits());
-                for (Benefit p : listBenefit) {
-                    listBenefitsString.add(p.getName());
-                }
-                String name = comboBenefit.getValue().toString();
-                int number = listBenefitsString.indexOf(name);
-                System.out.println(number);
-                Benefit getBenefit = listBenefit.get(number);
-                System.out.println(getBenefit.getName());
-                Factory.getInstance().getBenefitDAO().deleteBenefit(getBenefit);
-                listBenefit.clear();
-                listBenefitsString.clear();
-                listBenefit.addAll(Factory.getInstance().getBenefitDAO().getAllBenefits());
-                for (Benefit p : listBenefit) {
-                    listBenefitsString.add(p.getName());
-                }
-                comboBenefit.setItems(FXCollections.observableArrayList(listBenefitsString));
-                tableBenefit.setItems(listBenefit);
+                Benefit selectionBenefit = comboBenefit.getSelectionModel().getSelectedItem();
+
+                Factory.getInstance().getBenefitDAO().deleteBenefit(selectionBenefit);
+
+                listBenefits.clear();
+                listBenefits.addAll(Factory.getInstance().getBenefitDAO().getAllBenefits());
+
+                comboBenefit.setItems(FXCollections.observableArrayList(listBenefits));
+                tableBenefit.setItems(FXCollections.observableArrayList(listBenefits));
             }
         } else {
             comboBenefit.setStyle("-fx-border-color: red;");
@@ -1360,37 +1438,31 @@ public class GeneralController extends AbstractController implements Initializab
         textAddNameBenefit.setStyle("");
         errorAddBenefit.setText("");
         if (textAddNameBenefit.getText().trim().length() > 4) {
-            List<String> listBenefitsString = new ArrayList<>();
-            //Создание листа названий должностей
-            for (Benefit p : listBenefit) {
-                listBenefitsString.add(p.getName());
-            }
+            boolean addOrNot1 = true;
             //Поиск одинаковых записей
-            for (Benefit p : listBenefit) {
+            for (Benefit p : listBenefits) {
                 if (p.getName().equals(textAddNameBenefit.getText().trim())) {
-                    addOrNot = false;
+                    addOrNot1 = false;
                 }
             }
-            if (addOrNot == false) {
+            if (addOrNot1 == false) {
                 textAddNameBenefit.setStyle("-fx-border-color: green;");
                 errorAddBenefit.setText("Запись уже существует");
             } else {
-                benefit.setName(textAddNameBenefit.getText().trim());
-                Factory.getInstance().getBenefitDAO().addBenefit(benefit);
-                listBenefit.clear();
-                listBenefit.addAll(Factory.getInstance().getBenefitDAO().getAllBenefits());
-                listBenefitsString.add(benefit.getName());
+
+                Benefit newBenefit = new Benefit(textAddNameBenefit.getText().trim());
+                Factory.getInstance().getBenefitDAO().addBenefit(newBenefit);
+                listBenefits.clear();
+                listBenefits.addAll(Factory.getInstance().getBenefitDAO().getAllBenefits());
+
                 textAddNameBenefit.clear();
-                comboBenefit.setItems(FXCollections.observableArrayList(listBenefitsString));
-                tableBenefit.setItems(listBenefit);
+                comboBenefit.setItems(FXCollections.observableArrayList(listBenefits));
+                tableBenefit.setItems(FXCollections.observableArrayList(listBenefits));
             }
-            addOrNot = true;
         } else {
             textAddNameBenefit.setStyle("-fx-border-color: red;");
             errorAddBenefit.setText("Введите корректное отделение");
         }
-        addOrNot = true;
-
     }
 
     public Long BtnSearchWorker() throws SQLException {
@@ -1411,8 +1483,7 @@ public class GeneralController extends AbstractController implements Initializab
             searchWorker.setDepartment(department);
         }
         if (benUpdateWorker.getValue() != null) {
-            Benefit benefit = new Benefit();
-            benefit = listBenefits.get(listBenefitsString.indexOf(benUpdateWorker.getValue()));
+            Benefit benefit = benUpdateWorker.getSelectionModel().getSelectedItem();
             searchWorker.setBenefit(benefit);
         }
         if (posUpdateWorker.getValue() != null) {
@@ -1541,7 +1612,7 @@ public class GeneralController extends AbstractController implements Initializab
         dataUpdateWorker.setValue(date);
         depUpdateWorker.setValue(listDepartments.get(listDepartmentsString.indexOf(worker.getDepartment().getName())).getName());
         posUpdateWorker.setValue(worker.getPosition());
-        benUpdateWorker.setValue(listBenefits.get(listBenefitsString.indexOf(worker.getBenefit().getName())).getName());
+        benUpdateWorker.setValue(worker.getBenefit());
         checkUpdateGenderMan.setSelected(false);
         checkUpdateGenderWoman.setSelected(false);
         if (worker.getGender().getId() == 1L) {
@@ -1569,8 +1640,7 @@ public class GeneralController extends AbstractController implements Initializab
             worker.setDepartment(department);
         }
         if (benUpdateWorker.getValue().toString() != worker.getBenefit().getName()) {
-            Benefit benefit = new Benefit();
-            benefit = listBenefits.get(listBenefitsString.indexOf(benUpdateWorker.getValue()));
+            Benefit benefit = benUpdateWorker.getSelectionModel().getSelectedItem();
             worker.setBenefit(benefit);
         }
         if (posUpdateWorker.getValue().toString() != worker.getPosition().getName()) {
@@ -1641,12 +1711,10 @@ public class GeneralController extends AbstractController implements Initializab
             Department department = new Department();
             department = listDepartments.get(number);
             worker.setDepartment(department);
-            
+
             position = posAddWorker.getSelectionModel().getSelectedItem();
             worker.setPosition(position);
-            number = listBenefitsString.indexOf(benAddWorker.getValue().toString().trim());
-            Benefit benefit = new Benefit();
-            benefit = listBenefits.get(number);
+            Benefit benefit = benAddWorker.getSelectionModel().getSelectedItem();
             worker.setBenefit(benefit);
             Factory.getInstance().getWorkerDAO().addWorker(worker);
             listWorker.clear();
@@ -1675,8 +1743,7 @@ public class GeneralController extends AbstractController implements Initializab
             searchStudent.setDepartment(department);
         }
         if (benUpdateStudent.getValue() != null) {
-            Benefit benefit = new Benefit();
-            benefit = listBenefits.get(listBenefitsString.indexOf(benUpdateStudent.getValue()));
+            Benefit benefit = benUpdateStudent.getSelectionModel().getSelectedItem();
             searchStudent.setBenefit(benefit);
         }
         if (groupUpdateStudent.getValue() != null) {
@@ -1791,7 +1858,7 @@ public class GeneralController extends AbstractController implements Initializab
         dataUpdateStudent.setValue(date);
         depUpdateStudent.setValue(listDepartments.get(listDepartmentsString.indexOf(student.getDepartment().getName())).getName());
         groupUpdateStudent.setValue(listGroups.get(listGroupsString.indexOf(student.getGroup().getName())).getName());
-        benUpdateStudent.setValue(listBenefits.get(listBenefitsString.indexOf(student.getBenefit().getName())).getName());
+        benUpdateStudent.setValue(student.getBenefit());
         checkUpdateGenderManStudent.setSelected(false);
         checkUpdateGenderWomanStudent.setSelected(false);
         if (student.getGender().getId() == 1L) {
@@ -1826,8 +1893,7 @@ public class GeneralController extends AbstractController implements Initializab
             student.setDepartment(department);
         }
         if (benUpdateStudent.getValue().toString() != student.getBenefit().getName()) {
-            Benefit benefit = new Benefit();
-            benefit = listBenefits.get(listBenefitsString.indexOf(benUpdateStudent.getValue()));
+            Benefit benefit = benUpdateStudent.getSelectionModel().getSelectedItem();
             worker.setBenefit(benefit);
         }
         if (groupUpdateStudent.getValue().toString() != student.getGroup().getName()) {
@@ -1913,9 +1979,8 @@ public class GeneralController extends AbstractController implements Initializab
             number = listGroupsString.indexOf(groupAddStudent.getValue().toString());
             group = listGroups.get(number);
             student.setGroup(group);
-            number = listBenefitsString.indexOf(benAddStudent.getValue().toString());
-            Benefit benefit = new Benefit();
-            benefit = listBenefits.get(number);
+
+            Benefit benefit = benAddStudent.getSelectionModel().getSelectedItem();
             student.setBenefit(benefit);
             Factory.getInstance().getStudentDAO().saveOnlyStudent(student);
             listStudent.clear();

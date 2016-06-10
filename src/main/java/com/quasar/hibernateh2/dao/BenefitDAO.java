@@ -16,7 +16,7 @@ public interface BenefitDAO {
 
     public Benefit getBenefitById(Long id) throws SQLException;
 
-    public List getAllBenefits() throws SQLException;
+    public List<Benefit> getAllBenefits() throws SQLException;
 
     public void deleteBenefit(Benefit student) throws SQLException;
 }
