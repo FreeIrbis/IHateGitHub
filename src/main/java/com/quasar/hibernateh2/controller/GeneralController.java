@@ -157,7 +157,7 @@ public class GeneralController extends AbstractController implements Initializab
     @FXML
     public TextField textAddEmailStudent;
     @FXML
-    public ComboBox groupAddStudent;
+    public ComboBox<Groups> groupAddStudent;
     @FXML
     public ComboBox roleAddStudent;
     @FXML
@@ -288,7 +288,7 @@ public class GeneralController extends AbstractController implements Initializab
     @FXML
     public ComboBox roleUpdateStudent;
     @FXML
-    public ComboBox groupUpdateStudent;
+    public ComboBox<Groups> groupUpdateStudent;
     @FXML
     public ComboBox<Benefit> benUpdateStudent;
     @FXML
@@ -331,7 +331,6 @@ public class GeneralController extends AbstractController implements Initializab
     List<Position> listPositions = null;
 
     /*Поля групп на добавление*/
-    private ObservableList<Groups> listGroup = FXCollections.observableArrayList();
     @FXML
     Label errorAddGroup;
     @FXML
@@ -345,7 +344,7 @@ public class GeneralController extends AbstractController implements Initializab
     @FXML
     public Button btnAddGroup;
     @FXML
-    public ComboBox comboGroup;
+    public ComboBox<Groups> comboGroup;
     @FXML
     public TableView<Groups> tableGroup;
     @FXML
@@ -356,7 +355,6 @@ public class GeneralController extends AbstractController implements Initializab
     public Button btnDeleteGroup;
 
     List<Groups> listGroups = null;
-    List<String> listGroupsString = null;
 
     /*Поля отделений на добавление*/
     private ObservableList<Department> listDepartment = FXCollections.observableArrayList();
@@ -496,12 +494,12 @@ public class GeneralController extends AbstractController implements Initializab
             public void handle(Event event) {
                 tableGroup.getItems().clear();
                 try {
-                    listGroup.clear();
-                    listGroup.addAll(Factory.getInstance().getGroupDAO().getAllGroups());
+                    listGroups.clear();
+                    listGroups.addAll(Factory.getInstance().getGroupDAO().getAllGroups());
                 } catch (SQLException ex) {
                     Logger.getLogger(GeneralController.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                tableGroup.setItems(listGroup);
+                tableGroup.setItems(FXCollections.observableArrayList(listGroups));
             }
         });
 
@@ -583,11 +581,7 @@ public class GeneralController extends AbstractController implements Initializab
                     listBenefits = Factory.getInstance().getBenefitDAO().getAllBenefits();
 
                     listGroups = Factory.getInstance().getGroupDAO().getAllGroups();
-                    listGroupsString = new ArrayList<>();
-                    for (Groups p : listGroups) {
-                        System.out.println(p.getName());
-                        listGroupsString.add(p.getName());
-                    }
+
                     benAddStudent.setItems(FXCollections.observableArrayList(listBenefits));
                     benAddStudent.setCellFactory((comboBox) -> {
                         return new ListCell<Benefit>() {
@@ -604,7 +598,7 @@ public class GeneralController extends AbstractController implements Initializab
                         };
                     });
 
-                    groupAddStudent.setItems(FXCollections.observableArrayList(listGroupsString));
+                    groupAddStudent.setItems(FXCollections.observableArrayList(listGroups));
                     depAddStudent.setItems(FXCollections.observableArrayList(listDepartmentsString));
 
                     benUpdateStudent.setItems(FXCollections.observableArrayList(listBenefits));
@@ -623,7 +617,7 @@ public class GeneralController extends AbstractController implements Initializab
                         };
                     });
 
-                    groupUpdateStudent.setItems(FXCollections.observableArrayList(listGroupsString));
+                    groupUpdateStudent.setItems(FXCollections.observableArrayList(listGroups));
                     depUpdateStudent.setItems(FXCollections.observableArrayList(listDepartmentsString));
                 } catch (SQLException ex) {
                     Logger.getLogger(GeneralController.class.getName()).log(Level.SEVERE, null, ex);
@@ -866,11 +860,8 @@ public class GeneralController extends AbstractController implements Initializab
         /*Инициализаия компонентов ред.-уд. групп*/
         try {
             listGroups = Factory.getInstance().getGroupDAO().getAllGroups();
-            listGroupsString = new ArrayList<>();
-            for (Groups p : listGroups) {
-                listGroupsString.add(p.getName());
-            }
-            comboGroup.setItems(FXCollections.observableArrayList(listGroupsString));
+
+            comboGroup.setItems(FXCollections.observableArrayList(listGroups));
         } catch (SQLException ex) {
             Logger.getLogger(GeneralController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1030,31 +1021,20 @@ public class GeneralController extends AbstractController implements Initializab
                 if (reply == JOptionPane.YES_OPTION) {
                     textUpdateNameGroup.setStyle("");
                     errorUpdateGroup.setText("");
-                    String name = comboGroup.getValue().toString();
+
+                    Groups slectedGroups = comboGroup.getSelectionModel().getSelectedItem();
                     String reName = textUpdateNameGroup.getText();
-                    System.out.println(name);
-                    listGroup.clear();
-                    listGroupsString.clear();
-                    listGroup.addAll(Factory.getInstance().getGroupDAO().getAllGroups());
-                    for (Groups p : listGroup) {
-                        listGroupsString.add(p.getName());
-                    }
-                    int number = listGroupsString.indexOf(name);
-                    System.out.println(number);
-                    Groups getGroup = listGroup.get(number);
-                    System.out.println(getGroup.getName());
-                    getGroup.setName(reName);
-                    System.out.println(getGroup.getName());
-                    Factory.getInstance().getGroupDAO().updateGroups(getGroup);
-                    listGroup.clear();
-                    listGroupsString.clear();
-                    listGroup.addAll(Factory.getInstance().getGroupDAO().getAllGroups());
-                    for (Groups p : listGroup) {
-                        listGroupsString.add(p.getName());
-                    }
+     
+                    slectedGroups.setName(reName);
+
+                    Factory.getInstance().getGroupDAO().updateGroups(slectedGroups);
+                    
+                    listGroups.clear();
+                    listGroups.addAll(Factory.getInstance().getGroupDAO().getAllGroups());
+                    
                     textUpdateNameGroup.clear();
-                    comboGroup.setItems(FXCollections.observableArrayList(listGroupsString));
-                    tableGroup.setItems(listGroup);
+                    comboGroup.setItems(FXCollections.observableArrayList(listGroups));
+                    tableGroup.setItems(FXCollections.observableArrayList(listGroups));
                 }
             } else {
                 textUpdateNameGroup.setStyle("-fx-border-color: red;");
@@ -1073,26 +1053,15 @@ public class GeneralController extends AbstractController implements Initializab
         if (comboGroup.getValue() != null) {
             int reply = JOptionPane.showConfirmDialog(null, "Вы действительно хотите удалить эту запись?", "Удаление", JOptionPane.YES_NO_OPTION);
             if (reply == JOptionPane.YES_OPTION) {
-                listGroup.clear();
-                listGroupsString.clear();
-                listGroup.addAll(Factory.getInstance().getGroupDAO().getAllGroups());
-                for (Groups p : listGroup) {
-                    listGroupsString.add(p.getName());
-                }
-                String name = comboGroup.getValue().toString();
-                int number = listGroupsString.indexOf(name);
-                System.out.println(number);
-                Groups getGroup = listGroup.get(number);
-                System.out.println(getGroup.getName());
-                Factory.getInstance().getGroupDAO().deleteGroups(getGroup);
-                listGroup.clear();
-                listGroupsString.clear();
-                listGroup.addAll(Factory.getInstance().getGroupDAO().getAllGroups());
-                for (Groups p : listGroup) {
-                    listGroupsString.add(p.getName());
-                }
-                comboGroup.setItems(FXCollections.observableArrayList(listGroupsString));
-                tableGroup.setItems(listGroup);
+                Groups slectedGroups = comboGroup.getSelectionModel().getSelectedItem();
+                
+                Factory.getInstance().getGroupDAO().deleteGroups(slectedGroups);
+                
+                listGroups.clear();
+                listGroups.addAll(Factory.getInstance().getGroupDAO().getAllGroups());
+
+                comboGroup.setItems(FXCollections.observableArrayList(listGroups));
+                tableGroup.setItems(FXCollections.observableArrayList(listGroups));
             }
         } else {
             comboGroup.setStyle("-fx-border-color: red;");
@@ -1105,15 +1074,9 @@ public class GeneralController extends AbstractController implements Initializab
         textAddNameGroup.setStyle("");
         errorAddGroup.setText("");
         if (textAddNameGroup.getText().trim().length() > 4) {
-            List<String> listGroupsString = new ArrayList<>();
-            //Создание листа названий должностей
-            for (Groups p : listGroup) {
-                listGroupsString.add(p.getName());
-                System.out.println(p.getName());
-            }
             //Поиск одинаковых записей
-            for (Groups p : listGroup) {
-                if (p.getName().equals(textAddNameGroup.getText())) {
+            for (Groups p : listGroups) {
+                if (p.getName().equals(textAddNameGroup.getText().trim())) {
                     addOrNot = false;
                 }
             }
@@ -1121,18 +1084,15 @@ public class GeneralController extends AbstractController implements Initializab
                 textAddNameGroup.setStyle("-fx-border-color: green;");
                 errorAddGroup.setText("Запись уже существует");
             } else {
-                group.setName(textAddNameGroup.getText().trim());
-                Factory.getInstance().getGroupDAO().addGroups(group);
-                listGroup.clear();
-                listGroup.addAll(Factory.getInstance().getGroupDAO().getAllGroups());
-                listGroupsString.add(group.getName());
-                textAddNameGroup.clear();
-                comboGroup.setItems(FXCollections.observableArrayList(listGroupsString));
-                for (Groups p : listGroup) {
-                    System.out.println(p.getName());
-                }
-                tableGroup.setItems(listGroup);
+                Groups groups = new Groups(textAddNameGroup.getText().trim());
+                Factory.getInstance().getGroupDAO().addGroups(groups);
+                
+                listGroups.clear();
+                listGroups.addAll(Factory.getInstance().getGroupDAO().getAllGroups());
 
+                textAddNameGroup.clear();
+                comboGroup.setItems(FXCollections.observableArrayList(listGroups));
+                tableGroup.setItems(FXCollections.observableArrayList(listGroups));
             }
             addOrNot = true;
         } else {
@@ -1747,8 +1707,7 @@ public class GeneralController extends AbstractController implements Initializab
             searchStudent.setBenefit(benefit);
         }
         if (groupUpdateStudent.getValue() != null) {
-            Groups group = new Groups();
-            group = listGroups.get(listGroupsString.indexOf(groupUpdateStudent.getValue()));
+            Groups group = groupUpdateStudent.getSelectionModel().getSelectedItem();
             searchStudent.setGroup(group);
         }
         if (dataUpdateStudent.getValue() != null) {
@@ -1857,7 +1816,7 @@ public class GeneralController extends AbstractController implements Initializab
         LocalDate date = LocalDate.parse(student.getBirthday().toString());
         dataUpdateStudent.setValue(date);
         depUpdateStudent.setValue(listDepartments.get(listDepartmentsString.indexOf(student.getDepartment().getName())).getName());
-        groupUpdateStudent.setValue(listGroups.get(listGroupsString.indexOf(student.getGroup().getName())).getName());
+        groupUpdateStudent.setValue(student.getGroup());
         benUpdateStudent.setValue(student.getBenefit());
         checkUpdateGenderManStudent.setSelected(false);
         checkUpdateGenderWomanStudent.setSelected(false);
@@ -1897,8 +1856,7 @@ public class GeneralController extends AbstractController implements Initializab
             worker.setBenefit(benefit);
         }
         if (groupUpdateStudent.getValue().toString() != student.getGroup().getName()) {
-            Groups group = new Groups();
-            group = listGroups.get(listGroupsString.indexOf(groupUpdateStudent.getValue()));
+            Groups group = groupUpdateStudent.getSelectionModel().getSelectedItem();
             student.setGroup(group);
         }
 
@@ -1976,8 +1934,7 @@ public class GeneralController extends AbstractController implements Initializab
             Department department = new Department();
             department = listDepartments.get(number);
             student.setDepartment(department);
-            number = listGroupsString.indexOf(groupAddStudent.getValue().toString());
-            group = listGroups.get(number);
+            group = groupAddStudent.getSelectionModel().getSelectedItem();
             student.setGroup(group);
 
             Benefit benefit = benAddStudent.getSelectionModel().getSelectedItem();
