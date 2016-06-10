@@ -34,8 +34,6 @@ public class LoginController extends AbstractController implements Initializable
 //        stage.setScene(new Scene(root1));
 //        stage.show();
         if (application == null){
-            // We are running in isolated FXML, possibly in Scene Builder.
-            // NO-OP.
             errorMessage.setText("Hello " + login.getText());
         } else {
             if (!application.userLogging(login.getText(), password.getText())){

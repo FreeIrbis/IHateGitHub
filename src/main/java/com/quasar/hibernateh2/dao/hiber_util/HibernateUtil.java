@@ -122,6 +122,8 @@ public class HibernateUtil {
             
             Factory.getInstance().getBranchDAO().addBranch(new Branch("123"));
             Factory.getInstance().getBranchDAO().addBranch(new Branch("456"));
+            
+            Factory.getInstance().getUserDAO().addUser(new User(1L, "demo", "demo"));
         } catch (SQLException ex) {
             Logger.getLogger(HibernateUtil.class.getName()).log(Level.SEVERE, null, ex);
         }

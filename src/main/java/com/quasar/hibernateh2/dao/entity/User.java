@@ -18,6 +18,11 @@ import javax.persistence.Table;
 @Table(name = "user")
 public class User extends Model implements Serializable{
     
+    private static final long serialVersionUID = -6421630588257012657L;
+    
+    @Column(name = "tempId")
+    private Long tempId;
+    
     @Column(name = "loginUser")
     private String loginUser;
     
@@ -35,6 +40,15 @@ public class User extends Model implements Serializable{
     
     @Column(name = "nameDB")
     private String nameDB;
+    
+    public User() {
+    }
+    
+    public User(Long tempId, String loginUser, String passUser) {
+        this.tempId = tempId;
+        this.loginUser = loginUser;
+        this.passUser = passUser;
+    }
     
     public String getLoginUser() {
         return loginUser;
@@ -83,6 +97,12 @@ public class User extends Model implements Serializable{
     public void setNameDB(String nameDB) {
         this.nameDB = nameDB;
     }
-    
-    
+
+    public Long getTempId() {
+        return tempId;
+    }
+
+    public void setTempId(Long tempId) {
+        this.tempId = tempId;
+    }   
 }

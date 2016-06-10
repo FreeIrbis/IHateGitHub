@@ -20,4 +20,6 @@ public interface UserDAO {
     
     public User getUserById(Long id) throws SQLException;
     
+    public User getUserByTempId(Long id) throws SQLException;
+    
 }

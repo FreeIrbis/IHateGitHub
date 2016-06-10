@@ -2,7 +2,6 @@ package com.quasar.hibernateh2.controller;
 
 import com.quasar.hibernateh2.dao.Factory;
 import com.quasar.hibernateh2.dao.entity.User;
-import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
