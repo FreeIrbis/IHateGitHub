@@ -41,7 +41,7 @@ public class GenderDAOImpl implements GenderDAO {
         Gender gender = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
-            gender = (Gender) session.load(Gender.class, id);
+            gender = (Gender) session.get(Gender.class, id);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Ошибка I/O", JOptionPane.OK_OPTION);
         } finally {

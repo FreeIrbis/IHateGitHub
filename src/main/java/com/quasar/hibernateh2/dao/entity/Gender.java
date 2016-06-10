@@ -38,7 +38,17 @@ public class Gender extends Model implements Serializable {
     public Set<Worker> getWorkers() {
         return workers;
     }
+    @OneToMany(mappedBy = "gender")
+        private Set<Child> childs;
 
+    public Set<Child> getChilds() {
+        return childs;
+    }
+
+    public void setChilds(Set<Child> childs) {
+        this.childs = childs;
+    }
+    
     @OneToMany(mappedBy = "gender")
     private Set<Worker> workers;
 

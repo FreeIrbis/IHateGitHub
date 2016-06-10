@@ -7,6 +7,9 @@ package com.quasar.hibernateh2.dao.entity;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -43,8 +46,9 @@ public class Child extends Model implements Serializable {
     @Column(name = "birthday")
     private String birthday;
     
-    @Column(name = "gender")
-    private String gender;
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Gender.class)
+    @JoinColumn(name = "gender")
+    private Gender gender;
     
     public Child() {
         name = null;
@@ -70,11 +74,11 @@ public class Child extends Model implements Serializable {
         birthday = s;
     }
     
-    public String getGender() {
+    public Gender getGender() {
         return gender;
     }
 
-    public void setGender(String s) {
+    public void setGender(Gender s) {
         gender = s;
     }
 

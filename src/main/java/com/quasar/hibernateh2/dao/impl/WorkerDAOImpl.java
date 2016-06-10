@@ -56,7 +56,7 @@ public class WorkerDAOImpl implements WorkerDAO{
         Worker worker = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
-            worker = (Worker) session.load(Worker.class, id);
+            worker = (Worker) session.get(Worker.class, id);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Ошибка I/O", JOptionPane.OK_OPTION);
         } finally {

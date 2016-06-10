@@ -23,8 +23,6 @@ public class WorkersChildDAOImpl implements WorkersChildDAO {
             SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
             session = sessionFactory.openSession();
             session.beginTransaction();
-            session.save(ws.getId_worker());
-            session.save(ws.getId_child());
             session.save(ws);
             session.getTransaction().commit();
         } catch (Exception e) {
@@ -59,7 +57,7 @@ public class WorkersChildDAOImpl implements WorkersChildDAO {
         WorkersChild ws = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
-            ws = (WorkersChild) session.load(WorkersChild.class, id);
+            ws = (WorkersChild) session.get(WorkersChild.class, id);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Ошибка I/O", JOptionPane.OK_OPTION);
         } finally {
