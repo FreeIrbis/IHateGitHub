@@ -10,14 +10,11 @@ import javax.persistence.Table;
  * @author Irbis
  */
 @Entity
-@Table(name = "workers_child")
+@Table(name = "worlers_child")
 public class WorkersChild extends Model implements Serializable {
     
-    @Column(name = "id_worker")
+    @Column(name = "worker_id")
     private Long id_worker;
-    
-    @Column(name = "id_child")
-    private Long id_child;
 
     public Long getId_worker() {
         return id_worker;
@@ -35,5 +32,6 @@ public class WorkersChild extends Model implements Serializable {
         this.id_child = id_child;
     }
     
-    
+    @Column(name = "child_id")
+    private Long id_child; 
 }

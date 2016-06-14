@@ -51,6 +51,18 @@ public class Worker extends Model implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Position.class)
     @JoinColumn(name = "position")
     private Position position;
+
+    public Branch getBranch() {
+        return branch;
+    }
+
+    public void setBranch(Branch branch) {
+        this.branch = branch;
+    }
+    
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Branch.class)
+    @JoinColumn(name = "branch")
+    private Branch branch;
     
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "children_of_workers",

@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 public class TestUser {
     public static void main(String[] args) {
         try {
-            //Factory.getInstance().getUserDAO().addUser(new User(1L, "demo", "demo"));
+            Factory.getInstance().getUserDAO().addUser(new User(1L, "demo", "demo"));
             User u = Factory.getInstance().getUserDAO().getUserByTempId(1L);
             System.out.println(u.getLoginUser());
         } catch (SQLException ex) {

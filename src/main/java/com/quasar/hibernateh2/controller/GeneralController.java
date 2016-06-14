@@ -1,5 +1,6 @@
 package com.quasar.hibernateh2.controller;
 
+import com.quasar.hibernateh2.app.MainApp;
 import static com.quasar.hibernateh2.app.OneCheckBox.ChekedOneCheckBox;
 import static com.quasar.hibernateh2.app.OneCheckBox.SelectOneCheckBox;
 import com.quasar.hibernateh2.dao.Factory;
@@ -10,14 +11,17 @@ import com.quasar.hibernateh2.dao.entity.Department;
 import com.quasar.hibernateh2.dao.entity.Gender;
 import com.quasar.hibernateh2.dao.entity.Groups;
 import com.quasar.hibernateh2.dao.entity.Position;
+import com.quasar.hibernateh2.dao.entity.Role;
 import com.quasar.hibernateh2.dao.entity.Student;
 import com.quasar.hibernateh2.dao.entity.Worker;
 import com.quasar.hibernateh2.dao.entity.WorkersChild;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,18 +31,30 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
+import javafx.scene.control.Menu;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javax.swing.JOptionPane;
 
 /**
@@ -49,7 +65,6 @@ import javax.swing.JOptionPane;
 public class GeneralController extends AbstractController implements Initializable {
 
     /*Все табы*/
-
     @FXML
     public Tab tabPos;
     @FXML
@@ -86,6 +101,8 @@ public class GeneralController extends AbstractController implements Initializab
     @FXML
     public ComboBox<Position> posAddWorker;
     @FXML
+    public ComboBox<Branch> branchAddWorker;
+    @FXML
     public ComboBox<Benefit> benAddWorker;
     @FXML
     public Button btnAddWorker;
@@ -109,6 +126,8 @@ public class GeneralController extends AbstractController implements Initializab
     @FXML
     public TableColumn<Worker, Long> BenWorkerColumn;
     @FXML
+    public TableColumn<Worker, Long> BranchWorkerColumn;
+    @FXML
     public TableColumn<Worker, Long> GenderWorkerColumn;
 
     /*Поля сотрудники на редактирование*/
@@ -124,6 +143,8 @@ public class GeneralController extends AbstractController implements Initializab
     public CheckBox checkUpdateGenderMan;
     @FXML
     public CheckBox checkUpdateGenderWoman;
+    @FXML
+    public ComboBox<Branch> branchUpdateWorker;
     @FXML
     public ComboBox<Department> depUpdateWorker;
     @FXML
@@ -158,9 +179,9 @@ public class GeneralController extends AbstractController implements Initializab
     @FXML
     public ComboBox<Groups> groupAddStudent;
     @FXML
-    public ComboBox roleAddStudent;
-    @FXML
     public ComboBox<Department> depAddStudent;
+    @FXML
+    public ComboBox<Role> roleAddStudent;
     @FXML
     public ComboBox<Benefit> benAddStudent;
     @FXML
@@ -170,8 +191,12 @@ public class GeneralController extends AbstractController implements Initializab
     @FXML
     public Label errorAddStudent;
 
+    List<Role> listRoles = null;
+
     @FXML
     public TableColumn<Student, String> SurStudentColumn;
+    @FXML
+    public TableColumn<Student, Long> RoleStudentColumn;
     @FXML
     public TableColumn<Student, String> NameStudentColumn;
     @FXML
@@ -285,7 +310,7 @@ public class GeneralController extends AbstractController implements Initializab
     @FXML
     public ComboBox<Department> depUpdateStudent;
     @FXML
-    public ComboBox roleUpdateStudent;
+    public ComboBox<Role> roleUpdateStudent;
     @FXML
     public ComboBox<Groups> groupUpdateStudent;
     @FXML
@@ -415,23 +440,45 @@ public class GeneralController extends AbstractController implements Initializab
 
     @FXML
     public TextField textAddNameBenefit;
+    
     @FXML
     public TextField textUpdateNameBenefit;
+    
     @FXML
     public Button btnAddBenefit;
+    
     @FXML
     public ComboBox<Benefit> comboBenefit;
+    
     @FXML
     public TableView<Benefit> tableBenefit;
+    
     @FXML
     public TableColumn<Benefit, String> NameBenefitColumn;
+    
     @FXML
     public Button btnUpdateBenefit;
+    
     @FXML
     public Button btnDeleteBenefit;
 
     List<Benefit> listBenefits = null;
 
+    @FXML
+    public AnchorPane settings;
+    
+    public void openSet(ActionEvent event) throws IOException {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/Settings.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            Stage stage = new Stage();
+            //stage.initModality(Modality.APPLICATION_MODAL);
+            //stage.initStyle(StageStyle.UNDECORATED);
+            stage.setTitle("ABC");
+            stage.setScene(new Scene(root1));  
+            Scene scene = stage.getScene();
+            scene.getStylesheets().add("/styles/Login.css");
+            stage.show();
+    }
     @FXML
     private void CheckAddGenderWorkers(ActionEvent e) {
         ChekedOneCheckBox(checkAddGenderMan, checkAddGenderWoman);
@@ -556,6 +603,8 @@ public class GeneralController extends AbstractController implements Initializab
         DepStudentColumn.setCellValueFactory(new PropertyValueFactory<Student, Long>("department"));
         BenStudentColumn.setCellValueFactory(new PropertyValueFactory<Student, Long>("benefit"));
         GenderStudentColumn.setCellValueFactory(new PropertyValueFactory<Student, Long>("gender"));
+        RoleStudentColumn.setCellValueFactory(new PropertyValueFactory<Student, Long>("role"));
+
         tabStudent.setOnSelectionChanged(new EventHandler<Event>() {
             @Override
             public void handle(Event event) {
@@ -566,11 +615,28 @@ public class GeneralController extends AbstractController implements Initializab
                     Logger.getLogger(GeneralController.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 try {
+                    listRoles = Factory.getInstance().getRoleDAO().getAllRoles();
                     listDepartments = Factory.getInstance().getDepartmentDAO().getAllDepartments();
                     listBenefits = Factory.getInstance().getBenefitDAO().getAllBenefits();
                     listGroups = Factory.getInstance().getGroupDAO().getAllGroups();
 
+                    roleAddStudent.setItems(FXCollections.observableArrayList(listRoles));
                     benAddStudent.setItems(FXCollections.observableArrayList(listBenefits));
+
+                    roleAddStudent.setCellFactory((comboBox) -> {
+                        return new ListCell<Role>() {
+                            @Override
+                            protected void updateItem(Role item, boolean empty) {
+                                super.updateItem(item, empty);
+
+                                if (item == null || empty) {
+                                    setText(null);
+                                } else {
+                                    setText(item.getTitle());
+                                }
+                            }
+                        };
+                    });
                     benAddStudent.setCellFactory((comboBox) -> {
                         return new ListCell<Benefit>() {
                             @Override
@@ -588,7 +654,21 @@ public class GeneralController extends AbstractController implements Initializab
 
                     groupAddStudent.setItems(FXCollections.observableArrayList(listGroups));
                     depAddStudent.setItems(FXCollections.observableArrayList(listDepartments));
+                    roleUpdateStudent.setItems(FXCollections.observableArrayList(listRoles));
+                    roleUpdateStudent.setCellFactory((comboBox) -> {
+                        return new ListCell<Role>() {
+                            @Override
+                            protected void updateItem(Role item, boolean empty) {
+                                super.updateItem(item, empty);
 
+                                if (item == null || empty) {
+                                    setText(null);
+                                } else {
+                                    setText(item.getTitle());
+                                }
+                            }
+                        };
+                    });
                     benUpdateStudent.setItems(FXCollections.observableArrayList(listBenefits));
                     benUpdateStudent.setCellFactory((comboBox) -> {
                         return new ListCell<Benefit>() {
@@ -614,6 +694,11 @@ public class GeneralController extends AbstractController implements Initializab
             }
         });
 
+        try {
+            listBranch.addAll(Factory.getInstance().getBranchDAO().getAllBranchs());
+        } catch (SQLException ex) {
+            Logger.getLogger(GeneralController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         //Работники
         SurWorkerColumn.setCellValueFactory(new PropertyValueFactory<Worker, String>("surname"));
         NameWorkerColumn.setCellValueFactory(new PropertyValueFactory<Worker, String>("name"));
@@ -621,6 +706,7 @@ public class GeneralController extends AbstractController implements Initializab
         DateWorkerColumn.setCellValueFactory(new PropertyValueFactory<Worker, String>("birthday"));
         PosWorkerColumn.setCellValueFactory(new PropertyValueFactory<Worker, String>("position"));
         DepWorkerColumn.setCellValueFactory(new PropertyValueFactory<Worker, Long>("department"));
+        BranchWorkerColumn.setCellValueFactory(new PropertyValueFactory<Worker, Long>("branch"));
         BenWorkerColumn.setCellValueFactory(new PropertyValueFactory<Worker, Long>("benefit"));
         GenderWorkerColumn.setCellValueFactory(new PropertyValueFactory<Worker, Long>("gender"));
         tabWorker.setOnSelectionChanged(new EventHandler<Event>() {
@@ -639,6 +725,23 @@ public class GeneralController extends AbstractController implements Initializab
                         return new ListCell<Position>() {
                             @Override
                             protected void updateItem(Position item, boolean empty) {
+                                super.updateItem(item, empty);
+
+                                if (item == null || empty) {
+                                    setText(null);
+                                } else {
+                                    setText(item.getName());
+                                }
+                            }
+                        };
+                    });
+
+                    listBranchs = Factory.getInstance().getBranchDAO().getAllBranchs();
+                    branchAddWorker.setItems(FXCollections.observableArrayList(listBranchs));
+                    branchAddWorker.setCellFactory((comboBox) -> {
+                        return new ListCell<Branch>() {
+                            @Override
+                            protected void updateItem(Branch item, boolean empty) {
                                 super.updateItem(item, empty);
 
                                 if (item == null || empty) {
@@ -669,7 +772,21 @@ public class GeneralController extends AbstractController implements Initializab
                     });
 
                     depAddWorker.setItems(FXCollections.observableArrayList(listDepartments));
+                    branchUpdateWorker.setItems(FXCollections.observableArrayList(listBranchs));
+                    branchUpdateWorker.setCellFactory((comboBox) -> {
+                        return new ListCell<Branch>() {
+                            @Override
+                            protected void updateItem(Branch item, boolean empty) {
+                                super.updateItem(item, empty);
 
+                                if (item == null || empty) {
+                                    setText(null);
+                                } else {
+                                    setText(item.getName());
+                                }
+                            }
+                        };
+                    });
                     posUpdateWorker.setItems(FXCollections.observableArrayList(listPositions));
                     posUpdateWorker.setCellFactory((comboBox) -> {
                         return new ListCell<Position>() {
@@ -894,8 +1011,12 @@ public class GeneralController extends AbstractController implements Initializab
         if (comboPos.getValue() != null) {
             comboPos.setStyle("");
             if (textUpdatePos.getText().length() > 4) {
-                int reply = JOptionPane.showConfirmDialog(null, "Вы действительно хотите изменить эту запись?", "Редактирование", JOptionPane.YES_NO_OPTION);
-                if (reply == JOptionPane.YES_OPTION) {
+                Alert alert = new Alert(AlertType.CONFIRMATION);
+                alert.setTitle("Редактирование");
+                alert.setContentText("Вы действительно хотите редактировать запись?");
+                alert.setHeaderText("Подтверждение операции");
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.OK) {
                     textUpdatePos.setStyle("");
                     errorUpdatePos.setText("");
 
@@ -935,8 +1056,12 @@ public class GeneralController extends AbstractController implements Initializab
     /*Удаление должности через кнопку*/
     public void BtnDeletePosition() throws SQLException {
         if (comboPos.getValue() != null) {
-            int reply = JOptionPane.showConfirmDialog(null, "Вы действительно хотите удалить эту запись?", "Удаление", JOptionPane.YES_NO_OPTION);
-            if (reply == JOptionPane.YES_OPTION) {
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("Удаление");
+            alert.setContentText("Вы действительно хотите удалить запись?");
+            alert.setHeaderText("Подтверждение операции");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK) {
                 Position selectedPosition = comboPos.getSelectionModel().getSelectedItem();
                 // Удаление должности
                 Factory.getInstance().getPositionDAO().deletePosition(selectedPosition);
@@ -991,21 +1116,25 @@ public class GeneralController extends AbstractController implements Initializab
         if (comboGroup.getValue() != null) {
             comboPos.setStyle("");
             if (textUpdateNameGroup.getText().length() > 4) {
-                int reply = JOptionPane.showConfirmDialog(null, "Вы действительно хотите изменить эту запись?", "Редактирование", JOptionPane.YES_NO_OPTION);
-                if (reply == JOptionPane.YES_OPTION) {
+                Alert alert = new Alert(AlertType.CONFIRMATION);
+                alert.setTitle("Редактирование");
+                alert.setContentText("Вы действительно хотите редактировать запись?");
+                alert.setHeaderText("Подтверждение операции");
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.OK) {
                     textUpdateNameGroup.setStyle("");
                     errorUpdateGroup.setText("");
 
                     Groups slectedGroups = comboGroup.getSelectionModel().getSelectedItem();
                     String reName = textUpdateNameGroup.getText();
-     
+
                     slectedGroups.setName(reName);
 
                     Factory.getInstance().getGroupDAO().updateGroups(slectedGroups);
-                    
+
                     listGroups.clear();
                     listGroups.addAll(Factory.getInstance().getGroupDAO().getAllGroups());
-                    
+
                     textUpdateNameGroup.clear();
                     comboGroup.setItems(FXCollections.observableArrayList(listGroups));
                     tableGroup.setItems(FXCollections.observableArrayList(listGroups));
@@ -1025,12 +1154,16 @@ public class GeneralController extends AbstractController implements Initializab
     public void BtnDeleteGroup() throws SQLException {
 
         if (comboGroup.getValue() != null) {
-            int reply = JOptionPane.showConfirmDialog(null, "Вы действительно хотите удалить эту запись?", "Удаление", JOptionPane.YES_NO_OPTION);
-            if (reply == JOptionPane.YES_OPTION) {
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("Удаление");
+            alert.setContentText("Вы действительно хотите удалить запись?");
+            alert.setHeaderText("Подтверждение операции");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK) {
                 Groups slectedGroups = comboGroup.getSelectionModel().getSelectedItem();
-                
+
                 Factory.getInstance().getGroupDAO().deleteGroups(slectedGroups);
-                
+
                 listGroups.clear();
                 listGroups.addAll(Factory.getInstance().getGroupDAO().getAllGroups());
 
@@ -1061,7 +1194,7 @@ public class GeneralController extends AbstractController implements Initializab
             } else {
                 Groups groups = new Groups(textAddNameGroup.getText().trim());
                 Factory.getInstance().getGroupDAO().addGroups(groups);
-                
+
                 listGroups.clear();
                 listGroups.addAll(Factory.getInstance().getGroupDAO().getAllGroups());
 
@@ -1081,8 +1214,12 @@ public class GeneralController extends AbstractController implements Initializab
         if (comboDepartment.getValue() != null) {
             comboDepartment.setStyle("");
             if (textUpdateNameDepartment.getText().length() > 4) {
-                int reply = JOptionPane.showConfirmDialog(null, "Вы действительно хотите изменить эту запись?", "Редактирование", JOptionPane.YES_NO_OPTION);
-                if (reply == JOptionPane.YES_OPTION) {
+                Alert alert = new Alert(AlertType.CONFIRMATION);
+                alert.setTitle("Редактирование");
+                alert.setContentText("Вы действительно хотите редактировать запись?");
+                alert.setHeaderText("Подтверждение операции");
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.OK) {
                     textUpdateNameDepartment.setStyle("");
                     errorUpdateDepartment.setText("");
                     Department selectedDepartment = comboDepartment.getSelectionModel().getSelectedItem();
@@ -1090,7 +1227,7 @@ public class GeneralController extends AbstractController implements Initializab
                     selectedDepartment.setName(reName);
 
                     Factory.getInstance().getDepartmentDAO().updateDepartment(selectedDepartment);
-                    
+
                     listDepartments.clear();
                     listDepartments.addAll(Factory.getInstance().getDepartmentDAO().getAllDepartments());
 
@@ -1113,12 +1250,16 @@ public class GeneralController extends AbstractController implements Initializab
     public void BtnDeleteDepartment() throws SQLException {
 
         if (comboDepartment.getValue() != null) {
-            int reply = JOptionPane.showConfirmDialog(null, "Вы действительно хотите удалить эту запись?", "Удаление", JOptionPane.YES_NO_OPTION);
-            if (reply == JOptionPane.YES_OPTION) {
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("Удаление");
+            alert.setContentText("Вы действительно хотите удалить запись?");
+            alert.setHeaderText("Подтверждение операции");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK) {
                 Department selectedDepartment = comboDepartment.getSelectionModel().getSelectedItem();
-                
+
                 Factory.getInstance().getDepartmentDAO().deleteDepartment(selectedDepartment);
-                
+
                 listDepartments.clear();
                 listDepartments.addAll(Factory.getInstance().getDepartmentDAO().getAllDepartments());
 
@@ -1149,7 +1290,7 @@ public class GeneralController extends AbstractController implements Initializab
             } else {
                 Department newDepartment = new Department(textAddNameDepartment.getText().trim());
                 Factory.getInstance().getDepartmentDAO().addDepartment(newDepartment);
-                
+
                 listDepartments.clear();
                 listDepartments.addAll(Factory.getInstance().getDepartmentDAO().getAllDepartments());
 
@@ -1169,8 +1310,12 @@ public class GeneralController extends AbstractController implements Initializab
         if (comboBranch.getValue() != null) {
             comboBranch.setStyle("");
             if (textUpdateNameBranch.getText().length() > 4) {
-                int reply = JOptionPane.showConfirmDialog(null, "Вы действительно хотите изменить эту запись?", "Редактирование", JOptionPane.YES_NO_OPTION);
-                if (reply == JOptionPane.YES_OPTION) {
+                Alert alert = new Alert(AlertType.CONFIRMATION);
+                alert.setTitle("Редактирование");
+                alert.setContentText("Вы действительно хотите редактировать запись?");
+                alert.setHeaderText("Подтверждение операции");
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.OK) {
                     textUpdateNameBranch.setStyle("");
                     errorUpdateBranch.setText("");
                     String name = comboBranch.getValue().toString();
@@ -1214,8 +1359,13 @@ public class GeneralController extends AbstractController implements Initializab
     public void BtnDeleteBranch() throws SQLException {
 
         if (comboBranch.getValue() != null) {
-            int reply = JOptionPane.showConfirmDialog(null, "Вы действительно хотите удалить эту запись?", "Удаление", JOptionPane.YES_NO_OPTION);
-            if (reply == JOptionPane.YES_OPTION) {
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("Удаление");
+            alert.setContentText("Вы действительно хотите удалить запись?");
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK) {
+
                 listBranch.clear();
                 listBranchsString.clear();
                 listBranch.addAll(Factory.getInstance().getBranchDAO().getAllBranchs());
@@ -1250,9 +1400,11 @@ public class GeneralController extends AbstractController implements Initializab
         if (textAddNameBranch.getText().trim().length() > 4) {
             boolean addOrNot = true;
             //Поиск одинаковых записей
-            for (Branch p : listBranch) {
-                if (p.getName().equals(textAddNameBranch.getText().trim())) {
-                    addOrNot = false;
+            if (listBranch.size() > 0) {
+                for (Branch p : listBranch) {
+                    if (p.getName().equals(textAddNameBranch.getText().trim())) {
+                        addOrNot = false;
+                    }
                 }
             }
 
@@ -1282,8 +1434,12 @@ public class GeneralController extends AbstractController implements Initializab
         if (comboBenefit.getValue() != null) {
             comboBenefit.setStyle("");
             if (textUpdateNameBenefit.getText().length() > 4) {
-                int reply = JOptionPane.showConfirmDialog(null, "Вы действительно хотите изменить эту запись?", "Редактирование", JOptionPane.YES_NO_OPTION);
-                if (reply == JOptionPane.YES_OPTION) {
+                Alert alert = new Alert(AlertType.CONFIRMATION);
+                alert.setTitle("Редактирование");
+                alert.setContentText("Вы действительно хотите изменить запись?");
+                alert.setHeaderText("Подтверждение операции");
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.OK) {
                     textUpdateNameBenefit.setStyle("");
                     errorUpdateBenefit.setText("");
                     Benefit selectionBenefit = comboBenefit.getSelectionModel().getSelectedItem();
@@ -1312,9 +1468,13 @@ public class GeneralController extends AbstractController implements Initializab
     /*Удаление Отделения через кнопку*/
     public void BtnDeleteBenefit() throws SQLException {
 
-        if (comboBenefit.getValue() != null) {
-            int reply = JOptionPane.showConfirmDialog(null, "Вы действительно хотите удалить эту запись?", "Удаление", JOptionPane.YES_NO_OPTION);
-            if (reply == JOptionPane.YES_OPTION) {
+        if (comboBenefit.getSelectionModel().getSelectedItem() != null) {
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("Удаление");
+            alert.setContentText("Вы действительно хотите удалить запись?");
+            alert.setHeaderText("Подтверждение операции");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK) {
                 Benefit selectionBenefit = comboBenefit.getSelectionModel().getSelectedItem();
 
                 Factory.getInstance().getBenefitDAO().deleteBenefit(selectionBenefit);
@@ -1535,10 +1695,10 @@ public class GeneralController extends AbstractController implements Initializab
             Department department = depUpdateWorker.getSelectionModel().getSelectedItem();
             worker.setDepartment(department);
         }
-        if (benUpdateWorker.getValue().toString() != worker.getBenefit().getName()) {
+
             Benefit benefit = benUpdateWorker.getSelectionModel().getSelectedItem();
             worker.setBenefit(benefit);
-        }
+        
         if (posUpdateWorker.getValue().toString() != worker.getPosition().getName()) {
             Position position = posUpdateWorker.getSelectionModel().getSelectedItem();
             worker.setPosition(position);
@@ -1550,9 +1710,9 @@ public class GeneralController extends AbstractController implements Initializab
         gender.setId(SelectOneCheckBox(checkUpdateGenderMan, checkUpdateGenderWoman));
         worker.setGender(gender);
         System.out.println("SUR:" + worker.getSurname() + "PAT:"
-            + worker.getPatronymic() + "NAM:" + worker.getName() + "DR:"
-            + worker.getBirthday() + "BEN:" + worker.getBenefit()
-            + "DEP:" + worker.getDepartment() + "GEN:" + worker.getGender());
+                + worker.getPatronymic() + "NAM:" + worker.getName() + "DR:"
+                + worker.getBirthday() + "BEN:" + worker.getBenefit()
+                + "DEP:" + worker.getDepartment() + "GEN:" + worker.getGender());
         Factory.getInstance().getWorkerDAO().updateWorker(worker);
         worker = null;
         textUpdateSurWorker.setText(null);
@@ -1564,17 +1724,10 @@ public class GeneralController extends AbstractController implements Initializab
         depUpdateWorker.setValue(null);
         posUpdateWorker.setValue(null);
         benUpdateWorker.setValue(null);
+        branchUpdateWorker.setValue(null);
 
         listWorker.clear();
         tableWorker.getItems().clear();
-        listWorker.addAll(Factory.getInstance().getWorkerDAO().getAllWorkers());
-        tableWorker.setItems(listWorker);
-    }
-
-    public void BtnDeleteWorker(int number) throws SQLException {
-        worker = listWorker.get(number);
-        Factory.getInstance().getWorkerDAO().deleteWorker(worker);
-        listWorker.clear();
         listWorker.addAll(Factory.getInstance().getWorkerDAO().getAllWorkers());
         tableWorker.setItems(listWorker);
     }
@@ -1586,16 +1739,26 @@ public class GeneralController extends AbstractController implements Initializab
         listWorker.clear();
         listWorker.addAll(Factory.getInstance().getWorkerDAO().getAllWorkers());
         tableWorker.setItems(listWorker);
+        textUpdateSurWorker.setText(null);
+        textUpdateNameWorker.setText(null);
+        textUpdatePatWorker.setText(null);
+        dataUpdateWorker.setValue(null);
+        checkUpdateGenderMan.setSelected(false);
+        checkUpdateGenderWoman.setSelected(false);
+        depUpdateWorker.setValue(null);
+        posUpdateWorker.setValue(null);
+        benUpdateWorker.setValue(null);
+        branchUpdateWorker.setValue(null);
     }
 
     public void BtnAddWorker() throws SQLException {
         if (textAddSurWorker.getText().trim().length() > 4
-            && textAddNameWorker.getText().trim().length() > 4
-            && textAddPatWorker.getText().trim().length() > 4
-            && dataAddWorker.getValue().toString().trim().length() > 4
-            && depAddWorker.getValue() != null
-            && posAddWorker.getValue() != null
-            && benAddWorker.getValue() != null) {
+                && textAddNameWorker.getText().trim().length() > 4
+                && textAddPatWorker.getText().trim().length() > 4
+                && dataAddWorker.getValue().toString().trim().length() > 4
+                && depAddWorker.getValue() != null
+                && posAddWorker.getValue() != null
+                && branchAddWorker.getValue() != null) {
             worker.setSurname(textAddSurWorker.getText().trim());
             worker.setName(textAddNameWorker.getText().trim());
             worker.setPatronymic(textAddPatWorker.getText().trim());
@@ -1605,7 +1768,9 @@ public class GeneralController extends AbstractController implements Initializab
             worker.setBirthday(dataAddWorker.getValue().toString());
             Department department = depAddWorker.getSelectionModel().getSelectedItem();
             worker.setDepartment(department);
-
+            if(branchAddWorker.getSelectionModel().getSelectedItem()!=null){
+            Branch branch = branchAddWorker.getSelectionModel().getSelectedItem();
+            worker.setBranch(branch);}
             position = posAddWorker.getSelectionModel().getSelectedItem();
             worker.setPosition(position);
             Benefit benefit = benAddWorker.getSelectionModel().getSelectedItem();
@@ -1614,6 +1779,16 @@ public class GeneralController extends AbstractController implements Initializab
             listWorker.clear();
             listWorker.addAll(Factory.getInstance().getWorkerDAO().getAllWorkers());
             tableWorker.setItems(listWorker);
+            textAddSurWorker.setText(null);
+            textAddNameWorker.setText(null);
+            textAddPatWorker.setText(null);
+            dataAddWorker.setValue(null);
+            checkAddGenderMan.setSelected(false);
+            checkAddGenderWoman.setSelected(false);
+            depAddWorker.setValue(null);
+            posAddWorker.setValue(null);
+            benAddWorker.setValue(null);
+            branchAddWorker.setValue(null);
         } else {
             JOptionPane.showMessageDialog(null, "Заполнены не все поля");
         }
@@ -1751,6 +1926,7 @@ public class GeneralController extends AbstractController implements Initializab
         depUpdateStudent.setValue(student.getDepartment());
         groupUpdateStudent.setValue(student.getGroup());
         benUpdateStudent.setValue(student.getBenefit());
+        roleUpdateStudent.setValue(student.getRole());
         checkUpdateGenderManStudent.setSelected(false);
         checkUpdateGenderWomanStudent.setSelected(false);
         if (student.getGender().getId() == 1L) {
@@ -1782,6 +1958,10 @@ public class GeneralController extends AbstractController implements Initializab
         if (depUpdateStudent.getValue().toString() != student.getDepartment().getName()) {
             Department department = depUpdateStudent.getSelectionModel().getSelectedItem();
             student.setDepartment(department);
+        }
+        if (roleUpdateStudent.getValue().toString() != student.getRole().getTitle()) {
+            Role role = roleUpdateStudent.getSelectionModel().getSelectedItem();
+            student.setRole(role);
         }
         if (benUpdateStudent.getValue().toString() != student.getBenefit().getName()) {
             Benefit benefit = benUpdateStudent.getSelectionModel().getSelectedItem();
@@ -1819,7 +1999,10 @@ public class GeneralController extends AbstractController implements Initializab
         checkUpdateGenderWomanStudent.setSelected(false);
         depUpdateStudent.setValue(null);
         groupUpdateStudent.setValue(null);
+        roleUpdateStudent.setValue(null);
         benUpdateStudent.setValue(null);
+        textUpdatePhoneStudent.setText(null);
+        textUpdateEmailStudent.setText(null);
 
         listStudent.clear();
         tableStudent.getItems().clear();
@@ -1846,13 +2029,13 @@ public class GeneralController extends AbstractController implements Initializab
 
     public void BtnAddStudent() throws SQLException {
         if (textAddSurStudent.getText().trim().length() > 4
-            && textAddNameStudent.getText().trim().length() > 4
-            && textAddPatStudent.getText().trim().length() > 4
-            && dataAddStudent.getValue().toString().trim().length() > 4
-            && depAddStudent.getValue() != null
-            && groupAddStudent.getValue() != null
-            && benAddStudent.getValue() != null
-            && roleAddStudent.getValue() != null) {
+                && textAddNameStudent.getText().trim().length() > 4
+                && textAddPatStudent.getText().trim().length() > 4
+                && dataAddStudent.getValue().toString().trim().length() > 4
+                && depAddStudent.getValue() != null
+                && groupAddStudent.getValue() != null
+                && benAddStudent.getValue() != null
+                && roleAddStudent.getValue() != null) {
             student.setSurname(textAddSurStudent.getText().trim());
             student.setName(textAddNameStudent.getText().trim());
             student.setPatronymic(textAddPatStudent.getText().trim());
@@ -1866,6 +2049,10 @@ public class GeneralController extends AbstractController implements Initializab
             Department department = depAddStudent.getSelectionModel().getSelectedItem();
 
             student.setDepartment(department);
+
+            Role role = roleAddStudent.getSelectionModel().getSelectedItem();
+
+            student.setRole(role);
             Groups group = groupAddStudent.getSelectionModel().getSelectedItem();
             student.setGroup(group);
 
@@ -1875,6 +2062,18 @@ public class GeneralController extends AbstractController implements Initializab
             listStudent.clear();
             listStudent.addAll(Factory.getInstance().getStudentDAO().getAllStudents());
             tableStudent.setItems(listStudent);
+            textAddSurStudent.setText(null);
+            textAddNameStudent.setText(null);
+            textAddPatStudent.setText(null);
+            dataAddStudent.setValue(null);
+            checkAddGenderManStudent.setSelected(false);
+            checkAddGenderWomanStudent.setSelected(false);
+            depAddStudent.setValue(null);
+            groupAddStudent.setValue(null);
+            roleAddStudent.setValue(null);
+            benAddStudent.setValue(null);
+            textAddPhoneStudent.setText(null);
+            textAddEmailStudent.setText(null);
         } else {
             JOptionPane.showMessageDialog(null, "Заполнены не все поля");
 
@@ -1883,41 +2082,36 @@ public class GeneralController extends AbstractController implements Initializab
 
     public void SelectRowTableChild() throws SQLException {
         TableView.TableViewSelectionModel selectionModel = tableChild.getSelectionModel();
-        int number = 0/*= selectionModel.getFocusedIndex()*/;
-        child = listChild.get(selectionModel.getFocusedIndex());
-        for (int i = 0; i < listWorkersChild.size(); i++) {
-            if (listWorkersChild.get(i).getId_child().equals(child.getId())) {
-                number = i;
-            }
-        }
+        int number = selectionModel.getFocusedIndex();
+        child = listChild.get(number);
         textUpdateSurChild.setText(child.getSurname());
         textUpdateNameChild.setText(child.getName());
         textUpdatePatChild.setText(child.getPatronymic());
-        textUpdateSurWorkChild.setText(Factory.getInstance().getWorkerDAO().getWorkerById(
-            Factory.getInstance().
-            getWorkersChildDAO().
-            getWorkersChildById(
-                listWorkersChild.get(number)
-                .getId()
-            ).getId_worker()
-        ).getSurname()
-        );
-        textUpdateNameWorkChild.setText(Factory.getInstance().getWorkerDAO().getWorkerById(
-            Factory.getInstance().
-            getWorkersChildDAO().
-            getWorkersChildById(
-                listWorkersChild.get(number)
-                .getId()
-            ).getId_worker()
-        ).getName());
-        textUpdatePatWorkChild.setText(Factory.getInstance().getWorkerDAO().getWorkerById(
-            Factory.getInstance().
-            getWorkersChildDAO().
-            getWorkersChildById(
-                listWorkersChild.get(number)
-                .getId()
-            ).getId_worker()
-        ).getPatronymic());
+//        textUpdateSurWorkChild.setText(Factory.getInstance().getWorkerDAO().getWorkerById(
+//            Factory.getInstance().
+//            getWorkersChildDAO().
+//            getWorkersChildById(
+//                listWorkersChild.get(number)
+//                .getId()
+//            ).getId_worker()
+//        ).getSurname()
+//        );
+//        textUpdateNameWorkChild.setText(Factory.getInstance().getWorkerDAO().getWorkerById(
+//            Factory.getInstance().
+//            getWorkersChildDAO().
+//            getWorkersChildById(
+//                listWorkersChild.get(number)
+//                .getId()
+//            ).getId_worker()
+//        ).getName());
+//        textUpdatePatWorkChild.setText(Factory.getInstance().getWorkerDAO().getWorkerById(
+//            Factory.getInstance().
+//            getWorkersChildDAO().
+//            getWorkersChildById(
+//                listWorkersChild.get(number)
+//                .getId()
+//            ).getId_worker()
+//        ).getPatronymic());
 
         LocalDate date = LocalDate.parse(child.getBirthday());
         dataUpdateChild.setValue(date);
@@ -1932,12 +2126,12 @@ public class GeneralController extends AbstractController implements Initializab
 
     public void BtnAddChild() throws SQLException {
         if (textAddSurChild.getText().trim().length() > 4
-            && textAddNameChild.getText().trim().length() > 4
-            && textAddPatChild.getText().trim().length() > 4
-            && dataAddChild.getValue().toString().trim().length() > 4
-            && textAddNameWorkChild.getText().trim().length() > 4
-            && textAddPatWorkChild.getText().trim().length() > 4
-            && textAddSurWorkChild.getText().trim().length() > 4) {
+                && textAddNameChild.getText().trim().length() > 4
+                && textAddPatChild.getText().trim().length() > 4
+                && dataAddChild.getValue().toString().trim().length() > 4
+                && textAddNameWorkChild.getText().trim().length() > 4
+                && textAddPatWorkChild.getText().trim().length() > 4
+                && textAddSurWorkChild.getText().trim().length() > 4) {
             child.setSurname(textAddSurChild.getText().trim());
             child.setName(textAddNameChild.getText().trim());
             child.setPatronymic(textAddPatChild.getText().trim());
@@ -1946,13 +2140,10 @@ public class GeneralController extends AbstractController implements Initializab
             child.setGender(gender);
             child.setBirthday(dataAddChild.getValue().toString().trim());
             System.out.println("Имя:" + child.getName()
-                + "Фамилия:" + child.getSurname()
-                + "Отчество:" + child.getPatronymic()
-                + "Пол:" + child.getGender().getName());
+                    + "Фамилия:" + child.getSurname()
+                    + "Отчество:" + child.getPatronymic()
+                    + "Пол:" + child.getGender().getName());
             Factory.getInstance().getChildDAO().addChild(child);
-
-            workersChild.setId_child(child.getId());
-
             Worker searchWorker = new Worker();
             searchWorker.setName(textAddNameWorkChild.getText().trim());
             searchWorker.setSurname(textAddSurWorkChild.getText().trim());
@@ -1962,20 +2153,20 @@ public class GeneralController extends AbstractController implements Initializab
                 System.out.println("Первая приблуда");
                 worker = listWorker.get(0);
                 if (worker.getName().equals(searchWorker.getName())
-                    && worker.getSurname().equals(searchWorker.getSurname())
-                    && worker.getPatronymic().equals(searchWorker.getPatronymic())) {
-                    workersChild.setId_worker(worker.getId());
-                    Factory.getInstance().getWorkersChildDAO().addWorkersChild(workersChild);
+                        && worker.getSurname().equals(searchWorker.getSurname())
+                        && worker.getPatronymic().equals(searchWorker.getPatronymic())) {
+                    worker.getChildren().add(child);
+                    Factory.getInstance().getWorkerDAO().updateWorker(worker);
                 } else if (listWorker.size() > 1) {
                     for (int i = 0; i < listWorker.size(); i++) {
                         System.out.println("Цикл номер " + i);
                         worker = listWorker.get(i);
                         if (worker.getName().equals(searchWorker.getName())
-                            && worker.getSurname().equals(searchWorker.getSurname())
-                            && worker.getPatronymic().equals(searchWorker.getPatronymic())) {
-                            workersChild.setId_child(worker.getId());
+                                && worker.getSurname().equals(searchWorker.getSurname())
+                                && worker.getPatronymic().equals(searchWorker.getPatronymic())) {
+                            worker.getChildren().add(child);
+                            Factory.getInstance().getWorkerDAO().updateWorker(worker);
                         }
-                        Factory.getInstance().getWorkersChildDAO().addWorkersChild(workersChild);
                     }
                 } else {
                     JOptionPane.showMessageDialog(null, "Такого родителя не существует");
@@ -1984,6 +2175,10 @@ public class GeneralController extends AbstractController implements Initializab
         } else {
             JOptionPane.showMessageDialog(null, "Заполнены не все поля");
         }
+        listChild.clear();
+        tableChild.getItems().clear();
+        listChild.addAll(Factory.getInstance().getChildDAO().getAllChildren());
+        tableChild.setItems(listChild);
     }
 
     public void BtnDeleteChild() throws SQLException {
@@ -1992,12 +2187,46 @@ public class GeneralController extends AbstractController implements Initializab
         Factory.getInstance().getChildDAO().deleteChildren(child);
         listChild.clear();
         tableChild.getItems().clear();
-        listChild.addAll(Factory.getInstance().getStudentDAO().getAllStudents());
+        listChild.addAll(Factory.getInstance().getChildDAO().getAllChildren());
         tableChild.setItems(listChild);
     }
 
     public void BtnSearchChild() throws SQLException {
+        TableView.TableViewSelectionModel selectionModel = tableChild.getSelectionModel();
+        child = listChild.get(selectionModel.getFocusedIndex());
+        if (textUpdateSurChild.getText().trim().length() > 1) {
+            student.setSurname(textUpdateSurChild.getText().trim());
+        }
+        if (textUpdateNameChild.getText().trim().length() > 1) {
+            student.setName(textUpdateNameChild.getText().trim());
+        }
+        if (textUpdatePatChild.getText().trim().length() > 4) {
+            child.setPatronymic(textUpdatePatChild.getText().trim());
+        }
 
+        if (dataUpdateChild.getValue().toString() != child.getBirthday().toString() && dataUpdateChild.getValue() != null) {
+            child.setBirthday(dataUpdateChild.getValue().toString().trim());
+        }
+        Gender gender = new Gender();
+        gender.setId(SelectOneCheckBox(checkUpdateGenderChildMan, checkUpdateGenderChildWoman));
+        child.setGender(gender);
+        /* System.out.println("SUR:" + worker.getSurname() + "PAT:"
+         + worker.getPatronymic() + "NAM:" + worker.getName() + "DR:"
+         + worker.getBirthday() + "BEN:" + worker.getBenefit()
+         + "DEP:" + worker.getDepartment() + "GEN:" + worker.getGender());*/
+        Factory.getInstance().getChildDAO().updateChild(child);
+
+        textUpdateSurChild.setText(null);
+        textUpdateNameChild.setText(null);
+        textUpdatePatChild.setText(null);
+        dataUpdateChild.setValue(null);
+        checkUpdateGenderChildMan.setSelected(false);
+        checkUpdateGenderChildWoman.setSelected(false);
+
+        listChild.clear();
+        tableChild.getItems().clear();
+        listChild.addAll(Factory.getInstance().getChildDAO().getAllChildren());
+        tableChild.setItems(listChild);
     }
 
     public void BtnUpdateChild() throws SQLException {
@@ -2022,8 +2251,8 @@ public class GeneralController extends AbstractController implements Initializab
         workersChild.setId_child(child.getId());
         Worker searchWorker = new Worker();
         if (textUpdateSurWorkChild.getText().trim().length() > 1
-            && textUpdateNameWorkChild.getText().trim().length() > 1
-            && textUpdatePatWorkChild.getText().trim().length() > 4) {
+                && textUpdateNameWorkChild.getText().trim().length() > 1
+                && textUpdatePatWorkChild.getText().trim().length() > 4) {
             searchWorker.setSurname(textUpdateSurWorkChild.getText().trim());
             searchWorker.setName(textUpdateNameWorkChild.getText().trim());
             searchWorker.setPatronymic(textUpdatePatWorkChild.getText().trim());
@@ -2031,8 +2260,8 @@ public class GeneralController extends AbstractController implements Initializab
         if (listWorker.size() == 1) {
             worker = listWorker.get(0);
             if (worker.getName().equals(searchWorker.getName())
-                && worker.getSurname().equals(searchWorker.getSurname())
-                && worker.getPatronymic().equals(searchWorker.getPatronymic())) {
+                    && worker.getSurname().equals(searchWorker.getSurname())
+                    && worker.getPatronymic().equals(searchWorker.getPatronymic())) {
                 workersChild.setId_worker(worker.getId());
                 Factory.getInstance().getWorkersChildDAO().updateWorkersChild(workersChild);
             } else if (listWorker.size() > 1) {
@@ -2040,8 +2269,8 @@ public class GeneralController extends AbstractController implements Initializab
                     System.out.println("Цикл номер " + i);
                     worker = listWorker.get(i);
                     if (worker.getName().equals(searchWorker.getName())
-                        && worker.getSurname().equals(searchWorker.getSurname())
-                        && worker.getPatronymic().equals(searchWorker.getPatronymic())) {
+                            && worker.getSurname().equals(searchWorker.getSurname())
+                            && worker.getPatronymic().equals(searchWorker.getPatronymic())) {
                         workersChild.setId_child(worker.getId());
                     }
                     Factory.getInstance().getWorkersChildDAO().updateWorkersChild(workersChild);

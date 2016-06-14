@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="328.0" prefWidth="488.0" styleClass="window" stylesheets="@../../../../target/classes/styles/Login.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller=".ReportController">
+   <children>
+      <ComboBox fx:id="comboReport" layoutX="40.0" layoutY="70.0" prefHeight="25.0" prefWidth="184.0" />
+      <Button fx:id="btnGetReport" layoutX="274.0" layoutY="70.0" mnemonicParsing="false" text="Получить" />
+      <Label layoutX="400.0" layoutY="6.0" text="Меню отчётов" />
+   </children>
+</AnchorPane>

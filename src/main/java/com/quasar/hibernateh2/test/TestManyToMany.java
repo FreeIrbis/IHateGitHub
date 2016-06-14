@@ -4,6 +4,7 @@ import com.quasar.hibernateh2.dao.Factory;
 import com.quasar.hibernateh2.dao.entity.Child;
 import com.quasar.hibernateh2.dao.entity.Gender;
 import com.quasar.hibernateh2.dao.entity.Worker;
+import com.quasar.hibernateh2.dao.entity.WorkersChild;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
@@ -16,11 +17,11 @@ import java.util.logging.Logger;
 public class TestManyToMany {
     public static void main(String[] args) {
         try {
-            //        Worker w1 = new Worker("Black Black");
-//        Worker w2 = new Worker("White White");
-//
-//        Factory.getInstance().getWorkerDAO().addWorker(w1);
-//        Factory.getInstance().getWorkerDAO().addWorker(w2);
+                    Worker w1 = new Worker("Black Black");
+       Worker w2 = new Worker("White White");
+
+       Factory.getInstance().getWorkerDAO().addWorker(w1);
+      Factory.getInstance().getWorkerDAO().addWorker(w2);
             List<Worker> workers = Factory.getInstance().getWorkerDAO().getAllWorkers();
 //        Gender m = new Gender("м", 1L);
 //        Gender g = new Gender("Ж", 2L);
@@ -45,6 +46,11 @@ public class TestManyToMany {
                 }
                 System.out.println("_________________________________________");
             }
+            
+            WorkersChild ws = Factory.getInstance().getWorkersChildDAO().getWorkersChildById(1L);
+            System.out.println(ws.getId_child()+"-----"+
+            ws.getId_worker());
+                    
             
         } catch (SQLException ex) {
             Logger.getLogger(TestManyToMany.class.getName()).log(Level.SEVERE, null, ex);

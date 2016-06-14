@@ -45,7 +45,7 @@ public class Role extends Model implements Serializable {
 
     @Override
     public String toString() {
-        return "Role{" + "title=" + title + '}';
+        return getTitle();
     }
    
 }

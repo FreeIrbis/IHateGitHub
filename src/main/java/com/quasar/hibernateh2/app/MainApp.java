@@ -7,17 +7,20 @@ import com.quasar.hibernateh2.dao.hiber_util.HibernateUtil;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.InputStream;
-import java.util.Timer;
-import java.util.TimerTask;
+import static java.lang.Math.E;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.FadeTransition;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.event.EventType;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Scene;
+import javafx.scene.control.Menu;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -83,6 +86,23 @@ public class MainApp extends Application {
             login.setApp(this);
             Scene scene = stage.getScene();
             scene.getStylesheets().add("/styles/Login.css");
+            stage.setMinWidth(stage.getWidth());
+            stage.setMinHeight(stage.getHeight());
+            // запрет изменения размера окна
+            stage.setResizable(false);
+        } catch (Exception ex) {
+            Logger.getLogger(MainApp.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void gotoSettings() {
+        try {
+            int xLogin = 600;
+            int yLogin = 420;
+            SettingsController login = (SettingsController) replaceSceneContent("/fxml/Settings.fxml", xLogin, yLogin);
+            login.setApp(this);
+            Scene scene = stage.getScene();
+            scene.getStylesheets().add("/styles/Settings.css");
             stage.setMinWidth(stage.getWidth());
             stage.setMinHeight(stage.getHeight());
             // запрет изменения размера окна
@@ -168,7 +188,11 @@ public class MainApp extends Application {
             return false;
         }
     }
-
+    
+     public void openSettings(ActionEvent e) {
+        gotoSettings();
+    }
+     
     public Stage getStage() {
         return stage;
     }
