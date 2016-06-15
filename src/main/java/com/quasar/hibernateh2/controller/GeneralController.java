@@ -15,6 +15,8 @@ import com.quasar.hibernateh2.dao.entity.Role;
 import com.quasar.hibernateh2.dao.entity.Student;
 import com.quasar.hibernateh2.dao.entity.Worker;
 import com.quasar.hibernateh2.dao.entity.WorkersChild;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -50,6 +52,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
@@ -440,25 +443,25 @@ public class GeneralController extends AbstractController implements Initializab
 
     @FXML
     public TextField textAddNameBenefit;
-    
+
     @FXML
     public TextField textUpdateNameBenefit;
-    
+
     @FXML
     public Button btnAddBenefit;
-    
+
     @FXML
     public ComboBox<Benefit> comboBenefit;
-    
+
     @FXML
     public TableView<Benefit> tableBenefit;
-    
+
     @FXML
     public TableColumn<Benefit, String> NameBenefitColumn;
-    
+
     @FXML
     public Button btnUpdateBenefit;
-    
+
     @FXML
     public Button btnDeleteBenefit;
 
@@ -466,19 +469,41 @@ public class GeneralController extends AbstractController implements Initializab
 
     @FXML
     public AnchorPane settings;
-    
+
+    private static final Toolkit kit = Toolkit.getDefaultToolkit();
+    private static final Dimension screenSize = kit.getScreenSize();
+
+    private static int lx;
+    private static int ly;
+
     public void openSet(ActionEvent event) throws IOException {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/Settings.fxml"));
-            Parent root1 = (Parent) fxmlLoader.load();
-            Stage stage = new Stage();
-            //stage.initModality(Modality.APPLICATION_MODAL);
-            //stage.initStyle(StageStyle.UNDECORATED);
-            stage.setTitle("ABC");
-            stage.setScene(new Scene(root1));  
-            Scene scene = stage.getScene();
-            scene.getStylesheets().add("/styles/Login.css");
-            stage.show();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/Settings.fxml"));
+        Parent root1 = (Parent) fxmlLoader.load();
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        //stage.initStyle(StageStyle.UNDECORATED);
+        stage.setTitle("Настройки");
+        stage.setScene(new Scene(root1));
+        Scene scene = stage.getScene();
+        scene.getStylesheets().add("/styles/Login.css");
+        stage.setResizable(false);
+        // установка иконки
+        Image ix = new Image("/icon/lock.png");
+        stage.getIcons().add(ix);
+        stage.centerOnScreen();
+        
+        lx = screenSize.width;
+        ly = screenSize.height;
+
+        double x = lx / 2 - 600 / 2;
+        double y = ly / 2 - 400 / 2;
+
+        stage.setX(x);
+        stage.setY(y);
+
+        stage.show();
     }
+
     @FXML
     private void CheckAddGenderWorkers(ActionEvent e) {
         ChekedOneCheckBox(checkAddGenderMan, checkAddGenderWoman);
@@ -1696,9 +1721,9 @@ public class GeneralController extends AbstractController implements Initializab
             worker.setDepartment(department);
         }
 
-            Benefit benefit = benUpdateWorker.getSelectionModel().getSelectedItem();
-            worker.setBenefit(benefit);
-        
+        Benefit benefit = benUpdateWorker.getSelectionModel().getSelectedItem();
+        worker.setBenefit(benefit);
+
         if (posUpdateWorker.getValue().toString() != worker.getPosition().getName()) {
             Position position = posUpdateWorker.getSelectionModel().getSelectedItem();
             worker.setPosition(position);
@@ -1710,9 +1735,9 @@ public class GeneralController extends AbstractController implements Initializab
         gender.setId(SelectOneCheckBox(checkUpdateGenderMan, checkUpdateGenderWoman));
         worker.setGender(gender);
         System.out.println("SUR:" + worker.getSurname() + "PAT:"
-                + worker.getPatronymic() + "NAM:" + worker.getName() + "DR:"
-                + worker.getBirthday() + "BEN:" + worker.getBenefit()
-                + "DEP:" + worker.getDepartment() + "GEN:" + worker.getGender());
+            + worker.getPatronymic() + "NAM:" + worker.getName() + "DR:"
+            + worker.getBirthday() + "BEN:" + worker.getBenefit()
+            + "DEP:" + worker.getDepartment() + "GEN:" + worker.getGender());
         Factory.getInstance().getWorkerDAO().updateWorker(worker);
         worker = null;
         textUpdateSurWorker.setText(null);
@@ -1753,12 +1778,12 @@ public class GeneralController extends AbstractController implements Initializab
 
     public void BtnAddWorker() throws SQLException {
         if (textAddSurWorker.getText().trim().length() > 4
-                && textAddNameWorker.getText().trim().length() > 4
-                && textAddPatWorker.getText().trim().length() > 4
-                && dataAddWorker.getValue().toString().trim().length() > 4
-                && depAddWorker.getValue() != null
-                && posAddWorker.getValue() != null
-                && branchAddWorker.getValue() != null) {
+            && textAddNameWorker.getText().trim().length() > 4
+            && textAddPatWorker.getText().trim().length() > 4
+            && dataAddWorker.getValue().toString().trim().length() > 4
+            && depAddWorker.getValue() != null
+            && posAddWorker.getValue() != null
+            && branchAddWorker.getValue() != null) {
             worker.setSurname(textAddSurWorker.getText().trim());
             worker.setName(textAddNameWorker.getText().trim());
             worker.setPatronymic(textAddPatWorker.getText().trim());
@@ -1768,9 +1793,10 @@ public class GeneralController extends AbstractController implements Initializab
             worker.setBirthday(dataAddWorker.getValue().toString());
             Department department = depAddWorker.getSelectionModel().getSelectedItem();
             worker.setDepartment(department);
-            if(branchAddWorker.getSelectionModel().getSelectedItem()!=null){
-            Branch branch = branchAddWorker.getSelectionModel().getSelectedItem();
-            worker.setBranch(branch);}
+            if (branchAddWorker.getSelectionModel().getSelectedItem() != null) {
+                Branch branch = branchAddWorker.getSelectionModel().getSelectedItem();
+                worker.setBranch(branch);
+            }
             position = posAddWorker.getSelectionModel().getSelectedItem();
             worker.setPosition(position);
             Benefit benefit = benAddWorker.getSelectionModel().getSelectedItem();
@@ -2029,13 +2055,13 @@ public class GeneralController extends AbstractController implements Initializab
 
     public void BtnAddStudent() throws SQLException {
         if (textAddSurStudent.getText().trim().length() > 4
-                && textAddNameStudent.getText().trim().length() > 4
-                && textAddPatStudent.getText().trim().length() > 4
-                && dataAddStudent.getValue().toString().trim().length() > 4
-                && depAddStudent.getValue() != null
-                && groupAddStudent.getValue() != null
-                && benAddStudent.getValue() != null
-                && roleAddStudent.getValue() != null) {
+            && textAddNameStudent.getText().trim().length() > 4
+            && textAddPatStudent.getText().trim().length() > 4
+            && dataAddStudent.getValue().toString().trim().length() > 4
+            && depAddStudent.getValue() != null
+            && groupAddStudent.getValue() != null
+            && benAddStudent.getValue() != null
+            && roleAddStudent.getValue() != null) {
             student.setSurname(textAddSurStudent.getText().trim());
             student.setName(textAddNameStudent.getText().trim());
             student.setPatronymic(textAddPatStudent.getText().trim());
@@ -2126,12 +2152,12 @@ public class GeneralController extends AbstractController implements Initializab
 
     public void BtnAddChild() throws SQLException {
         if (textAddSurChild.getText().trim().length() > 4
-                && textAddNameChild.getText().trim().length() > 4
-                && textAddPatChild.getText().trim().length() > 4
-                && dataAddChild.getValue().toString().trim().length() > 4
-                && textAddNameWorkChild.getText().trim().length() > 4
-                && textAddPatWorkChild.getText().trim().length() > 4
-                && textAddSurWorkChild.getText().trim().length() > 4) {
+            && textAddNameChild.getText().trim().length() > 4
+            && textAddPatChild.getText().trim().length() > 4
+            && dataAddChild.getValue().toString().trim().length() > 4
+            && textAddNameWorkChild.getText().trim().length() > 4
+            && textAddPatWorkChild.getText().trim().length() > 4
+            && textAddSurWorkChild.getText().trim().length() > 4) {
             child.setSurname(textAddSurChild.getText().trim());
             child.setName(textAddNameChild.getText().trim());
             child.setPatronymic(textAddPatChild.getText().trim());
@@ -2140,9 +2166,9 @@ public class GeneralController extends AbstractController implements Initializab
             child.setGender(gender);
             child.setBirthday(dataAddChild.getValue().toString().trim());
             System.out.println("Имя:" + child.getName()
-                    + "Фамилия:" + child.getSurname()
-                    + "Отчество:" + child.getPatronymic()
-                    + "Пол:" + child.getGender().getName());
+                + "Фамилия:" + child.getSurname()
+                + "Отчество:" + child.getPatronymic()
+                + "Пол:" + child.getGender().getName());
             Factory.getInstance().getChildDAO().addChild(child);
             Worker searchWorker = new Worker();
             searchWorker.setName(textAddNameWorkChild.getText().trim());
@@ -2153,8 +2179,8 @@ public class GeneralController extends AbstractController implements Initializab
                 System.out.println("Первая приблуда");
                 worker = listWorker.get(0);
                 if (worker.getName().equals(searchWorker.getName())
-                        && worker.getSurname().equals(searchWorker.getSurname())
-                        && worker.getPatronymic().equals(searchWorker.getPatronymic())) {
+                    && worker.getSurname().equals(searchWorker.getSurname())
+                    && worker.getPatronymic().equals(searchWorker.getPatronymic())) {
                     worker.getChildren().add(child);
                     Factory.getInstance().getWorkerDAO().updateWorker(worker);
                 } else if (listWorker.size() > 1) {
@@ -2162,8 +2188,8 @@ public class GeneralController extends AbstractController implements Initializab
                         System.out.println("Цикл номер " + i);
                         worker = listWorker.get(i);
                         if (worker.getName().equals(searchWorker.getName())
-                                && worker.getSurname().equals(searchWorker.getSurname())
-                                && worker.getPatronymic().equals(searchWorker.getPatronymic())) {
+                            && worker.getSurname().equals(searchWorker.getSurname())
+                            && worker.getPatronymic().equals(searchWorker.getPatronymic())) {
                             worker.getChildren().add(child);
                             Factory.getInstance().getWorkerDAO().updateWorker(worker);
                         }
@@ -2251,8 +2277,8 @@ public class GeneralController extends AbstractController implements Initializab
         workersChild.setId_child(child.getId());
         Worker searchWorker = new Worker();
         if (textUpdateSurWorkChild.getText().trim().length() > 1
-                && textUpdateNameWorkChild.getText().trim().length() > 1
-                && textUpdatePatWorkChild.getText().trim().length() > 4) {
+            && textUpdateNameWorkChild.getText().trim().length() > 1
+            && textUpdatePatWorkChild.getText().trim().length() > 4) {
             searchWorker.setSurname(textUpdateSurWorkChild.getText().trim());
             searchWorker.setName(textUpdateNameWorkChild.getText().trim());
             searchWorker.setPatronymic(textUpdatePatWorkChild.getText().trim());
@@ -2260,8 +2286,8 @@ public class GeneralController extends AbstractController implements Initializab
         if (listWorker.size() == 1) {
             worker = listWorker.get(0);
             if (worker.getName().equals(searchWorker.getName())
-                    && worker.getSurname().equals(searchWorker.getSurname())
-                    && worker.getPatronymic().equals(searchWorker.getPatronymic())) {
+                && worker.getSurname().equals(searchWorker.getSurname())
+                && worker.getPatronymic().equals(searchWorker.getPatronymic())) {
                 workersChild.setId_worker(worker.getId());
                 Factory.getInstance().getWorkersChildDAO().updateWorkersChild(workersChild);
             } else if (listWorker.size() > 1) {
@@ -2269,8 +2295,8 @@ public class GeneralController extends AbstractController implements Initializab
                     System.out.println("Цикл номер " + i);
                     worker = listWorker.get(i);
                     if (worker.getName().equals(searchWorker.getName())
-                            && worker.getSurname().equals(searchWorker.getSurname())
-                            && worker.getPatronymic().equals(searchWorker.getPatronymic())) {
+                        && worker.getSurname().equals(searchWorker.getSurname())
+                        && worker.getPatronymic().equals(searchWorker.getPatronymic())) {
                         workersChild.setId_child(worker.getId());
                     }
                     Factory.getInstance().getWorkersChildDAO().updateWorkersChild(workersChild);
