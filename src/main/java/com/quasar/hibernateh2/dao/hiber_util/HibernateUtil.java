@@ -14,14 +14,16 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
 public class HibernateUtil {
+    
+    private static final String NAME_DB = "./test.mv.db";
 
     private static SessionFactory sessionFactory;
     private static ServiceRegistry serviceRegistry;
 
     static {
         try {
-            boolean initFromXML = true;
-            boolean dbExists = new File("./test.mv.db").exists();
+            boolean initFromXML = false;
+            boolean dbExists = new File(NAME_DB).exists();
 
             Configuration configuration = new Configuration();
 
@@ -63,14 +65,16 @@ public class HibernateUtil {
 
     private static void initFromJava(Configuration configuration) {
         System.out.println("Настройка из java");
+        
+        configuration.configure();
         // we can set mapping file or class with annotation
         // addClass(Employee1.class) will look for resource
         // com/journaldev/hibernate/model/Employee1.hbm.xml (not good)
         Properties prop = new Properties();
         prop.setProperty("hibernate.connection.driver_class", "org.h2.Driver");
         prop.setProperty("hibernate.connection.url", "jdbc:h2:./test");
-        prop.setProperty("hibernate.connection.username", "");
-        prop.setProperty("hibernate.connection.password", "");
+        prop.setProperty("hibernate.connection.username", "admin");
+        prop.setProperty("hibernate.connection.password", "admin");
         prop.setProperty("hibernate.default_schema", "PUBLIC");
         // SQL dialect
         prop.setProperty("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
@@ -94,6 +98,7 @@ public class HibernateUtil {
             .addAnnotatedClass(Groups.class)
             .addAnnotatedClass(Position.class)
             .addAnnotatedClass(Role.class)
+            .addAnnotatedClass(User.class)
             .addAnnotatedClass(Student.class)
             .addAnnotatedClass(Worker.class)
             .addAnnotatedClass(WorkersChild.class);
