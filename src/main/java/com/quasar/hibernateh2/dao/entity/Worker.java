@@ -20,7 +20,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "worker")
-public class Worker extends Model implements Serializable {
+public class Worker extends Model implements ExelModel,Serializable {
 
     private static final long serialVersionUID = 1573501611425593245L;
 
@@ -154,49 +154,19 @@ public class Worker extends Model implements Serializable {
         this.children = children;
     }
 
+    @Override
     public List<String> convertToListStrings() {
         List<String> list = new ArrayList<>();
-        if (name == null) {
-            System.out.println("null");
-        } else {
             list.add(name);
-        }
-        if (surname == null) {
-            System.out.println("null");
-        } else {
             list.add(surname);
-        }
-        if (patronymic == null) {
-            System.out.println("null");
-        } else {
             list.add(patronymic);
-        }
-        if (birthday == null) {
-            System.out.println("null");
-        } else {
             list.add(birthday);
-        }
-        if (gender.getName() == null) {
-            System.out.println("null");
-        } else {
             list.add(gender.getName());
-        }
-        if (benefit.getName() == null) {
-            System.out.println("null");
-        } else {
+            list.add(position.getName());
             list.add(benefit.getName());
-        }
-        if (department.getName() == null) {
-            System.out.println("null");
-        } else {
             list.add(department.getName());
-        }
-        /*list.add(surname);
-         list.add(patronymic);
-         list.add(birthday.toString());
-         list.add(gender.getName());
-         list.add(benefit.getName());
-         list.add(department.getName());*/
+            list.add(branch.getName());
+
         return list;
     }
 }

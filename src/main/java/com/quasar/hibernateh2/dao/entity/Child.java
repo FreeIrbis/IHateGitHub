@@ -5,7 +5,9 @@ package com.quasar.hibernateh2.dao.entity;
  * @author Irbis
  */
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,7 +19,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "children")
-public class Child extends Model implements Serializable {
+public class Child extends Model implements ExelModel,Serializable {
 
     private static final long serialVersionUID = 1990501617629593245L;
 
@@ -90,6 +92,17 @@ public class Child extends Model implements Serializable {
 
     public void setGender(Gender s) {
         gender = s;
+    }
+
+    @Override
+    public List<String> convertToListStrings() {
+        List<String> list = new ArrayList<>();
+        list.add(name);
+        list.add(surname);
+        list.add(patronymic);
+        list.add(birthday);
+        list.add(gender.getName());
+        return list;
     }
 
 }

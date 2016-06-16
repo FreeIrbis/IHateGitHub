@@ -70,10 +70,10 @@ public class ChildDAOImpl implements ChildDAO {
     @Override
     public List<Child> getAllChildren() throws SQLException {
     Session session = null;
-        List<Child> childs = new ArrayList<>();
+        List<Child> child = new ArrayList<>();
         try {
             session = HibernateUtil.getSessionFactory().openSession();
-            childs = session.createCriteria(Child.class).list();
+            child = session.createCriteria(Child.class).list();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Ошибка I/O", JOptionPane.OK_OPTION);
         } finally {
@@ -81,7 +81,8 @@ public class ChildDAOImpl implements ChildDAO {
                 session.close();
             }
         }
-        return childs;}
+        return child;
+    }
 
     @Override
     public void deleteChildren(Child child) throws SQLException {

@@ -14,12 +14,12 @@
                 <Image url="@../image/logo.png" />
             </image>
         </ImageView>
-        <TextField fx:id="login" layoutX="160.0" layoutY="136.0" prefHeight="38.0" prefWidth="265.0" promptText="Введите логин" text="demo">
+        <TextField fx:id="login" layoutX="160.0" layoutY="136.0" prefHeight="38.0" prefWidth="265.0" promptText="Введите логин">
             <font>
                 <Font size="18.0" />
             </font>
         </TextField>
-        <PasswordField fx:id="password" layoutX="160.0" layoutY="206.0" prefHeight="38.0" prefWidth="265.0" promptText="Введите пароль" text="demo">
+        <PasswordField fx:id="password" layoutX="160.0" layoutY="206.0" prefHeight="38.0" prefWidth="265.0" promptText="Введите пароль">
             <font>
                 <Font size="18.0" />
             </font>

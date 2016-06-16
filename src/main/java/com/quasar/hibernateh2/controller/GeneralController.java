@@ -8,6 +8,7 @@ import com.quasar.hibernateh2.dao.entity.Benefit;
 import com.quasar.hibernateh2.dao.entity.Branch;
 import com.quasar.hibernateh2.dao.entity.Child;
 import com.quasar.hibernateh2.dao.entity.Department;
+import com.quasar.hibernateh2.dao.entity.ExelModel;
 import com.quasar.hibernateh2.dao.entity.Gender;
 import com.quasar.hibernateh2.dao.entity.Groups;
 import com.quasar.hibernateh2.dao.entity.Position;
@@ -15,6 +16,8 @@ import com.quasar.hibernateh2.dao.entity.Role;
 import com.quasar.hibernateh2.dao.entity.Student;
 import com.quasar.hibernateh2.dao.entity.Worker;
 import com.quasar.hibernateh2.dao.entity.WorkersChild;
+import com.quasar.hibernateh2.util.exel.ExelType;
+import com.quasar.hibernateh2.util.exel.ExelWriter;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.IOException;
@@ -466,9 +469,23 @@ public class GeneralController extends AbstractController implements Initializab
     public Button btnDeleteBenefit;
 
     List<Benefit> listBenefits = null;
+    
+    public void getReportWorkers() throws SQLException{
+    List<ExelModel> report = null;
+    report.addAll((List<Worker>)listWorker);
+            List<List<String>> listForReport = new ArrayList<>();
+            for (ExelModel exModel : report) {
+                listForReport.add(exModel.convertToListStrings());
+                System.out.println(exModel.convertToListStrings());
+            }
+            ExelWriter ew = new ExelWriter(ExelType.XLSX);
+            try {
+                ew.write(listForReport, "./worler.xlsx", "worker");
+                System.out.println("xls");
 
-    @FXML
-    public AnchorPane settings;
+            } catch (IOException ex) {
+                Logger.getLogger(ReportController.class.getName()).log(Level.SEVERE, null, ex);
+            }}
 
     private static final Toolkit kit = Toolkit.getDefaultToolkit();
     private static final Dimension screenSize = kit.getScreenSize();
@@ -491,7 +508,35 @@ public class GeneralController extends AbstractController implements Initializab
         Image ix = new Image("/icon/lock.png");
         stage.getIcons().add(ix);
         stage.centerOnScreen();
-        
+
+        lx = screenSize.width;
+        ly = screenSize.height;
+
+        double x = lx / 2 - 600 / 2;
+        double y = ly / 2 - 400 / 2;
+
+        stage.setX(x);
+        stage.setY(y);
+
+        stage.show();
+    }
+
+    public void openRep(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/Report.fxml"));
+        Parent root2 = (Parent) fxmlLoader.load();
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        //stage.initStyle(StageStyle.UNDECORATED);
+        stage.setTitle("Отчёт");
+        stage.setScene(new Scene(root2));
+        Scene scene = stage.getScene();
+        scene.getStylesheets().add("/styles/Login.css");
+        stage.setResizable(false);
+        // установка иконки
+        Image ix = new Image("/icon/lock.png");
+        stage.getIcons().add(ix);
+        stage.centerOnScreen();
+
         lx = screenSize.width;
         ly = screenSize.height;
 
@@ -760,7 +805,7 @@ public class GeneralController extends AbstractController implements Initializab
                             }
                         };
                     });
-
+                    listBranchs.clear();
                     listBranchs = Factory.getInstance().getBranchDAO().getAllBranchs();
                     branchAddWorker.setItems(FXCollections.observableArrayList(listBranchs));
                     branchAddWorker.setCellFactory((comboBox) -> {
@@ -916,6 +961,37 @@ public class GeneralController extends AbstractController implements Initializab
                 };
             });
 
+            branchUpdateWorker.setItems(FXCollections.observableArrayList(listBranch));
+            branchUpdateWorker.setCellFactory((comboBox) -> {
+                return new ListCell<Branch>() {
+                    @Override
+                    protected void updateItem(Branch item, boolean empty) {
+                        super.updateItem(item, empty);
+
+                        if (item == null || empty) {
+                            setText(null);
+                        } else {
+                            setText(item.getName());
+                        }
+                    }
+                };
+            });
+
+            branchAddWorker.setItems(FXCollections.observableArrayList(listBranch));
+            branchUpdateWorker.setCellFactory((comboBox) -> {
+                return new ListCell<Branch>() {
+                    @Override
+                    protected void updateItem(Branch item, boolean empty) {
+                        super.updateItem(item, empty);
+
+                        if (item == null || empty) {
+                            setText(null);
+                        } else {
+                            setText(item.getName());
+                        }
+                    }
+                };
+            });
             depAddWorker.setItems(FXCollections.observableArrayList(listDepartments));
             benUpdateWorker.setItems(FXCollections.observableArrayList(listBenefits));
             benUpdateWorker.setCellFactory((comboBox) -> {
@@ -1548,7 +1624,14 @@ public class GeneralController extends AbstractController implements Initializab
         }
     }
 
-    public Long BtnSearchWorker() throws SQLException {
+    public void BtnSearchWorker() throws SQLException {
+        listWorker.clear();
+        listWorker.addAll(Factory.getInstance().getWorkerDAO().getAllWorkers());
+        tableWorker.setItems(listWorker);
+        for (int index = 0; index < listWorker.size(); index++) {
+            worker = listWorker.get(index);
+            System.out.println(listWorker.get(index).convertToListStrings());
+        }
         boolean searchBool = true;
         Worker searchWorker = new Worker();
         if (textUpdateSurWorker.getText().length() > 1) {
@@ -1580,11 +1663,9 @@ public class GeneralController extends AbstractController implements Initializab
             gender.setId(SelectOneCheckBox(checkUpdateGenderMan, checkUpdateGenderWoman));
             searchWorker.setGender(gender);
         }
-
-        for (int index = 0; index < listWorker.size(); index++) {
-            worker = listWorker.get(index);
-            System.out.println(listWorker.get(index).convertToListStrings());
-            System.out.println("Тупой, сука!");
+        if (listWorker.size()==0) {
+            worker = listWorker.get(0);
+            System.out.println(listWorker.get(0).convertToListStrings());
 
             if (searchWorker.getSurname() != null && searchBool == true) {
                 if (searchWorker.getSurname().toString().equals(worker.getSurname().toString())) {
@@ -1662,25 +1743,111 @@ public class GeneralController extends AbstractController implements Initializab
             } else {
                 searchBool = true;
             }
-            if (listWorker.size() == 0) {
-                break;
+
+        } else {
+            for (int index = 1; index < listWorker.size(); index++) {
+                worker = listWorker.get(index);
+                System.out.println(listWorker.get(index).convertToListStrings());
+
+                if (searchWorker.getSurname() != null && searchBool == true) {
+                    if (searchWorker.getSurname().toString().equals(worker.getSurname().toString())) {
+
+                    } else {
+                        searchBool = false;
+                    }
+                } else {
+                }
+                if (searchWorker.getName() != null && searchBool == true) {
+                    if (worker.getName().toString().equals(searchWorker.getName().toString())) {
+
+                    } else {
+                        searchBool = false;
+                    }
+                } else {
+
+                }
+                if (searchWorker.getPatronymic() != null && searchBool == true) {
+                    if (worker.getPatronymic().toString().equals(searchWorker.getPatronymic().toString())) {
+                    } else {
+                        searchBool = false;
+                    }
+                } else {
+
+                }
+                if (searchWorker.getBirthday() != null && searchBool == true) {
+                    if (worker.getBirthday().toString().equals(searchWorker.getBirthday().toString())) {
+
+                    } else {
+                        searchBool = false;
+                    }
+                } else {
+
+                }
+                if (searchWorker.getBenefit() != null && searchBool == true) {
+                    if (worker.getBenefit().toString().equals(searchWorker.getBenefit().toString())) {
+                        searchBool = false;
+                    } else {
+
+                    }
+                } else {
+
+                }
+                if (searchWorker.getDepartment() != null && searchBool == true) {
+                    if (worker.getDepartment().toString().equals(searchWorker.getDepartment().toString())) {
+
+                    } else {
+                        searchBool = false;
+                    }
+                } else {
+
+                }
+
+                if (searchWorker.getPosition() != null && searchBool == true) {
+                    if (worker.getPosition().toString().equals(searchWorker.getPosition().toString())) {
+
+                    } else {
+                        searchBool = false;
+                    }
+                } else {
+
+                }
+                if (searchWorker.getGender() != null && searchBool == true) {
+                    if (worker.getGender() == searchWorker.getGender()) {
+
+                    } else {
+                        searchBool = false;
+                    }
+                } else {
+
+                }
+                if (searchBool == true) {
+                    listSearchWorker.add(worker);
+                } else {
+                    searchBool = true;
+                }
+                if (listWorker.size() == 1) {
+                    break;
+                }
+
             }
 
         }
-
         listWorker = listSearchWorker;
         tableWorker.getItems().clear();
-        tableWorker.setItems(listSearchWorker);
+        tableWorker.setItems(listWorker);
         checkUpdateGenderMan.setSelected(false);
         checkUpdateGenderWoman.setSelected(false);
-        textUpdateSurWorker.setText("");
-        textUpdateNameWorker.setText("");
-        textUpdatePatWorker.setText("");
+        textUpdateSurWorker.clear();
+        textUpdateNameWorker.clear();
+        textUpdatePatWorker.clear();
         dataUpdateWorker.setValue(null);
         depUpdateWorker.setValue(null);
         posUpdateWorker.setValue(null);
         benUpdateWorker.setValue(null);
-        return worker.getId();
+        for (int index = 0; index < listWorker.size(); index++) {
+            worker = listWorker.get(index);
+            System.out.println(listWorker.get(index).convertToListStrings());
+        }
     }
 
     public void SelectRowTableWorker() throws SQLException {
@@ -1695,6 +1862,7 @@ public class GeneralController extends AbstractController implements Initializab
         depUpdateWorker.setValue(worker.getDepartment());
         posUpdateWorker.setValue(worker.getPosition());
         benUpdateWorker.setValue(worker.getBenefit());
+        branchUpdateWorker.setValue(worker.getBranch());
         checkUpdateGenderMan.setSelected(false);
         checkUpdateGenderWoman.setSelected(false);
         if (worker.getGender().getId() == 1L) {
@@ -1707,83 +1875,98 @@ public class GeneralController extends AbstractController implements Initializab
     public void BtnUpdateWorker() throws SQLException {
         TableView.TableViewSelectionModel selectionModel = tableWorker.getSelectionModel();
         worker = listWorker.get(selectionModel.getFocusedIndex());
-        if (textUpdateSurWorker.getText().trim().length() > 1) {
-            worker.setSurname(textUpdateSurWorker.getText().trim());
-        }
-        if (textUpdateNameWorker.getText().trim().length() > 1) {
-            worker.setName(textUpdateNameWorker.getText().trim());
-        }
-        if (textUpdatePatWorker.getText().trim().length() > 4) {
-            worker.setPatronymic(textUpdatePatWorker.getText().trim());
-        }
-        if (depUpdateWorker.getValue().toString() != worker.getDepartment().getName()) {
-            Department department = depUpdateWorker.getSelectionModel().getSelectedItem();
-            worker.setDepartment(department);
-        }
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Редактирование");
+        alert.setContentText("Вы действительно хотите редактировать запись?");
 
-        Benefit benefit = benUpdateWorker.getSelectionModel().getSelectedItem();
-        worker.setBenefit(benefit);
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            if (textUpdateSurWorker.getText().trim().length() > 1) {
+                worker.setSurname(textUpdateSurWorker.getText().trim());
+            }
+            if (textUpdateNameWorker.getText().trim().length() > 1) {
+                worker.setName(textUpdateNameWorker.getText().trim());
+            }
+            if (textUpdatePatWorker.getText().trim().length() > 4) {
+                worker.setPatronymic(textUpdatePatWorker.getText().trim());
+            }
+            if (depUpdateWorker.getValue().toString() != worker.getDepartment().getName()) {
+                Department department = depUpdateWorker.getSelectionModel().getSelectedItem();
+                worker.setDepartment(department);
+            }
 
-        if (posUpdateWorker.getValue().toString() != worker.getPosition().getName()) {
-            Position position = posUpdateWorker.getSelectionModel().getSelectedItem();
-            worker.setPosition(position);
-        }
-        if (dataUpdateWorker.getValue().toString() != worker.getBirthday().toString() && dataUpdateWorker.getValue() != null) {
-            worker.setBirthday(dataUpdateWorker.getValue().toString().trim());
-        }
-        Gender gender = new Gender();
-        gender.setId(SelectOneCheckBox(checkUpdateGenderMan, checkUpdateGenderWoman));
-        worker.setGender(gender);
-        System.out.println("SUR:" + worker.getSurname() + "PAT:"
-            + worker.getPatronymic() + "NAM:" + worker.getName() + "DR:"
-            + worker.getBirthday() + "BEN:" + worker.getBenefit()
-            + "DEP:" + worker.getDepartment() + "GEN:" + worker.getGender());
-        Factory.getInstance().getWorkerDAO().updateWorker(worker);
-        worker = null;
-        textUpdateSurWorker.setText(null);
-        textUpdateNameWorker.setText(null);
-        textUpdatePatWorker.setText(null);
-        dataUpdateWorker.setValue(null);
-        checkUpdateGenderMan.setSelected(false);
-        checkUpdateGenderWoman.setSelected(false);
-        depUpdateWorker.setValue(null);
-        posUpdateWorker.setValue(null);
-        benUpdateWorker.setValue(null);
-        branchUpdateWorker.setValue(null);
+            Benefit benefit = benUpdateWorker.getSelectionModel().getSelectedItem();
+            worker.setBenefit(benefit);
 
-        listWorker.clear();
-        tableWorker.getItems().clear();
-        listWorker.addAll(Factory.getInstance().getWorkerDAO().getAllWorkers());
-        tableWorker.setItems(listWorker);
+            if (posUpdateWorker.getValue().toString() != worker.getPosition().getName()) {
+                Position position = posUpdateWorker.getSelectionModel().getSelectedItem();
+                worker.setPosition(position);
+            }
+            if (branchUpdateWorker.getValue().toString() != worker.getBranch().getName()) {
+                Branch branch = branchUpdateWorker.getSelectionModel().getSelectedItem();
+                worker.setBranch(branch);
+            }
+            if (dataUpdateWorker.getValue().toString() != worker.getBirthday().toString() && dataUpdateWorker.getValue() != null) {
+                worker.setBirthday(dataUpdateWorker.getValue().toString().trim());
+            }
+            Gender gender = new Gender();
+            gender.setId(SelectOneCheckBox(checkUpdateGenderMan, checkUpdateGenderWoman));
+            worker.setGender(gender);
+            Factory.getInstance().getWorkerDAO().updateWorker(worker);
+            worker = null;
+            textUpdateSurWorker.setText(null);
+            textUpdateNameWorker.setText(null);
+            textUpdatePatWorker.setText(null);
+            dataUpdateWorker.setValue(null);
+            checkUpdateGenderMan.setSelected(false);
+            checkUpdateGenderWoman.setSelected(false);
+            depUpdateWorker.setValue(null);
+            posUpdateWorker.setValue(null);
+            benUpdateWorker.setValue(null);
+            branchUpdateWorker.setValue(null);
+
+            listWorker.clear();
+            tableWorker.getItems().clear();
+            listWorker.addAll(Factory.getInstance().getWorkerDAO().getAllWorkers());
+            tableWorker.setItems(listWorker);
+        } else {
+        }
     }
 
     public void BtnDeleteWorker() throws SQLException {
         TableView.TableViewSelectionModel selectionModel = tableWorker.getSelectionModel();
         worker = listWorker.get(selectionModel.getFocusedIndex());
-        Factory.getInstance().getWorkerDAO().deleteWorker(worker);
-        listWorker.clear();
-        listWorker.addAll(Factory.getInstance().getWorkerDAO().getAllWorkers());
-        tableWorker.setItems(listWorker);
-        textUpdateSurWorker.setText(null);
-        textUpdateNameWorker.setText(null);
-        textUpdatePatWorker.setText(null);
-        dataUpdateWorker.setValue(null);
-        checkUpdateGenderMan.setSelected(false);
-        checkUpdateGenderWoman.setSelected(false);
-        depUpdateWorker.setValue(null);
-        posUpdateWorker.setValue(null);
-        benUpdateWorker.setValue(null);
-        branchUpdateWorker.setValue(null);
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Удаление");
+        alert.setContentText("Вы действительно хотите удалить запись?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            Factory.getInstance().getWorkerDAO().deleteWorker(worker);
+            listWorker.clear();
+            listWorker.addAll(Factory.getInstance().getWorkerDAO().getAllWorkers());
+            tableWorker.setItems(listWorker);
+            textUpdateSurWorker.setText(null);
+            textUpdateNameWorker.setText(null);
+            textUpdatePatWorker.setText(null);
+            dataUpdateWorker.setValue(null);
+            checkUpdateGenderMan.setSelected(false);
+            checkUpdateGenderWoman.setSelected(false);
+            depUpdateWorker.setValue(null);
+            posUpdateWorker.setValue(null);
+            benUpdateWorker.setValue(null);
+            branchUpdateWorker.setValue(null);
+        }
     }
 
     public void BtnAddWorker() throws SQLException {
-        if (textAddSurWorker.getText().trim().length() > 4
-            && textAddNameWorker.getText().trim().length() > 4
-            && textAddPatWorker.getText().trim().length() > 4
-            && dataAddWorker.getValue().toString().trim().length() > 4
-            && depAddWorker.getValue() != null
-            && posAddWorker.getValue() != null
-            && branchAddWorker.getValue() != null) {
+        if (textAddSurWorker.getText().trim().length() > 2
+                && textAddNameWorker.getText().trim().length() > 1
+                && textAddPatWorker.getText().trim().length() > 4
+                && dataAddWorker.getValue().toString().trim().length() > 4
+                && depAddWorker.getValue() != null
+                && posAddWorker.getValue() != null
+                && branchAddWorker.getValue() != null) {
             worker.setSurname(textAddSurWorker.getText().trim());
             worker.setName(textAddNameWorker.getText().trim());
             worker.setPatronymic(textAddPatWorker.getText().trim());
@@ -1816,7 +1999,12 @@ public class GeneralController extends AbstractController implements Initializab
             benAddWorker.setValue(null);
             branchAddWorker.setValue(null);
         } else {
-            JOptionPane.showMessageDialog(null, "Заполнены не все поля");
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Предупреждение");
+            alert.setHeaderText(null);
+            alert.setContentText("Заполнены не все поля");
+
+            alert.showAndWait();
         }
     }
 
@@ -1965,103 +2153,104 @@ public class GeneralController extends AbstractController implements Initializab
     public void BtnUpdateStudent() throws SQLException {
         TableView.TableViewSelectionModel selectionModel = tableStudent.getSelectionModel();
         student = listStudent.get(selectionModel.getFocusedIndex());
-        if (textUpdateSurStudent.getText().trim().length() > 1) {
-            student.setSurname(textUpdateSurStudent.getText().trim());
-        }
-        if (textUpdateNameStudent.getText().trim().length() > 1) {
-            student.setName(textUpdateNameStudent.getText().trim());
-        }
-        if (textUpdatePatStudent.getText().trim().length() > 4) {
-            student.setPatronymic(textUpdatePatStudent.getText().trim());
-        }
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Редактирование");
+        alert.setContentText("Вы действительно хотите редактировать запись?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            if (textUpdateSurStudent.getText().trim().length() > 1) {
+                student.setSurname(textUpdateSurStudent.getText().trim());
+            }
+            if (textUpdateNameStudent.getText().trim().length() > 1) {
+                student.setName(textUpdateNameStudent.getText().trim());
+            }
+            if (textUpdatePatStudent.getText().trim().length() > 4) {
+                student.setPatronymic(textUpdatePatStudent.getText().trim());
+            }
 
-        if (textUpdatePhoneStudent.getText().trim().length() > 1) {
-            student.setPhone(textUpdatePhoneStudent.getText().trim());
-        }
-        if (textUpdateEmailStudent.getText().trim().length() > 4) {
-            student.setEmail(textUpdateEmailStudent.getText().trim());
-        }
-        if (depUpdateStudent.getValue().toString() != student.getDepartment().getName()) {
-            Department department = depUpdateStudent.getSelectionModel().getSelectedItem();
-            student.setDepartment(department);
-        }
-        if (roleUpdateStudent.getValue().toString() != student.getRole().getTitle()) {
-            Role role = roleUpdateStudent.getSelectionModel().getSelectedItem();
-            student.setRole(role);
-        }
-        if (benUpdateStudent.getValue().toString() != student.getBenefit().getName()) {
-            Benefit benefit = benUpdateStudent.getSelectionModel().getSelectedItem();
-            worker.setBenefit(benefit);
-        }
-        if (groupUpdateStudent.getValue().toString() != student.getGroup().getName()) {
-            Groups group = groupUpdateStudent.getSelectionModel().getSelectedItem();
-            student.setGroup(group);
-        }
+            if (textUpdatePhoneStudent.getText().trim().length() > 1) {
+                student.setPhone(textUpdatePhoneStudent.getText().trim());
+            }
+            if (textUpdateEmailStudent.getText().trim().length() > 4) {
+                student.setEmail(textUpdateEmailStudent.getText().trim());
+            }
+            if (depUpdateStudent.getValue().toString() != student.getDepartment().getName()) {
+                Department department = depUpdateStudent.getSelectionModel().getSelectedItem();
+                student.setDepartment(department);
+            }
+            if (roleUpdateStudent.getValue().toString() != student.getRole().getTitle()) {
+                Role role = roleUpdateStudent.getSelectionModel().getSelectedItem();
+                student.setRole(role);
+            }
+            if (benUpdateStudent.getValue().toString() != student.getBenefit().getName()) {
+                Benefit benefit = benUpdateStudent.getSelectionModel().getSelectedItem();
+                worker.setBenefit(benefit);
+            }
+            if (groupUpdateStudent.getValue().toString() != student.getGroup().getName()) {
+                Groups group = groupUpdateStudent.getSelectionModel().getSelectedItem();
+                student.setGroup(group);
+            }
 
-        if (dataUpdateStudent.getValue().toString() != student.getBirthday().toString() && dataUpdateStudent.getValue() != null) {
-            student.setBirthday(dataUpdateStudent.getValue().toString().trim());
+            if (dataUpdateStudent.getValue().toString() != student.getBirthday().toString() && dataUpdateStudent.getValue() != null) {
+                student.setBirthday(dataUpdateStudent.getValue().toString().trim());
+            }
+
+            if (textUpdatePhoneStudent.getText().trim().length() > 1) {
+                student.setPhone(textUpdatePhoneStudent.getText().trim());
+            }
+            if (textUpdateEmailStudent.getText().trim().length() > 1) {
+                student.setEmail(textUpdateEmailStudent.getText().trim());
+            }
+            Gender gender = new Gender();
+            gender.setId(SelectOneCheckBox(checkUpdateGenderManStudent, checkUpdateGenderWomanStudent));
+            student.setGender(gender);
+            Factory.getInstance().getStudentDAO().updateStudent(student);
+
+            textUpdateSurStudent.setText(null);
+            textUpdateNameStudent.setText(null);
+            textUpdatePatStudent.setText(null);
+            dataUpdateStudent.setValue(null);
+            checkUpdateGenderManStudent.setSelected(false);
+            checkUpdateGenderWomanStudent.setSelected(false);
+            depUpdateStudent.setValue(null);
+            groupUpdateStudent.setValue(null);
+            roleUpdateStudent.setValue(null);
+            benUpdateStudent.setValue(null);
+            textUpdatePhoneStudent.setText(null);
+            textUpdateEmailStudent.setText(null);
+
+            listStudent.clear();
+            tableStudent.getItems().clear();
+            listStudent.addAll(Factory.getInstance().getStudentDAO().getAllStudents());
+            tableStudent.setItems(listStudent);
         }
-
-        if (textUpdatePhoneStudent.getText().trim().length() > 1) {
-            student.setPhone(textUpdatePhoneStudent.getText().trim());
-        }
-        if (textUpdateEmailStudent.getText().trim().length() > 1) {
-            student.setEmail(textUpdateEmailStudent.getText().trim());
-        }
-        Gender gender = new Gender();
-        gender.setId(SelectOneCheckBox(checkUpdateGenderManStudent, checkUpdateGenderWomanStudent));
-        student.setGender(gender);
-        /* System.out.println("SUR:" + worker.getSurname() + "PAT:"
-         + worker.getPatronymic() + "NAM:" + worker.getName() + "DR:"
-         + worker.getBirthday() + "BEN:" + worker.getBenefit()
-         + "DEP:" + worker.getDepartment() + "GEN:" + worker.getGender());*/
-        Factory.getInstance().getStudentDAO().updateStudent(student);
-
-        textUpdateSurStudent.setText(null);
-        textUpdateNameStudent.setText(null);
-        textUpdatePatStudent.setText(null);
-        dataUpdateStudent.setValue(null);
-        checkUpdateGenderManStudent.setSelected(false);
-        checkUpdateGenderWomanStudent.setSelected(false);
-        depUpdateStudent.setValue(null);
-        groupUpdateStudent.setValue(null);
-        roleUpdateStudent.setValue(null);
-        benUpdateStudent.setValue(null);
-        textUpdatePhoneStudent.setText(null);
-        textUpdateEmailStudent.setText(null);
-
-        listStudent.clear();
-        tableStudent.getItems().clear();
-        listStudent.addAll(Factory.getInstance().getStudentDAO().getAllStudents());
-        tableStudent.setItems(listStudent);
-    }
-
-    public void BtnDeleteStudent(int number) throws SQLException {
-        student = listStudent.get(number);
-        Factory.getInstance().getStudentDAO().deleteStudent(student);
-        listStudent.clear();
-        listStudent.addAll(Factory.getInstance().getStudentDAO().getAllStudents());
-        tableStudent.setItems(listStudent);
     }
 
     public void BtnDeleteStudent() throws SQLException {
         TableView.TableViewSelectionModel selectionModel = tableStudent.getSelectionModel();
-        student = listStudent.get(selectionModel.getFocusedIndex());
-        Factory.getInstance().getStudentDAO().deleteStudent(student);
-        listStudent.clear();
-        listStudent.addAll(Factory.getInstance().getStudentDAO().getAllStudents());
-        tableStudent.setItems(listStudent);
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Удаление");
+        alert.setContentText("Вы действительно хотите удалить запись?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            student = listStudent.get(selectionModel.getFocusedIndex());
+            Factory.getInstance().getStudentDAO().deleteStudent(student);
+            listStudent.clear();
+            listStudent.addAll(Factory.getInstance().getStudentDAO().getAllStudents());
+            tableStudent.setItems(listStudent);
+        }
     }
 
     public void BtnAddStudent() throws SQLException {
-        if (textAddSurStudent.getText().trim().length() > 4
-            && textAddNameStudent.getText().trim().length() > 4
-            && textAddPatStudent.getText().trim().length() > 4
-            && dataAddStudent.getValue().toString().trim().length() > 4
-            && depAddStudent.getValue() != null
-            && groupAddStudent.getValue() != null
-            && benAddStudent.getValue() != null
-            && roleAddStudent.getValue() != null) {
+        if (textAddSurStudent.getText().trim().length() > 2
+                && textAddNameStudent.getText().trim().length() > 1
+                && textAddPatStudent.getText().trim().length() > 2
+                && dataAddStudent.getValue() != null
+                && depAddStudent.getValue() != null
+                && groupAddStudent.getValue() != null
+                && benAddStudent.getValue() != null
+                && roleAddStudent.getValue() != null) {
             student.setSurname(textAddSurStudent.getText().trim());
             student.setName(textAddNameStudent.getText().trim());
             student.setPatronymic(textAddPatStudent.getText().trim());
@@ -2101,7 +2290,12 @@ public class GeneralController extends AbstractController implements Initializab
             textAddPhoneStudent.setText(null);
             textAddEmailStudent.setText(null);
         } else {
-            JOptionPane.showMessageDialog(null, "Заполнены не все поля");
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Предупреждение");
+            alert.setHeaderText(null);
+            alert.setContentText("Заполнены не все поля");
+
+            alert.showAndWait();
 
         }
     }
@@ -2113,32 +2307,6 @@ public class GeneralController extends AbstractController implements Initializab
         textUpdateSurChild.setText(child.getSurname());
         textUpdateNameChild.setText(child.getName());
         textUpdatePatChild.setText(child.getPatronymic());
-//        textUpdateSurWorkChild.setText(Factory.getInstance().getWorkerDAO().getWorkerById(
-//            Factory.getInstance().
-//            getWorkersChildDAO().
-//            getWorkersChildById(
-//                listWorkersChild.get(number)
-//                .getId()
-//            ).getId_worker()
-//        ).getSurname()
-//        );
-//        textUpdateNameWorkChild.setText(Factory.getInstance().getWorkerDAO().getWorkerById(
-//            Factory.getInstance().
-//            getWorkersChildDAO().
-//            getWorkersChildById(
-//                listWorkersChild.get(number)
-//                .getId()
-//            ).getId_worker()
-//        ).getName());
-//        textUpdatePatWorkChild.setText(Factory.getInstance().getWorkerDAO().getWorkerById(
-//            Factory.getInstance().
-//            getWorkersChildDAO().
-//            getWorkersChildById(
-//                listWorkersChild.get(number)
-//                .getId()
-//            ).getId_worker()
-//        ).getPatronymic());
-
         LocalDate date = LocalDate.parse(child.getBirthday());
         dataUpdateChild.setValue(date);
         checkUpdateGenderChildMan.setSelected(false);
@@ -2151,13 +2319,13 @@ public class GeneralController extends AbstractController implements Initializab
     }
 
     public void BtnAddChild() throws SQLException {
-        if (textAddSurChild.getText().trim().length() > 4
-            && textAddNameChild.getText().trim().length() > 4
-            && textAddPatChild.getText().trim().length() > 4
-            && dataAddChild.getValue().toString().trim().length() > 4
-            && textAddNameWorkChild.getText().trim().length() > 4
-            && textAddPatWorkChild.getText().trim().length() > 4
-            && textAddSurWorkChild.getText().trim().length() > 4) {
+        if (textAddSurChild.getText().trim().length() > 2
+                && textAddNameChild.getText().trim().length() > 1
+                && textAddPatChild.getText().trim().length() > 2
+                && dataAddChild.getValue().toString().trim().length() > 4
+                && textAddNameWorkChild.getText().trim().length() > 1
+                && textAddPatWorkChild.getText().trim().length() > 1
+                && textAddSurWorkChild.getText().trim().length() > 1) {
             child.setSurname(textAddSurChild.getText().trim());
             child.setName(textAddNameChild.getText().trim());
             child.setPatronymic(textAddPatChild.getText().trim());
@@ -2165,10 +2333,6 @@ public class GeneralController extends AbstractController implements Initializab
             gender = Factory.getInstance().getGenderDAO().getGenderById(SelectOneCheckBox(checkAddGenderChildMan, checkAddGenderChildWoman));
             child.setGender(gender);
             child.setBirthday(dataAddChild.getValue().toString().trim());
-            System.out.println("Имя:" + child.getName()
-                + "Фамилия:" + child.getSurname()
-                + "Отчество:" + child.getPatronymic()
-                + "Пол:" + child.getGender().getName());
             Factory.getInstance().getChildDAO().addChild(child);
             Worker searchWorker = new Worker();
             searchWorker.setName(textAddNameWorkChild.getText().trim());
@@ -2176,11 +2340,10 @@ public class GeneralController extends AbstractController implements Initializab
             searchWorker.setPatronymic(textAddPatWorkChild.getText().trim());
             System.out.println("По пизде 1");
             if (listWorker.size() == 1) {
-                System.out.println("Первая приблуда");
                 worker = listWorker.get(0);
                 if (worker.getName().equals(searchWorker.getName())
-                    && worker.getSurname().equals(searchWorker.getSurname())
-                    && worker.getPatronymic().equals(searchWorker.getPatronymic())) {
+                        && worker.getSurname().equals(searchWorker.getSurname())
+                        && worker.getPatronymic().equals(searchWorker.getPatronymic())) {
                     worker.getChildren().add(child);
                     Factory.getInstance().getWorkerDAO().updateWorker(worker);
                 } else if (listWorker.size() > 1) {
@@ -2188,18 +2351,28 @@ public class GeneralController extends AbstractController implements Initializab
                         System.out.println("Цикл номер " + i);
                         worker = listWorker.get(i);
                         if (worker.getName().equals(searchWorker.getName())
-                            && worker.getSurname().equals(searchWorker.getSurname())
-                            && worker.getPatronymic().equals(searchWorker.getPatronymic())) {
+                                && worker.getSurname().equals(searchWorker.getSurname())
+                                && worker.getPatronymic().equals(searchWorker.getPatronymic())) {
                             worker.getChildren().add(child);
                             Factory.getInstance().getWorkerDAO().updateWorker(worker);
                         }
                     }
                 } else {
-                    JOptionPane.showMessageDialog(null, "Такого родителя не существует");
+                    Alert alert = new Alert(AlertType.INFORMATION);
+                    alert.setTitle("Предупреждение");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Такого родителя не существует");
+
+                    alert.showAndWait();
                 }
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Заполнены не все поля");
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Предупреждение");
+            alert.setHeaderText(null);
+            alert.setContentText("Заполнены не все поля");
+
+            alert.showAndWait();
         }
         listChild.clear();
         tableChild.getItems().clear();
@@ -2210,11 +2383,18 @@ public class GeneralController extends AbstractController implements Initializab
     public void BtnDeleteChild() throws SQLException {
         TableView.TableViewSelectionModel selectionModel = tableChild.getSelectionModel();
         child = listChild.get(selectionModel.getFocusedIndex());
-        Factory.getInstance().getChildDAO().deleteChildren(child);
-        listChild.clear();
-        tableChild.getItems().clear();
-        listChild.addAll(Factory.getInstance().getChildDAO().getAllChildren());
-        tableChild.setItems(listChild);
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Удаление");
+        alert.setContentText("Вы действительно хотите удалить запись?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            Factory.getInstance().getChildDAO().deleteChildren(child);
+            listChild.clear();
+            tableChild.getItems().clear();
+            listChild.addAll(Factory.getInstance().getChildDAO().getAllChildren());
+            tableChild.setItems(listChild);
+        }
     }
 
     public void BtnSearchChild() throws SQLException {
@@ -2258,51 +2438,62 @@ public class GeneralController extends AbstractController implements Initializab
     public void BtnUpdateChild() throws SQLException {
         TableView.TableViewSelectionModel selectionModel = tableChild.getSelectionModel();
         child = listChild.get(selectionModel.getFocusedIndex());
-        if (textUpdateSurChild.getText().trim().length() > 1) {
-            child.setSurname(textUpdateSurChild.getText().trim());
-        }
-        if (textUpdateNameChild.getText().trim().length() > 1) {
-            child.setName(textUpdateNameChild.getText().trim());
-        }
-        if (textUpdatePatChild.getText().trim().length() > 4) {
-            child.setPatronymic(textUpdatePatChild.getText().trim());
-        }
-        if (dataUpdateChild.getValue().toString() != child.getBirthday().toString() && dataUpdateChild.getValue() != null) {
-            child.setBirthday(dataUpdateChild.getValue().toString().trim());
-        }
-        Gender gender = new Gender();
-        gender = Factory.getInstance().getGenderDAO().getGenderById(SelectOneCheckBox(checkUpdateGenderChildMan, checkUpdateGenderChildWoman));
-        child.setGender(gender);
-        Factory.getInstance().getChildDAO().updateChild(child);
-        workersChild.setId_child(child.getId());
-        Worker searchWorker = new Worker();
-        if (textUpdateSurWorkChild.getText().trim().length() > 1
-            && textUpdateNameWorkChild.getText().trim().length() > 1
-            && textUpdatePatWorkChild.getText().trim().length() > 4) {
-            searchWorker.setSurname(textUpdateSurWorkChild.getText().trim());
-            searchWorker.setName(textUpdateNameWorkChild.getText().trim());
-            searchWorker.setPatronymic(textUpdatePatWorkChild.getText().trim());
-        }
-        if (listWorker.size() == 1) {
-            worker = listWorker.get(0);
-            if (worker.getName().equals(searchWorker.getName())
-                && worker.getSurname().equals(searchWorker.getSurname())
-                && worker.getPatronymic().equals(searchWorker.getPatronymic())) {
-                workersChild.setId_worker(worker.getId());
-                Factory.getInstance().getWorkersChildDAO().updateWorkersChild(workersChild);
-            } else if (listWorker.size() > 1) {
-                for (int i = 0; i < listWorker.size(); i++) {
-                    System.out.println("Цикл номер " + i);
-                    worker = listWorker.get(i);
-                    if (worker.getName().equals(searchWorker.getName())
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Редактирование");
+        alert.setContentText("Вы действительно хотите редактировать запись?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            if (textUpdateSurChild.getText().trim().length() > 1) {
+                child.setSurname(textUpdateSurChild.getText().trim());
+            }
+            if (textUpdateNameChild.getText().trim().length() > 1) {
+                child.setName(textUpdateNameChild.getText().trim());
+            }
+            if (textUpdatePatChild.getText().trim().length() > 4) {
+                child.setPatronymic(textUpdatePatChild.getText().trim());
+            }
+            if (dataUpdateChild.getValue().toString() != child.getBirthday().toString() && dataUpdateChild.getValue() != null) {
+                child.setBirthday(dataUpdateChild.getValue().toString().trim());
+            }
+            Gender gender = new Gender();
+            gender = Factory.getInstance().getGenderDAO().getGenderById(SelectOneCheckBox(checkUpdateGenderChildMan, checkUpdateGenderChildWoman));
+            child.setGender(gender);
+            Factory.getInstance().getChildDAO().updateChild(child);
+            workersChild.setId_child(child.getId());
+            Worker searchWorker = new Worker();
+            if (textUpdateSurWorkChild.getText().trim().length() > 1
+                    && textUpdateNameWorkChild.getText().trim().length() > 1
+                    && textUpdatePatWorkChild.getText().trim().length() > 4) {
+                searchWorker.setSurname(textUpdateSurWorkChild.getText().trim());
+                searchWorker.setName(textUpdateNameWorkChild.getText().trim());
+                searchWorker.setPatronymic(textUpdatePatWorkChild.getText().trim());
+            }
+            if (listWorker.size() == 1) {
+                worker = listWorker.get(0);
+                if (worker.getName().equals(searchWorker.getName())
                         && worker.getSurname().equals(searchWorker.getSurname())
                         && worker.getPatronymic().equals(searchWorker.getPatronymic())) {
-                        workersChild.setId_child(worker.getId());
-                    }
+                    workersChild.setId_worker(worker.getId());
                     Factory.getInstance().getWorkersChildDAO().updateWorkersChild(workersChild);
+                } else if (listWorker.size() > 1) {
+                    for (int i = 0; i < listWorker.size(); i++) {
+                        System.out.println("Цикл номер " + i);
+                        worker = listWorker.get(i);
+                        if (worker.getName().equals(searchWorker.getName())
+                                && worker.getSurname().equals(searchWorker.getSurname())
+                                && worker.getPatronymic().equals(searchWorker.getPatronymic())) {
+                            workersChild.setId_child(worker.getId());
+                        }
+                        Factory.getInstance().getWorkersChildDAO().updateWorkersChild(workersChild);
+                    }
+                } else {
+                    Alert newAlert = new Alert(AlertType.INFORMATION);
+                    newAlert.setTitle("Предупреждение");
+                    newAlert.setHeaderText(null);
+                    newAlert.setContentText("Такого родителя не существует");
+
+                    newAlert.showAndWait();
                 }
-            } else {
-                JOptionPane.showMessageDialog(null, "Такого родителя не существует");
             }
         }
     }

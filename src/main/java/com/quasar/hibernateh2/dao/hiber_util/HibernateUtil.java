@@ -106,8 +106,13 @@ public class HibernateUtil {
 
     private static void initDb() {
         try {
-            Factory.getInstance().getGenderDAO().addGender(new Gender("м"));
-            Factory.getInstance().getGenderDAO().addGender(new Gender("ж"));
+            Factory.getInstance().getGenderDAO().addGender(new Gender("муж"));
+            Factory.getInstance().getGenderDAO().addGender(new Gender("жен"));
+            
+            Factory.getInstance().getRoleDAO().addRole(new Role("студент"));
+            Factory.getInstance().getRoleDAO().addRole(new Role("студент/профорг"));
+            Factory.getInstance().getRoleDAO().addRole(new Role("староста"));
+            Factory.getInstance().getRoleDAO().addRole(new Role("староста/профорг"));
             
             Factory.getInstance().getPositionDAO().addPosition(new Position("Учитель"));
             Factory.getInstance().getPositionDAO().addPosition(new Position("Ректор"));

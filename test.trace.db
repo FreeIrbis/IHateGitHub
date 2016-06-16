@@ -1,17 +1,20 @@
-2016-06-15 13:39:30 database: wrong user or password; user: ""
-org.h2.message.DbException: Ð�ÐµÐ²ÐµÑ€Ð½Ð¾Ðµ Ð¸Ð¼Ñ� Ð¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»Ñ� Ð¸Ð»Ð¸ Ð¿Ð°Ñ€Ð¾Ð»ÑŒ
-Wrong user name or password [28000-191]
+2016-06-16 09:51:41 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: ÐžÐ±ÑŠÐµÐºÑ‚ ÑƒÐ¶Ðµ Ð·Ð°ÐºÑ€Ñ‹Ñ‚
+The object is already closed [90007-191]
+2016-06-16 11:22:05 database: wrong user or password; user: "ADMIN"
+org.h2.message.DbException: Неверное имя пользователя или пароль
+Wrong user name or password [28000-192]
 	at org.h2.message.DbException.get(DbException.java:179)
 	at org.h2.message.DbException.get(DbException.java:155)
 	at org.h2.message.DbException.get(DbException.java:144)
-	at org.h2.engine.Engine.openSession(Engine.java:106)
-	at org.h2.engine.Engine.openSession(Engine.java:175)
-	at org.h2.engine.Engine.createSessionAndValidate(Engine.java:153)
-	at org.h2.engine.Engine.createSession(Engine.java:136)
-	at org.h2.engine.Engine.createSession(Engine.java:28)
+	at org.h2.engine.Engine.openSession(Engine.java:104)
+	at org.h2.engine.Engine.openSession(Engine.java:176)
+	at org.h2.engine.Engine.createSessionAndValidate(Engine.java:154)
+	at org.h2.engine.Engine.createSession(Engine.java:137)
+	at org.h2.engine.Engine.createSession(Engine.java:27)
 	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:349)
-	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:107)
-	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:91)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:118)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:102)
 	at org.h2.Driver.connect(Driver.java:72)
 	at org.netbeans.modules.db.explorer.DbDriverManager.getConnection(DbDriverManager.java:131)
 	at org.netbeans.modules.db.explorer.DatabaseConnection.doConnect(DatabaseConnection.java:904)
@@ -19,16 +22,22 @@ Wrong user name or password [28000-191]
 	at org.netbeans.modules.db.explorer.DatabaseConnection$3.run(DatabaseConnection.java:970)
 	at org.openide.util.RequestProcessor$Task.run(RequestProcessor.java:1423)
 	at org.openide.util.RequestProcessor$Processor.run(RequestProcessor.java:2033)
-Caused by: org.h2.jdbc.JdbcSQLException: Ð�ÐµÐ²ÐµÑ€Ð½Ð¾Ðµ Ð¸Ð¼Ñ� Ð¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»Ñ� Ð¸Ð»Ð¸ Ð¿Ð°Ñ€Ð¾Ð»ÑŒ
-Wrong user name or password [28000-191]
+Caused by: org.h2.jdbc.JdbcSQLException: Неверное имя пользователя или пароль
+Wrong user name or password [28000-192]
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
 	... 18 more
-2016-06-15 13:39:49 jdbc[3]: exception
+2016-06-16 11:22:44 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Объект уже закрыт
+The object is already closed [90007-192]
+2016-06-16 11:22:44 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Объект уже закрыт
+The object is already closed [90007-192]
+2016-06-16 11:22:44 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Объект уже закрыт
+The object is already closed [90007-192]
+2016-06-16 11:32:34 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLException: ÐžÐ±ÑŠÐµÐºÑ‚ ÑƒÐ¶Ðµ Ð·Ð°ÐºÑ€Ñ‹Ñ‚
 The object is already closed [90007-191]
-2016-06-15 13:39:49 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLException: ÐžÐ±ÑŠÐµÐºÑ‚ ÑƒÐ¶Ðµ Ð·Ð°ÐºÑ€Ñ‹Ñ‚
-The object is already closed [90007-191]
-2016-06-15 13:39:49 jdbc[3]: exception
+2016-06-16 11:35:13 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLException: ÐžÐ±ÑŠÐµÐºÑ‚ ÑƒÐ¶Ðµ Ð·Ð°ÐºÑ€Ñ‹Ñ‚
 The object is already closed [90007-191]

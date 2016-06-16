@@ -57,7 +57,7 @@ public class BranchDAOImpl implements BranchDAO {
         Branch branch = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
-            branch = (Branch) session.load(Branch.class, id);
+            branch = (Branch) session.get(Branch.class, id);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Ошибка I/O", JOptionPane.OK_OPTION);
         } finally {
