@@ -69,7 +69,7 @@ public class BranchDAOImpl implements BranchDAO {
     }
 
     @Override
-    public List getAllBranchs() throws SQLException {
+    public List<Branch> getAllBranchs() throws SQLException {
     Session session = null;
         List<Branch> branchs = new ArrayList<>();
         try {

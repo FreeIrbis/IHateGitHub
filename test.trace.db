@@ -41,3 +41,42 @@ The object is already closed [90007-191]
 2016-06-16 11:35:13 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLException: ÐžÐ±ÑŠÐµÐºÑ‚ ÑƒÐ¶Ðµ Ð·Ð°ÐºÑ€Ñ‹Ñ‚
 The object is already closed [90007-191]
+2016-06-17 10:31:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: ÐžÐ±ÑŠÐµÐºÑ‚ ÑƒÐ¶Ðµ Ð·Ð°ÐºÑ€Ñ‹Ñ‚
+The object is already closed [90007-191]
+2016-06-17 10:31:41 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: ÐžÐ±ÑŠÐµÐºÑ‚ ÑƒÐ¶Ðµ Ð·Ð°ÐºÑ€Ñ‹Ñ‚
+The object is already closed [90007-191]
+2016-06-17 10:31:45 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: ÐžÐ±ÑŠÐµÐºÑ‚ ÑƒÐ¶Ðµ Ð·Ð°ÐºÑ€Ñ‹Ñ‚
+The object is already closed [90007-191]
+2016-06-17 10:49:45 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: ÐžÐ±ÑŠÐµÐºÑ‚ ÑƒÐ¶Ðµ Ð·Ð°ÐºÑ€Ñ‹Ñ‚
+The object is already closed [90007-191]
+2016-06-17 12:29:51 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: ÐžÐ±ÑŠÐµÐºÑ‚ ÑƒÐ¶Ðµ Ð·Ð°ÐºÑ€Ñ‹Ñ‚
+The object is already closed [90007-191]
+2016-06-17 12:35:26 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: ÐžÐ±ÑŠÐµÐºÑ‚ ÑƒÐ¶Ðµ Ð·Ð°ÐºÑ€Ñ‹Ñ‚
+The object is already closed [90007-191]
+2016-06-17 12:35:34 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: ÐžÐ±ÑŠÐµÐºÑ‚ ÑƒÐ¶Ðµ Ð·Ð°ÐºÑ€Ñ‹Ñ‚
+The object is already closed [90007-191]
+2016-06-17 12:35:41 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: ÐžÐ±ÑŠÐµÐºÑ‚ ÑƒÐ¶Ðµ Ð·Ð°ÐºÑ€Ñ‹Ñ‚
+The object is already closed [90007-191]
+2016-06-17 12:35:55 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: ÐžÐ±ÑŠÐµÐºÑ‚ ÑƒÐ¶Ðµ Ð·Ð°ÐºÑ€Ñ‹Ñ‚
+The object is already closed [90007-191]
+2016-06-17 13:47:17 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: ÐžÐ±ÑŠÐµÐºÑ‚ ÑƒÐ¶Ðµ Ð·Ð°ÐºÑ€Ñ‹Ñ‚
+The object is already closed [90007-191]
+2016-06-17 14:09:04 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: ÐžÐ±ÑŠÐµÐºÑ‚ ÑƒÐ¶Ðµ Ð·Ð°ÐºÑ€Ñ‹Ñ‚
+The object is already closed [90007-191]
+2016-06-17 14:09:04 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: ÐžÐ±ÑŠÐµÐºÑ‚ ÑƒÐ¶Ðµ Ð·Ð°ÐºÑ€Ñ‹Ñ‚
+The object is already closed [90007-191]
+2016-06-17 14:09:04 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: ÐžÐ±ÑŠÐµÐºÑ‚ ÑƒÐ¶Ðµ Ð·Ð°ÐºÑ€Ñ‹Ñ‚
+The object is already closed [90007-191]

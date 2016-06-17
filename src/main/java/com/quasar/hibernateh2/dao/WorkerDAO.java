@@ -17,6 +17,8 @@ public interface WorkerDAO {
     public Worker getWorkerById(Long id) throws SQLException;
 
     public List getAllWorkers() throws SQLException;
+    
+    public List searchAllWorkers(String name, String surname, String patronymic, String birthday, Long gender, Long department, Long benefit, Long position, Long branch) throws SQLException;
 
     public void deleteWorker(Worker student) throws SQLException; 
 }

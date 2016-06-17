@@ -16,7 +16,7 @@ public interface BranchDAO {
 
     public Branch getBranchById(Long id) throws SQLException;
 
-    public List getAllBranchs() throws SQLException;
+    public List<Branch> getAllBranchs() throws SQLException;
 
     public void deleteBranch(Branch student) throws SQLException;
 }

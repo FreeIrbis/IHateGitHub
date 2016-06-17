@@ -51,14 +51,6 @@ public class Worker extends Model implements ExelModel,Serializable {
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Position.class)
     @JoinColumn(name = "position")
     private Position position;
-
-    public Branch getBranch() {
-        return branch;
-    }
-
-    public void setBranch(Branch branch) {
-        this.branch = branch;
-    }
     
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Branch.class)
     @JoinColumn(name = "branch")
@@ -80,6 +72,14 @@ public class Worker extends Model implements ExelModel,Serializable {
     
     public Worker(String name) {
         this.name = name;
+    }
+
+    public Branch getBranch() {
+        return branch;
+    }
+
+    public void setBranch(Branch branch) {
+        this.branch = branch;
     }
 
     public String getName() {

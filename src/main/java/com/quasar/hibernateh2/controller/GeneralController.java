@@ -1,8 +1,7 @@
 package com.quasar.hibernateh2.controller;
 
-import com.quasar.hibernateh2.app.MainApp;
-import static com.quasar.hibernateh2.app.OneCheckBox.ChekedOneCheckBox;
-import static com.quasar.hibernateh2.app.OneCheckBox.SelectOneCheckBox;
+import static com.quasar.hibernateh2.app.OneCheckBox.chekedOneCheckBox;
+import static com.quasar.hibernateh2.app.OneCheckBox.selectOneCheckBox;
 import com.quasar.hibernateh2.dao.Factory;
 import com.quasar.hibernateh2.dao.entity.Benefit;
 import com.quasar.hibernateh2.dao.entity.Branch;
@@ -49,19 +48,14 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
-import javafx.scene.control.Menu;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import javax.swing.JOptionPane;
 
 /**
  * FXML Controller class
@@ -159,6 +153,8 @@ public class GeneralController extends AbstractController implements Initializab
     public ComboBox<Benefit> benUpdateWorker;
     @FXML
     public Button btnUpdateWorker;
+    @FXML
+    public Button btnExcel;
 
     Worker worker = new Worker();
     private ObservableList<Worker> listWorker = FXCollections.observableArrayList();
@@ -411,13 +407,11 @@ public class GeneralController extends AbstractController implements Initializab
     List<Department> listDepartments = null;
 
     /*Поля Отделов на добавление*/
-    private ObservableList<Branch> listBranch = FXCollections.observableArrayList();
     @FXML
     Label errorAddBranch;
     @FXML
     Label errorUpdateBranch;
 
-    Branch branch = new Branch();
     @FXML
     public TextField textAddNameBranch;
     @FXML
@@ -425,7 +419,7 @@ public class GeneralController extends AbstractController implements Initializab
     @FXML
     public Button btnAddBranch;
     @FXML
-    public ComboBox comboBranch;
+    public ComboBox<Branch> comboBranch;
     @FXML
     public TableView<Branch> tableBranch;
     @FXML
@@ -435,8 +429,7 @@ public class GeneralController extends AbstractController implements Initializab
     @FXML
     public Button btnDeleteBranch;
 
-    List<Branch> listBranchs = null;
-    List<String> listBranchsString = null;
+    List<Branch> listBranchs = new ArrayList<>();
 
     /*Поля Льгот на добавление*/
     @FXML
@@ -551,32 +544,32 @@ public class GeneralController extends AbstractController implements Initializab
 
     @FXML
     private void CheckAddGenderWorkers(ActionEvent e) {
-        ChekedOneCheckBox(checkAddGenderMan, checkAddGenderWoman);
+        chekedOneCheckBox(checkAddGenderMan, checkAddGenderWoman);
     }
 
     @FXML
     private void CheckAddGenderChild(ActionEvent e) {
-        ChekedOneCheckBox(checkAddGenderChildMan, checkAddGenderChildWoman);
+        chekedOneCheckBox(checkAddGenderChildMan, checkAddGenderChildWoman);
     }
 
     @FXML
     private void CheckUpdateGenderChild(ActionEvent e) {
-        ChekedOneCheckBox(checkUpdateGenderChildMan, checkUpdateGenderChildWoman);
+        chekedOneCheckBox(checkUpdateGenderChildMan, checkUpdateGenderChildWoman);
     }
 
     @FXML
     private void CheckAddGenderStudents(ActionEvent e) {
-        ChekedOneCheckBox(checkAddGenderManStudent, checkAddGenderWomanStudent);
+        chekedOneCheckBox(checkAddGenderManStudent, checkAddGenderWomanStudent);
     }
 
     @FXML
     private void CheckUpdateGenderStudents(ActionEvent e) {
-        ChekedOneCheckBox(checkUpdateGenderManStudent, checkUpdateGenderWomanStudent);
+        chekedOneCheckBox(checkUpdateGenderManStudent, checkUpdateGenderWomanStudent);
     }
 
     @FXML
     private void CheckUpdateGenderWorkers(ActionEvent e) {
-        ChekedOneCheckBox(checkUpdateGenderMan, checkUpdateGenderWoman);
+        chekedOneCheckBox(checkUpdateGenderMan, checkUpdateGenderWoman);
     }
 
     @Override
@@ -637,12 +630,12 @@ public class GeneralController extends AbstractController implements Initializab
             public void handle(Event event) {
                 tableBranch.getItems().clear();
                 try {
-                    listBranch.clear();
-                    listBranch.addAll(Factory.getInstance().getBranchDAO().getAllBranchs());
+                    listBranchs.clear();
+                    listBranchs.addAll(Factory.getInstance().getBranchDAO().getAllBranchs());
                 } catch (SQLException ex) {
                     Logger.getLogger(GeneralController.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                tableBranch.setItems(listBranch);
+                tableBranch.setItems(FXCollections.observableArrayList(listBranchs));
             }
         });
 
@@ -663,17 +656,17 @@ public class GeneralController extends AbstractController implements Initializab
         });
 
         //Студенты
-        SurStudentColumn.setCellValueFactory(new PropertyValueFactory<Student, String>("surname"));
-        NameStudentColumn.setCellValueFactory(new PropertyValueFactory<Student, String>("name"));
-        PatStudentColumn.setCellValueFactory(new PropertyValueFactory<Student, String>("patronymic"));
-        DateStudentColumn.setCellValueFactory(new PropertyValueFactory<Student, String>("birthday"));
-        PhoneStudentColumn.setCellValueFactory(new PropertyValueFactory<Student, String>("phone"));
-        EmailStudentColumn.setCellValueFactory(new PropertyValueFactory<Student, String>("email"));
-        GroupStudentColumn.setCellValueFactory(new PropertyValueFactory<Student, Long>("group"));
-        DepStudentColumn.setCellValueFactory(new PropertyValueFactory<Student, Long>("department"));
-        BenStudentColumn.setCellValueFactory(new PropertyValueFactory<Student, Long>("benefit"));
-        GenderStudentColumn.setCellValueFactory(new PropertyValueFactory<Student, Long>("gender"));
-        RoleStudentColumn.setCellValueFactory(new PropertyValueFactory<Student, Long>("role"));
+        SurStudentColumn.setCellValueFactory(new PropertyValueFactory<>("surname"));
+        NameStudentColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        PatStudentColumn.setCellValueFactory(new PropertyValueFactory<>("patronymic"));
+        DateStudentColumn.setCellValueFactory(new PropertyValueFactory<>("birthday"));
+        PhoneStudentColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
+        EmailStudentColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
+        GroupStudentColumn.setCellValueFactory(new PropertyValueFactory<>("group"));
+        DepStudentColumn.setCellValueFactory(new PropertyValueFactory<>("department"));
+        BenStudentColumn.setCellValueFactory(new PropertyValueFactory<>("benefit"));
+        GenderStudentColumn.setCellValueFactory(new PropertyValueFactory<>("gender"));
+        RoleStudentColumn.setCellValueFactory(new PropertyValueFactory<>("role"));
 
         tabStudent.setOnSelectionChanged(new EventHandler<Event>() {
             @Override
@@ -765,7 +758,7 @@ public class GeneralController extends AbstractController implements Initializab
         });
 
         try {
-            listBranch.addAll(Factory.getInstance().getBranchDAO().getAllBranchs());
+            listBranchs.addAll(Factory.getInstance().getBranchDAO().getAllBranchs());
         } catch (SQLException ex) {
             Logger.getLogger(GeneralController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -961,7 +954,7 @@ public class GeneralController extends AbstractController implements Initializab
                 };
             });
 
-            branchUpdateWorker.setItems(FXCollections.observableArrayList(listBranch));
+            branchUpdateWorker.setItems(FXCollections.observableArrayList(listBranchs));
             branchUpdateWorker.setCellFactory((comboBox) -> {
                 return new ListCell<Branch>() {
                     @Override
@@ -977,7 +970,7 @@ public class GeneralController extends AbstractController implements Initializab
                 };
             });
 
-            branchAddWorker.setItems(FXCollections.observableArrayList(listBranch));
+            branchAddWorker.setItems(FXCollections.observableArrayList(listBranchs));
             branchUpdateWorker.setCellFactory((comboBox) -> {
                 return new ListCell<Branch>() {
                     @Override
@@ -1073,11 +1066,7 @@ public class GeneralController extends AbstractController implements Initializab
         /*Инициализаия компонентов ред.-уд. отделов*/
         try {
             listBranchs = Factory.getInstance().getBranchDAO().getAllBranchs();
-            listBranchsString = new ArrayList<>();
-            for (Branch p : listBranchs) {
-                listBranchsString.add(p.getName());
-            }
-            comboBranch.setItems(FXCollections.observableArrayList(listBranchsString));
+            comboBranch.setItems(FXCollections.observableArrayList(listBranchs));
         } catch (SQLException ex) {
             Logger.getLogger(GeneralController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1407,7 +1396,6 @@ public class GeneralController extends AbstractController implements Initializab
 
     /*Изменение Отделения через кнопку*/
     public void BtnUpdateBranch() throws SQLException {
-
         if (comboBranch.getValue() != null) {
             comboBranch.setStyle("");
             if (textUpdateNameBranch.getText().length() > 4) {
@@ -1419,31 +1407,17 @@ public class GeneralController extends AbstractController implements Initializab
                 if (result.get() == ButtonType.OK) {
                     textUpdateNameBranch.setStyle("");
                     errorUpdateBranch.setText("");
-                    String name = comboBranch.getValue().toString();
+
                     String reName = textUpdateNameBranch.getText();
-                    System.out.println(name);
-                    listBranch.clear();
-                    listBranchsString.clear();
-                    listBranch.addAll(Factory.getInstance().getBranchDAO().getAllBranchs());
-                    for (Branch p : listBranch) {
-                        listBranchsString.add(p.getName());
-                    }
-                    int number = listBranchsString.indexOf(name);
-                    System.out.println(number);
-                    Branch getBranch = listBranch.get(number);
-                    System.out.println(getBranch.getName());
+                    Branch getBranch = comboBranch.getSelectionModel().getSelectedItem();
                     getBranch.setName(reName);
-                    System.out.println(getBranch.getName());
+                    
                     Factory.getInstance().getBranchDAO().updateBranch(getBranch);
-                    listBranch.clear();
-                    listBranchsString.clear();
-                    listBranch.addAll(Factory.getInstance().getBranchDAO().getAllBranchs());
-                    for (Branch p : listBranch) {
-                        listBranchsString.add(p.getName());
-                    }
+                    listBranchs.clear();
+                    listBranchs.addAll(Factory.getInstance().getBranchDAO().getAllBranchs());
                     textUpdateNameBranch.clear();
-                    comboBranch.setItems(FXCollections.observableArrayList(listBranchsString));
-                    tableBranch.setItems(listBranch);
+                    comboBranch.setItems(FXCollections.observableArrayList(listBranchs));
+                    tableBranch.setItems(FXCollections.observableArrayList(listBranchs));
                 }
             } else {
                 textUpdateNameBranch.setStyle("-fx-border-color: red;");
@@ -1451,42 +1425,24 @@ public class GeneralController extends AbstractController implements Initializab
             }
         } else {
             comboDepartment.setStyle("-fx-border-color: red;");
-
         }
 
     }
 
     /*Удаление Отделения через кнопку*/
     public void BtnDeleteBranch() throws SQLException {
-
         if (comboBranch.getValue() != null) {
             Alert alert = new Alert(AlertType.CONFIRMATION);
             alert.setTitle("Удаление");
             alert.setContentText("Вы действительно хотите удалить запись?");
-
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK) {
-
-                listBranch.clear();
-                listBranchsString.clear();
-                listBranch.addAll(Factory.getInstance().getBranchDAO().getAllBranchs());
-                for (Branch p : listBranch) {
-                    listBranchsString.add(p.getName());
-                }
-                String name = comboBranch.getValue().toString();
-                int number = listBranchsString.indexOf(name);
-                System.out.println(number);
-                Branch getBranch = listBranch.get(number);
-                System.out.println(getBranch.getName());
+                Branch getBranch = comboBranch.getSelectionModel().getSelectedItem();
                 Factory.getInstance().getBranchDAO().deleteBranch(getBranch);
-                listBranch.clear();
-                listBranchsString.clear();
-                listBranch.addAll(Factory.getInstance().getBranchDAO().getAllBranchs());
-                for (Branch p : listBranch) {
-                    listBranchsString.add(p.getName());
-                }
-                comboBranch.setItems(FXCollections.observableArrayList(listBranchsString));
-                tableBranch.setItems(listBranch);
+                listBranchs.clear();
+                listBranchs.addAll(Factory.getInstance().getBranchDAO().getAllBranchs());
+                comboBranch.setItems(FXCollections.observableArrayList(listBranchs));
+                tableBranch.setItems(FXCollections.observableArrayList(listBranchs));
             }
         } else {
             comboBranch.setStyle("-fx-border-color: red;");
@@ -1501,8 +1457,8 @@ public class GeneralController extends AbstractController implements Initializab
         if (textAddNameBranch.getText().trim().length() > 4) {
             boolean addOrNot = true;
             //Поиск одинаковых записей
-            if (listBranch.size() > 0) {
-                for (Branch p : listBranch) {
+            if (listBranchs.size() > 0) {
+                for (Branch p : listBranchs) {
                     if (p.getName().equals(textAddNameBranch.getText().trim())) {
                         addOrNot = false;
                     }
@@ -1513,15 +1469,15 @@ public class GeneralController extends AbstractController implements Initializab
                 textAddNameBranch.setStyle("-fx-border-color: green;");
                 errorAddBranch.setText("Запись уже существует");
             } else {
+                Branch branch = new Branch();
                 branch.setName(textAddNameBranch.getText().trim());
                 Factory.getInstance().getBranchDAO().addBranch(branch);
-                listBranch.add(branch);
-                listBranchsString.add(branch.getName());
-                listBranch.clear();
+
+                listBranchs.clear();
                 textAddNameBranch.clear();
-                listBranch.addAll(Factory.getInstance().getBranchDAO().getAllBranchs());
-                comboBranch.setItems(FXCollections.observableArrayList(listBranchsString));
-                tableBranch.setItems(listBranch);
+                listBranchs.addAll(Factory.getInstance().getBranchDAO().getAllBranchs());
+                comboBranch.setItems(FXCollections.observableArrayList(listBranchs));
+                tableBranch.setItems(FXCollections.observableArrayList(listBranchs));
             }
         } else {
             textAddNameDepartment.setStyle("-fx-border-color: red;");
@@ -1625,7 +1581,7 @@ public class GeneralController extends AbstractController implements Initializab
     }
 
     public void BtnSearchWorker() throws SQLException {
-        listWorker.clear();
+        /* listWorker.clear();
         listWorker.addAll(Factory.getInstance().getWorkerDAO().getAllWorkers());
         tableWorker.setItems(listWorker);
         for (int index = 0; index < listWorker.size(); index++) {
@@ -1832,9 +1788,57 @@ public class GeneralController extends AbstractController implements Initializab
             }
 
         }
-        listWorker = listSearchWorker;
+        listWorker = listSearchWorker;*/
+        String name = null;
+        if(textUpdateNameWorker.getText() != null) {
+            if(!"".endsWith(textUpdateNameWorker.getText().trim())) {
+                name = textUpdateNameWorker.getText();
+            }
+        }
+        String surname = null;
+        if(textUpdateSurWorker.getText() != null) {
+            if(!"".endsWith(textUpdateSurWorker.getText().trim())) {
+                surname = textUpdateSurWorker.getText();
+            }
+        }
+        String patronymic = null;
+        if(textUpdatePatWorker.getText() != null) {
+            if(!"".endsWith(textUpdatePatWorker.getText().trim())) {
+                patronymic = textUpdatePatWorker.getText();
+            }
+        }
+        
+        String birthday = null;
+        if(dataUpdateWorker.getValue() != null) {
+            birthday = dataUpdateWorker.getValue().toString();
+        }
+        Long gender = selectOneCheckBox(checkUpdateGenderMan, checkUpdateGenderWoman);
+        Long department = null;
+        if (depUpdateWorker.getValue() != null) {
+            Department dep = depUpdateWorker.getSelectionModel().getSelectedItem();
+            department = dep.getId();
+        }
+        Long benefit = null;
+        if (benUpdateWorker.getValue() != null) {
+            Benefit ben = benUpdateWorker.getSelectionModel().getSelectedItem();
+            benefit = ben.getId();
+        }
+        Long position = null;
+        if (posUpdateWorker.getValue() != null) {
+            Position pos = posUpdateWorker.getSelectionModel().getSelectedItem();
+            position = pos.getId();
+        }
+        Long branch = null;
+        if (branchUpdateWorker.getValue() != null) {
+            Branch br = branchUpdateWorker.getSelectionModel().getSelectedItem();
+            branch = br.getId();
+        }
+
+        listWorker.clear();
+        listWorker.addAll(Factory.getInstance().getWorkerDAO().searchAllWorkers(name, surname, patronymic, birthday, gender, department, benefit, position, branch));
         tableWorker.getItems().clear();
         tableWorker.setItems(listWorker);
+
         checkUpdateGenderMan.setSelected(false);
         checkUpdateGenderWoman.setSelected(false);
         textUpdateSurWorker.clear();
@@ -1910,7 +1914,7 @@ public class GeneralController extends AbstractController implements Initializab
                 worker.setBirthday(dataUpdateWorker.getValue().toString().trim());
             }
             Gender gender = new Gender();
-            gender.setId(SelectOneCheckBox(checkUpdateGenderMan, checkUpdateGenderWoman));
+            gender.setId(selectOneCheckBox(checkUpdateGenderMan, checkUpdateGenderWoman));
             worker.setGender(gender);
             Factory.getInstance().getWorkerDAO().updateWorker(worker);
             worker = null;
@@ -1971,7 +1975,7 @@ public class GeneralController extends AbstractController implements Initializab
             worker.setName(textAddNameWorker.getText().trim());
             worker.setPatronymic(textAddPatWorker.getText().trim());
             Gender gender = new Gender();
-            gender = Factory.getInstance().getGenderDAO().getGenderById(SelectOneCheckBox(checkAddGenderMan, checkAddGenderWoman));
+            gender = Factory.getInstance().getGenderDAO().getGenderById(selectOneCheckBox(checkAddGenderMan, checkAddGenderWoman));
             worker.setGender(gender);
             worker.setBirthday(dataAddWorker.getValue().toString());
             Department department = depAddWorker.getSelectionModel().getSelectedItem();
@@ -2035,9 +2039,9 @@ public class GeneralController extends AbstractController implements Initializab
         if (dataUpdateStudent.getValue() != null) {
             searchStudent.setBirthday(dataUpdateStudent.getValue().toString().trim());
         }
-        if (SelectOneCheckBox(checkUpdateGenderManStudent, checkUpdateGenderWomanStudent) != null) {
+        if (selectOneCheckBox(checkUpdateGenderManStudent, checkUpdateGenderWomanStudent) != null) {
             Gender gender = new Gender();
-            gender.setId(SelectOneCheckBox(checkUpdateGenderManStudent, checkUpdateGenderWomanStudent));
+            gender.setId(selectOneCheckBox(checkUpdateGenderManStudent, checkUpdateGenderWomanStudent));
             searchStudent.setGender(gender);
         }
 
@@ -2202,7 +2206,7 @@ public class GeneralController extends AbstractController implements Initializab
                 student.setEmail(textUpdateEmailStudent.getText().trim());
             }
             Gender gender = new Gender();
-            gender.setId(SelectOneCheckBox(checkUpdateGenderManStudent, checkUpdateGenderWomanStudent));
+            gender.setId(selectOneCheckBox(checkUpdateGenderManStudent, checkUpdateGenderWomanStudent));
             student.setGender(gender);
             Factory.getInstance().getStudentDAO().updateStudent(student);
 
@@ -2257,7 +2261,7 @@ public class GeneralController extends AbstractController implements Initializab
             student.setPhone(textAddPhoneStudent.getText().trim());
             student.setEmail(textAddEmailStudent.getText().trim());
             Gender gender = new Gender();
-            gender = Factory.getInstance().getGenderDAO().getGenderById(SelectOneCheckBox(checkAddGenderManStudent, checkAddGenderWomanStudent));
+            gender = Factory.getInstance().getGenderDAO().getGenderById(selectOneCheckBox(checkAddGenderManStudent, checkAddGenderWomanStudent));
             student.setGender(gender);
             student.setBirthday(dataAddStudent.getValue().toString().trim());
 
@@ -2330,7 +2334,7 @@ public class GeneralController extends AbstractController implements Initializab
             child.setName(textAddNameChild.getText().trim());
             child.setPatronymic(textAddPatChild.getText().trim());
             Gender gender = new Gender();
-            gender = Factory.getInstance().getGenderDAO().getGenderById(SelectOneCheckBox(checkAddGenderChildMan, checkAddGenderChildWoman));
+            gender = Factory.getInstance().getGenderDAO().getGenderById(selectOneCheckBox(checkAddGenderChildMan, checkAddGenderChildWoman));
             child.setGender(gender);
             child.setBirthday(dataAddChild.getValue().toString().trim());
             Factory.getInstance().getChildDAO().addChild(child);
@@ -2414,7 +2418,7 @@ public class GeneralController extends AbstractController implements Initializab
             child.setBirthday(dataUpdateChild.getValue().toString().trim());
         }
         Gender gender = new Gender();
-        gender.setId(SelectOneCheckBox(checkUpdateGenderChildMan, checkUpdateGenderChildWoman));
+        gender.setId(selectOneCheckBox(checkUpdateGenderChildMan, checkUpdateGenderChildWoman));
         child.setGender(gender);
         /* System.out.println("SUR:" + worker.getSurname() + "PAT:"
          + worker.getPatronymic() + "NAM:" + worker.getName() + "DR:"
@@ -2456,7 +2460,7 @@ public class GeneralController extends AbstractController implements Initializab
                 child.setBirthday(dataUpdateChild.getValue().toString().trim());
             }
             Gender gender = new Gender();
-            gender = Factory.getInstance().getGenderDAO().getGenderById(SelectOneCheckBox(checkUpdateGenderChildMan, checkUpdateGenderChildWoman));
+            gender = Factory.getInstance().getGenderDAO().getGenderById(selectOneCheckBox(checkUpdateGenderChildMan, checkUpdateGenderChildWoman));
             child.setGender(gender);
             Factory.getInstance().getChildDAO().updateChild(child);
             workersChild.setId_child(child.getId());
