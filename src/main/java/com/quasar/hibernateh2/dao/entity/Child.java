@@ -32,7 +32,7 @@ public class Child extends Model implements ExelModel,Serializable {
     @Column(name = "patronymic")
     private String patronymic;
     
-    @ManyToMany(mappedBy = "children")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "children")
     private Set<Worker> workers = new HashSet<>();
 
     public String getSurname() {
@@ -92,6 +92,14 @@ public class Child extends Model implements ExelModel,Serializable {
 
     public void setGender(Gender s) {
         gender = s;
+    }
+
+    public Set<Worker> getWorkers() {
+        return workers;
+    }
+
+    public void setWorkers(Set<Worker> workers) {
+        this.workers = workers;
     }
 
     @Override

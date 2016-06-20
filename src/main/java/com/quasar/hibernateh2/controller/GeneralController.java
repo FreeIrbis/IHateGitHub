@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
@@ -39,10 +40,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
+//import javafx.scene.control.Alert;
+//import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
+//import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -111,6 +112,8 @@ public class GeneralController extends AbstractController implements Initializab
     @FXML
     public Label errorAddWorker;
 
+    @FXML
+    public TableColumn<Worker, String> IdWorkerColumn;
     @FXML
     public TableColumn<Worker, String> SurWorkerColumn;
     @FXML
@@ -243,11 +246,7 @@ public class GeneralController extends AbstractController implements Initializab
     public TableView tableChild;
 
     Child child = new Child();
-    WorkersChild workersChild = new WorkersChild();
-    private ObservableList<Child> listChild = FXCollections.observableArrayList();
-    private ObservableList<WorkersChild> listWorkersChild = FXCollections.observableArrayList();
-    private ObservableList<WorkersChild> listSearchWorkersChild = FXCollections.observableArrayList();
-    List<String> listWorkersChildString = null;
+    private List<Child> listChild = new ArrayList<>();
 
     @FXML
     public TableColumn<Child, String> SurChildColumn;
@@ -291,6 +290,14 @@ public class GeneralController extends AbstractController implements Initializab
     public Button btnSearchChild;
     @FXML
     public Button btnDeleteChild;
+    @FXML
+    public Button btnAddParent;
+    @FXML
+    public Button btnDeleteParent;
+    @FXML
+    public TextField addIdParents;
+    @FXML
+    public ComboBox<Worker> comboParent;
 
     /*Поля студентов на редактирование*/
     @FXML
@@ -462,23 +469,24 @@ public class GeneralController extends AbstractController implements Initializab
     public Button btnDeleteBenefit;
 
     List<Benefit> listBenefits = null;
-    
-    public void getReportWorkers() throws SQLException{
-    List<ExelModel> report = null;
-    report.addAll((List<Worker>)listWorker);
-            List<List<String>> listForReport = new ArrayList<>();
-            for (ExelModel exModel : report) {
-                listForReport.add(exModel.convertToListStrings());
-                System.out.println(exModel.convertToListStrings());
-            }
-            ExelWriter ew = new ExelWriter(ExelType.XLSX);
-            try {
-                ew.write(listForReport, "./worler.xlsx", "worker");
-                System.out.println("xls");
 
-            } catch (IOException ex) {
-                Logger.getLogger(ReportController.class.getName()).log(Level.SEVERE, null, ex);
-            }}
+    public void getReportWorkers() throws SQLException {
+        List<ExelModel> report = null;
+        report.addAll((List<Worker>) listWorker);
+        List<List<String>> listForReport = new ArrayList<>();
+        for (ExelModel exModel : report) {
+            listForReport.add(exModel.convertToListStrings());
+            System.out.println(exModel.convertToListStrings());
+        }
+        ExelWriter ew = new ExelWriter(ExelType.XLSX);
+        try {
+            ew.write(listForReport, "./worler.xlsx", "worker");
+            System.out.println("xls");
+
+        } catch (IOException ex) {
+            Logger.getLogger(ReportController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     private static final Toolkit kit = Toolkit.getDefaultToolkit();
     private static final Dimension screenSize = kit.getScreenSize();
@@ -763,6 +771,7 @@ public class GeneralController extends AbstractController implements Initializab
             Logger.getLogger(GeneralController.class.getName()).log(Level.SEVERE, null, ex);
         }
         //Работники
+        IdWorkerColumn.setCellValueFactory(new PropertyValueFactory<Worker, String>("id"));
         SurWorkerColumn.setCellValueFactory(new PropertyValueFactory<Worker, String>("surname"));
         NameWorkerColumn.setCellValueFactory(new PropertyValueFactory<Worker, String>("name"));
         PatWorkerColumn.setCellValueFactory(new PropertyValueFactory<Worker, String>("patronymic"));
@@ -898,14 +907,29 @@ public class GeneralController extends AbstractController implements Initializab
             @Override
             public void handle(Event event) {
                 tableChild.getItems().clear();
+                child = null;
                 try {
-                    listWorkersChild.addAll(Factory.getInstance().getWorkersChildDAO().getAllWorkersChilden());
+                    listChild.clear();
                     listChild.addAll(Factory.getInstance().getChildDAO().getAllChildren());
                 } catch (SQLException ex) {
                     Logger.getLogger(GeneralController.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                tableChild.setItems(FXCollections.observableArrayList(listChild));
 
-                tableChild.setItems(listChild);
+                /*comboParent.setCellFactory((comboBox) -> {
+                    return new ListCell<Worker>() {
+                        @Override
+                        protected void updateItem(Worker item, boolean empty) {
+                            super.updateItem(item, empty);
+
+                            if (item == null || empty) {
+                                setText(null);
+                            } else {
+                                setText(item.getId().toString() + " " + item.getSurname() + " " + item.getName());
+                            }
+                        }
+                    };
+                });*/
             }
         });
 
@@ -1101,72 +1125,72 @@ public class GeneralController extends AbstractController implements Initializab
         if (comboPos.getValue() != null) {
             comboPos.setStyle("");
             if (textUpdatePos.getText().length() > 4) {
-                Alert alert = new Alert(AlertType.CONFIRMATION);
-                alert.setTitle("Редактирование");
-                alert.setContentText("Вы действительно хотите редактировать запись?");
-                alert.setHeaderText("Подтверждение операции");
-                Optional<ButtonType> result = alert.showAndWait();
-                if (result.get() == ButtonType.OK) {
-                    textUpdatePos.setStyle("");
-                    errorUpdatePos.setText("");
+//                Alert alert = new Alert(AlertType.CONFIRMATION);
+//                alert.setTitle("Редактирование");
+//                alert.setContentText("Вы действительно хотите редактировать запись?");
+//                alert.setHeaderText("Подтверждение операции");
+//                Optional<ButtonType> result = alert.showAndWait();
+//                if (result.get() == ButtonType.OK) {
+                textUpdatePos.setStyle("");
+                errorUpdatePos.setText("");
 
-                    Position selectedPosition = comboPos.getSelectionModel().getSelectedItem();
+                Position selectedPosition = comboPos.getSelectionModel().getSelectedItem();
 
-                    int index = comboPos.getSelectionModel().getSelectedIndex();
-                    System.out.println("comboPos.getSelectionModel().getSelectedIndex(); = " + index);
+                int index = comboPos.getSelectionModel().getSelectedIndex();
+                System.out.println("comboPos.getSelectionModel().getSelectedIndex(); = " + index);
 
-                    // обновление имени должности
-                    String reName = textUpdatePos.getText();
-                    selectedPosition.setName(reName);
+                // обновление имени должности
+                String reName = textUpdatePos.getText();
+                selectedPosition.setName(reName);
 
-                    // обновление должности в БД
-                    Factory.getInstance().getPositionDAO().updatePosition(selectedPosition);
+                // обновление должности в БД
+                Factory.getInstance().getPositionDAO().updatePosition(selectedPosition);
 
-                    // очистка списка должностей
-                    listPositions.clear();
-                    listPositions.addAll(Factory.getInstance().getPositionDAO().getAllPositions());
+                // очистка списка должностей
+                listPositions.clear();
+                listPositions.addAll(Factory.getInstance().getPositionDAO().getAllPositions());
 
-                    textUpdatePos.clear();
+                textUpdatePos.clear();
 
-                    // установка нового списка должностей в комбобокс
-                    comboPos.setItems(FXCollections.observableArrayList(listPositions));
-                    tablePosition.setItems(FXCollections.observableArrayList(listPositions));
-                }
-            } else {
-                textUpdatePos.setStyle("-fx-border-color: red;");
-                errorUpdatePos.setText("Некорректное название");
+                // установка нового списка должностей в комбобокс
+                comboPos.setItems(FXCollections.observableArrayList(listPositions));
+                tablePosition.setItems(FXCollections.observableArrayList(listPositions));
             }
         } else {
-            comboPos.setStyle("-fx-border-color: red;");
-
+            textUpdatePos.setStyle("-fx-border-color: red;");
+            errorUpdatePos.setText("Некорректное название");
         }
+//        } else {
+//            comboPos.setStyle("-fx-border-color: red;");
+//
+//        }
 
     }
 
     /*Удаление должности через кнопку*/
     public void BtnDeletePosition() throws SQLException {
         if (comboPos.getValue() != null) {
-            Alert alert = new Alert(AlertType.CONFIRMATION);
-            alert.setTitle("Удаление");
-            alert.setContentText("Вы действительно хотите удалить запись?");
-            alert.setHeaderText("Подтверждение операции");
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == ButtonType.OK) {
-                Position selectedPosition = comboPos.getSelectionModel().getSelectedItem();
-                // Удаление должности
-                Factory.getInstance().getPositionDAO().deletePosition(selectedPosition);
+//            Alert alert = new Alert(AlertType.CONFIRMATION);
+//            alert.setTitle("Удаление");
+//            alert.setContentText("Вы действительно хотите удалить запись?");
+//            alert.setHeaderText("Подтверждение операции");
+//            Optional<ButtonType> result = alert.showAndWait();
+//            if (result.get() == ButtonType.OK) {
+            Position selectedPosition = comboPos.getSelectionModel().getSelectedItem();
+            // Удаление должности
+            Factory.getInstance().getPositionDAO().deletePosition(selectedPosition);
 
-                // Обновление списка должностей
-                listPositions.clear();
-                listPositions.addAll(Factory.getInstance().getPositionDAO().getAllPositions());
+            // Обновление списка должностей
+            listPositions.clear();
+            listPositions.addAll(Factory.getInstance().getPositionDAO().getAllPositions());
 
-                // Установка обновленного списка должностей
-                comboPos.setItems(FXCollections.observableArrayList(listPositions));
-                tablePosition.setItems(FXCollections.observableArrayList(listPositions));
-            }
-        } else {
-            comboPos.setStyle("-fx-border-color: red;");
+            // Установка обновленного списка должностей
+            comboPos.setItems(FXCollections.observableArrayList(listPositions));
+            tablePosition.setItems(FXCollections.observableArrayList(listPositions));
         }
+//        } else {
+//            comboPos.setStyle("-fx-border-color: red;");
+//        }
     }
 
     /*Добавление должности через кнопку*/
@@ -1206,37 +1230,37 @@ public class GeneralController extends AbstractController implements Initializab
         if (comboGroup.getValue() != null) {
             comboPos.setStyle("");
             if (textUpdateNameGroup.getText().length() > 4) {
-                Alert alert = new Alert(AlertType.CONFIRMATION);
-                alert.setTitle("Редактирование");
-                alert.setContentText("Вы действительно хотите редактировать запись?");
-                alert.setHeaderText("Подтверждение операции");
-                Optional<ButtonType> result = alert.showAndWait();
-                if (result.get() == ButtonType.OK) {
-                    textUpdateNameGroup.setStyle("");
-                    errorUpdateGroup.setText("");
+//                Alert alert = new Alert(AlertType.CONFIRMATION);
+//                alert.setTitle("Редактирование");
+//                alert.setContentText("Вы действительно хотите редактировать запись?");
+//                alert.setHeaderText("Подтверждение операции");
+//                Optional<ButtonType> result = alert.showAndWait();
+//                if (result.get() == ButtonType.OK) {
+                textUpdateNameGroup.setStyle("");
+                errorUpdateGroup.setText("");
 
-                    Groups slectedGroups = comboGroup.getSelectionModel().getSelectedItem();
-                    String reName = textUpdateNameGroup.getText();
+                Groups slectedGroups = comboGroup.getSelectionModel().getSelectedItem();
+                String reName = textUpdateNameGroup.getText();
 
-                    slectedGroups.setName(reName);
+                slectedGroups.setName(reName);
 
-                    Factory.getInstance().getGroupDAO().updateGroups(slectedGroups);
+                Factory.getInstance().getGroupDAO().updateGroups(slectedGroups);
 
-                    listGroups.clear();
-                    listGroups.addAll(Factory.getInstance().getGroupDAO().getAllGroups());
+                listGroups.clear();
+                listGroups.addAll(Factory.getInstance().getGroupDAO().getAllGroups());
 
-                    textUpdateNameGroup.clear();
-                    comboGroup.setItems(FXCollections.observableArrayList(listGroups));
-                    tableGroup.setItems(FXCollections.observableArrayList(listGroups));
-                }
-            } else {
-                textUpdateNameGroup.setStyle("-fx-border-color: red;");
-                errorUpdateGroup.setText("Некорректное название");
+                textUpdateNameGroup.clear();
+                comboGroup.setItems(FXCollections.observableArrayList(listGroups));
+                tableGroup.setItems(FXCollections.observableArrayList(listGroups));
             }
         } else {
-            comboGroup.setStyle("-fx-border-color: red;");
-
+            textUpdateNameGroup.setStyle("-fx-border-color: red;");
+            errorUpdateGroup.setText("Некорректное название");
         }
+//        } else {
+//            comboGroup.setStyle("-fx-border-color: red;");
+//
+//        }
 
     }
 
@@ -1244,25 +1268,25 @@ public class GeneralController extends AbstractController implements Initializab
     public void BtnDeleteGroup() throws SQLException {
 
         if (comboGroup.getValue() != null) {
-            Alert alert = new Alert(AlertType.CONFIRMATION);
-            alert.setTitle("Удаление");
-            alert.setContentText("Вы действительно хотите удалить запись?");
-            alert.setHeaderText("Подтверждение операции");
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == ButtonType.OK) {
-                Groups slectedGroups = comboGroup.getSelectionModel().getSelectedItem();
+//            Alert alert = new Alert(AlertType.CONFIRMATION);
+//            alert.setTitle("Удаление");
+//            alert.setContentText("Вы действительно хотите удалить запись?");
+//            alert.setHeaderText("Подтверждение операции");
+//            Optional<ButtonType> result = alert.showAndWait();
+//            if (result.get() == ButtonType.OK) {
+            Groups slectedGroups = comboGroup.getSelectionModel().getSelectedItem();
 
-                Factory.getInstance().getGroupDAO().deleteGroups(slectedGroups);
+            Factory.getInstance().getGroupDAO().deleteGroups(slectedGroups);
 
-                listGroups.clear();
-                listGroups.addAll(Factory.getInstance().getGroupDAO().getAllGroups());
+            listGroups.clear();
+            listGroups.addAll(Factory.getInstance().getGroupDAO().getAllGroups());
 
-                comboGroup.setItems(FXCollections.observableArrayList(listGroups));
-                tableGroup.setItems(FXCollections.observableArrayList(listGroups));
-            }
-        } else {
-            comboGroup.setStyle("-fx-border-color: red;");
+            comboGroup.setItems(FXCollections.observableArrayList(listGroups));
+            tableGroup.setItems(FXCollections.observableArrayList(listGroups));
         }
+//        } else {
+//            comboGroup.setStyle("-fx-border-color: red;");
+//        }
 
     }
 
@@ -1304,35 +1328,35 @@ public class GeneralController extends AbstractController implements Initializab
         if (comboDepartment.getValue() != null) {
             comboDepartment.setStyle("");
             if (textUpdateNameDepartment.getText().length() > 4) {
-                Alert alert = new Alert(AlertType.CONFIRMATION);
-                alert.setTitle("Редактирование");
-                alert.setContentText("Вы действительно хотите редактировать запись?");
-                alert.setHeaderText("Подтверждение операции");
-                Optional<ButtonType> result = alert.showAndWait();
-                if (result.get() == ButtonType.OK) {
-                    textUpdateNameDepartment.setStyle("");
-                    errorUpdateDepartment.setText("");
-                    Department selectedDepartment = comboDepartment.getSelectionModel().getSelectedItem();
-                    String reName = textUpdateNameDepartment.getText();
-                    selectedDepartment.setName(reName);
+//                Alert alert = new Alert(AlertType.CONFIRMATION);
+//                alert.setTitle("Редактирование");
+//                alert.setContentText("Вы действительно хотите редактировать запись?");
+//                alert.setHeaderText("Подтверждение операции");
+//                Optional<ButtonType> result = alert.showAndWait();
+//                if (result.get() == ButtonType.OK) {
+                textUpdateNameDepartment.setStyle("");
+                errorUpdateDepartment.setText("");
+                Department selectedDepartment = comboDepartment.getSelectionModel().getSelectedItem();
+                String reName = textUpdateNameDepartment.getText();
+                selectedDepartment.setName(reName);
 
-                    Factory.getInstance().getDepartmentDAO().updateDepartment(selectedDepartment);
+                Factory.getInstance().getDepartmentDAO().updateDepartment(selectedDepartment);
 
-                    listDepartments.clear();
-                    listDepartments.addAll(Factory.getInstance().getDepartmentDAO().getAllDepartments());
+                listDepartments.clear();
+                listDepartments.addAll(Factory.getInstance().getDepartmentDAO().getAllDepartments());
 
-                    textUpdateNameDepartment.clear();
-                    comboDepartment.setItems(FXCollections.observableArrayList(listDepartments));
-                    tableDepartment.setItems(FXCollections.observableArrayList(listDepartments));
-                }
-            } else {
-                textUpdateNameDepartment.setStyle("-fx-border-color: red;");
-                errorUpdateDepartment.setText("Некорректное название");
+                textUpdateNameDepartment.clear();
+                comboDepartment.setItems(FXCollections.observableArrayList(listDepartments));
+                tableDepartment.setItems(FXCollections.observableArrayList(listDepartments));
             }
         } else {
-            comboDepartment.setStyle("-fx-border-color: red;");
-
+            textUpdateNameDepartment.setStyle("-fx-border-color: red;");
+            errorUpdateDepartment.setText("Некорректное название");
         }
+//        } else {
+//            comboDepartment.setStyle("-fx-border-color: red;");
+//
+//        }
 
     }
 
@@ -1340,25 +1364,25 @@ public class GeneralController extends AbstractController implements Initializab
     public void BtnDeleteDepartment() throws SQLException {
 
         if (comboDepartment.getValue() != null) {
-            Alert alert = new Alert(AlertType.CONFIRMATION);
-            alert.setTitle("Удаление");
-            alert.setContentText("Вы действительно хотите удалить запись?");
-            alert.setHeaderText("Подтверждение операции");
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == ButtonType.OK) {
-                Department selectedDepartment = comboDepartment.getSelectionModel().getSelectedItem();
+//            Alert alert = new Alert(AlertType.CONFIRMATION);
+//            alert.setTitle("Удаление");
+//            alert.setContentText("Вы действительно хотите удалить запись?");
+//            alert.setHeaderText("Подтверждение операции");
+//            Optional<ButtonType> result = alert.showAndWait();
+//            if (result.get() == ButtonType.OK) {
+            Department selectedDepartment = comboDepartment.getSelectionModel().getSelectedItem();
 
-                Factory.getInstance().getDepartmentDAO().deleteDepartment(selectedDepartment);
+            Factory.getInstance().getDepartmentDAO().deleteDepartment(selectedDepartment);
 
-                listDepartments.clear();
-                listDepartments.addAll(Factory.getInstance().getDepartmentDAO().getAllDepartments());
+            listDepartments.clear();
+            listDepartments.addAll(Factory.getInstance().getDepartmentDAO().getAllDepartments());
 
-                comboDepartment.setItems(FXCollections.observableArrayList(listDepartments));
-                tableDepartment.setItems(FXCollections.observableArrayList(listDepartments));
-            }
-        } else {
-            comboDepartment.setStyle("-fx-border-color: red;");
+            comboDepartment.setItems(FXCollections.observableArrayList(listDepartments));
+            tableDepartment.setItems(FXCollections.observableArrayList(listDepartments));
         }
+//        } else {
+//            comboDepartment.setStyle("-fx-border-color: red;");
+//        }
 
     }
 
@@ -1399,54 +1423,54 @@ public class GeneralController extends AbstractController implements Initializab
         if (comboBranch.getValue() != null) {
             comboBranch.setStyle("");
             if (textUpdateNameBranch.getText().length() > 4) {
-                Alert alert = new Alert(AlertType.CONFIRMATION);
-                alert.setTitle("Редактирование");
-                alert.setContentText("Вы действительно хотите редактировать запись?");
-                alert.setHeaderText("Подтверждение операции");
-                Optional<ButtonType> result = alert.showAndWait();
-                if (result.get() == ButtonType.OK) {
-                    textUpdateNameBranch.setStyle("");
-                    errorUpdateBranch.setText("");
+//                Alert alert = new Alert(AlertType.CONFIRMATION);
+//                alert.setTitle("Редактирование");
+//                alert.setContentText("Вы действительно хотите редактировать запись?");
+//                alert.setHeaderText("Подтверждение операции");
+//                Optional<ButtonType> result = alert.showAndWait();
+//                if (result.get() == ButtonType.OK) {
+                textUpdateNameBranch.setStyle("");
+                errorUpdateBranch.setText("");
 
-                    String reName = textUpdateNameBranch.getText();
-                    Branch getBranch = comboBranch.getSelectionModel().getSelectedItem();
-                    getBranch.setName(reName);
-                    
-                    Factory.getInstance().getBranchDAO().updateBranch(getBranch);
-                    listBranchs.clear();
-                    listBranchs.addAll(Factory.getInstance().getBranchDAO().getAllBranchs());
-                    textUpdateNameBranch.clear();
-                    comboBranch.setItems(FXCollections.observableArrayList(listBranchs));
-                    tableBranch.setItems(FXCollections.observableArrayList(listBranchs));
-                }
-            } else {
-                textUpdateNameBranch.setStyle("-fx-border-color: red;");
-                errorUpdateBranch.setText("Некорректное название");
+                String reName = textUpdateNameBranch.getText();
+                Branch getBranch = comboBranch.getSelectionModel().getSelectedItem();
+                getBranch.setName(reName);
+
+                Factory.getInstance().getBranchDAO().updateBranch(getBranch);
+                listBranchs.clear();
+                listBranchs.addAll(Factory.getInstance().getBranchDAO().getAllBranchs());
+                textUpdateNameBranch.clear();
+                comboBranch.setItems(FXCollections.observableArrayList(listBranchs));
+                tableBranch.setItems(FXCollections.observableArrayList(listBranchs));
             }
         } else {
-            comboDepartment.setStyle("-fx-border-color: red;");
+            textUpdateNameBranch.setStyle("-fx-border-color: red;");
+            errorUpdateBranch.setText("Некорректное название");
         }
+//        } else {
+//            comboDepartment.setStyle("-fx-border-color: red;");
+//        }
 
     }
 
     /*Удаление Отделения через кнопку*/
     public void BtnDeleteBranch() throws SQLException {
         if (comboBranch.getValue() != null) {
-            Alert alert = new Alert(AlertType.CONFIRMATION);
-            alert.setTitle("Удаление");
-            alert.setContentText("Вы действительно хотите удалить запись?");
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == ButtonType.OK) {
-                Branch getBranch = comboBranch.getSelectionModel().getSelectedItem();
-                Factory.getInstance().getBranchDAO().deleteBranch(getBranch);
-                listBranchs.clear();
-                listBranchs.addAll(Factory.getInstance().getBranchDAO().getAllBranchs());
-                comboBranch.setItems(FXCollections.observableArrayList(listBranchs));
-                tableBranch.setItems(FXCollections.observableArrayList(listBranchs));
-            }
-        } else {
-            comboBranch.setStyle("-fx-border-color: red;");
+//            Alert alert = new Alert(AlertType.CONFIRMATION);
+//            alert.setTitle("Удаление");
+//            alert.setContentText("Вы действительно хотите удалить запись?");
+//            Optional<ButtonType> result = alert.showAndWait();
+//            if (result.get() == ButtonType.OK) {
+            Branch getBranch = comboBranch.getSelectionModel().getSelectedItem();
+            Factory.getInstance().getBranchDAO().deleteBranch(getBranch);
+            listBranchs.clear();
+            listBranchs.addAll(Factory.getInstance().getBranchDAO().getAllBranchs());
+            comboBranch.setItems(FXCollections.observableArrayList(listBranchs));
+            tableBranch.setItems(FXCollections.observableArrayList(listBranchs));
         }
+//        } else {
+//            comboBranch.setStyle("-fx-border-color: red;");
+//        }
 
     }
 
@@ -1491,34 +1515,34 @@ public class GeneralController extends AbstractController implements Initializab
         if (comboBenefit.getValue() != null) {
             comboBenefit.setStyle("");
             if (textUpdateNameBenefit.getText().length() > 4) {
-                Alert alert = new Alert(AlertType.CONFIRMATION);
-                alert.setTitle("Редактирование");
-                alert.setContentText("Вы действительно хотите изменить запись?");
-                alert.setHeaderText("Подтверждение операции");
-                Optional<ButtonType> result = alert.showAndWait();
-                if (result.get() == ButtonType.OK) {
-                    textUpdateNameBenefit.setStyle("");
-                    errorUpdateBenefit.setText("");
-                    Benefit selectionBenefit = comboBenefit.getSelectionModel().getSelectedItem();
-                    String reName = textUpdateNameBenefit.getText();
-                    selectionBenefit.setName(reName);
+//                Alert alert = new Alert(AlertType.CONFIRMATION);
+//                alert.setTitle("Редактирование");
+//                alert.setContentText("Вы действительно хотите изменить запись?");
+//                alert.setHeaderText("Подтверждение операции");
+//                Optional<ButtonType> result = alert.showAndWait();
+//                if (result.get() == ButtonType.OK) {
+                textUpdateNameBenefit.setStyle("");
+                errorUpdateBenefit.setText("");
+                Benefit selectionBenefit = comboBenefit.getSelectionModel().getSelectedItem();
+                String reName = textUpdateNameBenefit.getText();
+                selectionBenefit.setName(reName);
 
-                    Factory.getInstance().getBenefitDAO().updateBenefit(selectionBenefit);
+                Factory.getInstance().getBenefitDAO().updateBenefit(selectionBenefit);
 
-                    listBenefits.clear();
-                    listBenefits.addAll(Factory.getInstance().getBenefitDAO().getAllBenefits());
+                listBenefits.clear();
+                listBenefits.addAll(Factory.getInstance().getBenefitDAO().getAllBenefits());
 
-                    textUpdateNameBenefit.clear();
-                    comboBenefit.setItems(FXCollections.observableArrayList(listBenefits));
-                    tableBenefit.setItems(FXCollections.observableArrayList(listBenefits));
-                }
-            } else {
-                textUpdateNameBenefit.setStyle("-fx-border-color: red;");
-                errorUpdateBenefit.setText("Некорректное название");
+                textUpdateNameBenefit.clear();
+                comboBenefit.setItems(FXCollections.observableArrayList(listBenefits));
+                tableBenefit.setItems(FXCollections.observableArrayList(listBenefits));
             }
         } else {
-            comboBenefit.setStyle("-fx-border-color: red;");
+            textUpdateNameBenefit.setStyle("-fx-border-color: red;");
+            errorUpdateBenefit.setText("Некорректное название");
         }
+//        } else {
+//            comboBenefit.setStyle("-fx-border-color: red;");
+//        }
 
     }
 
@@ -1526,25 +1550,25 @@ public class GeneralController extends AbstractController implements Initializab
     public void BtnDeleteBenefit() throws SQLException {
 
         if (comboBenefit.getSelectionModel().getSelectedItem() != null) {
-            Alert alert = new Alert(AlertType.CONFIRMATION);
-            alert.setTitle("Удаление");
-            alert.setContentText("Вы действительно хотите удалить запись?");
-            alert.setHeaderText("Подтверждение операции");
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == ButtonType.OK) {
-                Benefit selectionBenefit = comboBenefit.getSelectionModel().getSelectedItem();
+//            Alert alert = new Alert(AlertType.CONFIRMATION);
+//            alert.setTitle("Удаление");
+//            alert.setContentText("Вы действительно хотите удалить запись?");
+//            alert.setHeaderText("Подтверждение операции");
+//            Optional<ButtonType> result = alert.showAndWait();
+//            if (result.get() == ButtonType.OK) {
+            Benefit selectionBenefit = comboBenefit.getSelectionModel().getSelectedItem();
 
-                Factory.getInstance().getBenefitDAO().deleteBenefit(selectionBenefit);
+            Factory.getInstance().getBenefitDAO().deleteBenefit(selectionBenefit);
 
-                listBenefits.clear();
-                listBenefits.addAll(Factory.getInstance().getBenefitDAO().getAllBenefits());
+            listBenefits.clear();
+            listBenefits.addAll(Factory.getInstance().getBenefitDAO().getAllBenefits());
 
-                comboBenefit.setItems(FXCollections.observableArrayList(listBenefits));
-                tableBenefit.setItems(FXCollections.observableArrayList(listBenefits));
-            }
-        } else {
-            comboBenefit.setStyle("-fx-border-color: red;");
+            comboBenefit.setItems(FXCollections.observableArrayList(listBenefits));
+            tableBenefit.setItems(FXCollections.observableArrayList(listBenefits));
         }
+//        } else {
+//            comboBenefit.setStyle("-fx-border-color: red;");
+//        }
 
     }
 
@@ -1582,234 +1606,234 @@ public class GeneralController extends AbstractController implements Initializab
 
     public void BtnSearchWorker() throws SQLException {
         /* listWorker.clear();
-        listWorker.addAll(Factory.getInstance().getWorkerDAO().getAllWorkers());
-        tableWorker.setItems(listWorker);
-        for (int index = 0; index < listWorker.size(); index++) {
-            worker = listWorker.get(index);
-            System.out.println(listWorker.get(index).convertToListStrings());
-        }
-        boolean searchBool = true;
-        Worker searchWorker = new Worker();
-        if (textUpdateSurWorker.getText().length() > 1) {
-            searchWorker.setSurname(textUpdateSurWorker.getText());
-        }
-        if (textUpdateNameWorker.getText().length() > 1) {
-            searchWorker.setName(textUpdateNameWorker.getText());
-        }
-        if (textUpdatePatWorker.getText().length() > 4) {
-            searchWorker.setPatronymic(textUpdatePatWorker.getText());
-        }
-        if (depUpdateWorker.getValue() != null) {
-            Department department = depUpdateWorker.getSelectionModel().getSelectedItem();
-            searchWorker.setDepartment(department);
-        }
-        if (benUpdateWorker.getValue() != null) {
-            Benefit benefit = benUpdateWorker.getSelectionModel().getSelectedItem();
-            searchWorker.setBenefit(benefit);
-        }
-        if (posUpdateWorker.getValue() != null) {
-            Position selectedPosition = posUpdateWorker.getSelectionModel().getSelectedItem();
-            searchWorker.setPosition(selectedPosition);
-        }
-        if (dataUpdateWorker.getValue() != null) {
-            searchWorker.setBirthday(dataUpdateWorker.getValue().toString());
-        }
-        if (SelectOneCheckBox(checkUpdateGenderMan, checkUpdateGenderWoman) != null) {
-            Gender gender = new Gender();
-            gender.setId(SelectOneCheckBox(checkUpdateGenderMan, checkUpdateGenderWoman));
-            searchWorker.setGender(gender);
-        }
-        if (listWorker.size()==0) {
-            worker = listWorker.get(0);
-            System.out.println(listWorker.get(0).convertToListStrings());
+         listWorker.addAll(Factory.getInstance().getWorkerDAO().getAllWorkers());
+         tableWorker.setItems(listWorker);
+         for (int index = 0; index < listWorker.size(); index++) {
+         worker = listWorker.get(index);
+         System.out.println(listWorker.get(index).convertToListStrings());
+         }
+         boolean searchBool = true;
+         Worker searchWorker = new Worker();
+         if (textUpdateSurWorker.getText().length() > 1) {
+         searchWorker.setSurname(textUpdateSurWorker.getText());
+         }
+         if (textUpdateNameWorker.getText().length() > 1) {
+         searchWorker.setName(textUpdateNameWorker.getText());
+         }
+         if (textUpdatePatWorker.getText().length() > 4) {
+         searchWorker.setPatronymic(textUpdatePatWorker.getText());
+         }
+         if (depUpdateWorker.getValue() != null) {
+         Department department = depUpdateWorker.getSelectionModel().getSelectedItem();
+         searchWorker.setDepartment(department);
+         }
+         if (benUpdateWorker.getValue() != null) {
+         Benefit benefit = benUpdateWorker.getSelectionModel().getSelectedItem();
+         searchWorker.setBenefit(benefit);
+         }
+         if (posUpdateWorker.getValue() != null) {
+         Position selectedPosition = posUpdateWorker.getSelectionModel().getSelectedItem();
+         searchWorker.setPosition(selectedPosition);
+         }
+         if (dataUpdateWorker.getValue() != null) {
+         searchWorker.setBirthday(dataUpdateWorker.getValue().toString());
+         }
+         if (SelectOneCheckBox(checkUpdateGenderMan, checkUpdateGenderWoman) != null) {
+         Gender gender = new Gender();
+         gender.setId(SelectOneCheckBox(checkUpdateGenderMan, checkUpdateGenderWoman));
+         searchWorker.setGender(gender);
+         }
+         if (listWorker.size()==0) {
+         worker = listWorker.get(0);
+         System.out.println(listWorker.get(0).convertToListStrings());
 
-            if (searchWorker.getSurname() != null && searchBool == true) {
-                if (searchWorker.getSurname().toString().equals(worker.getSurname().toString())) {
+         if (searchWorker.getSurname() != null && searchBool == true) {
+         if (searchWorker.getSurname().toString().equals(worker.getSurname().toString())) {
 
-                } else {
-                    searchBool = false;
-                }
-            } else {
-            }
-            if (searchWorker.getName() != null && searchBool == true) {
-                if (worker.getName().toString().equals(searchWorker.getName().toString())) {
+         } else {
+         searchBool = false;
+         }
+         } else {
+         }
+         if (searchWorker.getName() != null && searchBool == true) {
+         if (worker.getName().toString().equals(searchWorker.getName().toString())) {
 
-                } else {
-                    searchBool = false;
-                }
-            } else {
+         } else {
+         searchBool = false;
+         }
+         } else {
 
-            }
-            if (searchWorker.getPatronymic() != null && searchBool == true) {
-                if (worker.getPatronymic().toString().equals(searchWorker.getPatronymic().toString())) {
-                } else {
-                    searchBool = false;
-                }
-            } else {
+         }
+         if (searchWorker.getPatronymic() != null && searchBool == true) {
+         if (worker.getPatronymic().toString().equals(searchWorker.getPatronymic().toString())) {
+         } else {
+         searchBool = false;
+         }
+         } else {
 
-            }
-            if (searchWorker.getBirthday() != null && searchBool == true) {
-                if (worker.getBirthday().toString().equals(searchWorker.getBirthday().toString())) {
+         }
+         if (searchWorker.getBirthday() != null && searchBool == true) {
+         if (worker.getBirthday().toString().equals(searchWorker.getBirthday().toString())) {
 
-                } else {
-                    searchBool = false;
-                }
-            } else {
+         } else {
+         searchBool = false;
+         }
+         } else {
 
-            }
-            if (searchWorker.getBenefit() != null && searchBool == true) {
-                if (worker.getBenefit().toString().equals(searchWorker.getBenefit().toString())) {
-                    searchBool = false;
-                } else {
+         }
+         if (searchWorker.getBenefit() != null && searchBool == true) {
+         if (worker.getBenefit().toString().equals(searchWorker.getBenefit().toString())) {
+         searchBool = false;
+         } else {
 
-                }
-            } else {
+         }
+         } else {
 
-            }
-            if (searchWorker.getDepartment() != null && searchBool == true) {
-                if (worker.getDepartment().toString().equals(searchWorker.getDepartment().toString())) {
+         }
+         if (searchWorker.getDepartment() != null && searchBool == true) {
+         if (worker.getDepartment().toString().equals(searchWorker.getDepartment().toString())) {
 
-                } else {
-                    searchBool = false;
-                }
-            } else {
+         } else {
+         searchBool = false;
+         }
+         } else {
 
-            }
+         }
 
-            if (searchWorker.getPosition() != null && searchBool == true) {
-                if (worker.getPosition().toString().equals(searchWorker.getPosition().toString())) {
+         if (searchWorker.getPosition() != null && searchBool == true) {
+         if (worker.getPosition().toString().equals(searchWorker.getPosition().toString())) {
 
-                } else {
-                    searchBool = false;
-                }
-            } else {
+         } else {
+         searchBool = false;
+         }
+         } else {
 
-            }
-            if (searchWorker.getGender() != null && searchBool == true) {
-                if (worker.getGender() == searchWorker.getGender()) {
+         }
+         if (searchWorker.getGender() != null && searchBool == true) {
+         if (worker.getGender() == searchWorker.getGender()) {
 
-                } else {
-                    searchBool = false;
-                }
-            } else {
+         } else {
+         searchBool = false;
+         }
+         } else {
 
-            }
-            if (searchBool == true) {
-                listSearchWorker.add(worker);
-            } else {
-                searchBool = true;
-            }
+         }
+         if (searchBool == true) {
+         listSearchWorker.add(worker);
+         } else {
+         searchBool = true;
+         }
 
-        } else {
-            for (int index = 1; index < listWorker.size(); index++) {
-                worker = listWorker.get(index);
-                System.out.println(listWorker.get(index).convertToListStrings());
+         } else {
+         for (int index = 1; index < listWorker.size(); index++) {
+         worker = listWorker.get(index);
+         System.out.println(listWorker.get(index).convertToListStrings());
 
-                if (searchWorker.getSurname() != null && searchBool == true) {
-                    if (searchWorker.getSurname().toString().equals(worker.getSurname().toString())) {
+         if (searchWorker.getSurname() != null && searchBool == true) {
+         if (searchWorker.getSurname().toString().equals(worker.getSurname().toString())) {
 
-                    } else {
-                        searchBool = false;
-                    }
-                } else {
-                }
-                if (searchWorker.getName() != null && searchBool == true) {
-                    if (worker.getName().toString().equals(searchWorker.getName().toString())) {
+         } else {
+         searchBool = false;
+         }
+         } else {
+         }
+         if (searchWorker.getName() != null && searchBool == true) {
+         if (worker.getName().toString().equals(searchWorker.getName().toString())) {
 
-                    } else {
-                        searchBool = false;
-                    }
-                } else {
+         } else {
+         searchBool = false;
+         }
+         } else {
 
-                }
-                if (searchWorker.getPatronymic() != null && searchBool == true) {
-                    if (worker.getPatronymic().toString().equals(searchWorker.getPatronymic().toString())) {
-                    } else {
-                        searchBool = false;
-                    }
-                } else {
+         }
+         if (searchWorker.getPatronymic() != null && searchBool == true) {
+         if (worker.getPatronymic().toString().equals(searchWorker.getPatronymic().toString())) {
+         } else {
+         searchBool = false;
+         }
+         } else {
 
-                }
-                if (searchWorker.getBirthday() != null && searchBool == true) {
-                    if (worker.getBirthday().toString().equals(searchWorker.getBirthday().toString())) {
+         }
+         if (searchWorker.getBirthday() != null && searchBool == true) {
+         if (worker.getBirthday().toString().equals(searchWorker.getBirthday().toString())) {
 
-                    } else {
-                        searchBool = false;
-                    }
-                } else {
+         } else {
+         searchBool = false;
+         }
+         } else {
 
-                }
-                if (searchWorker.getBenefit() != null && searchBool == true) {
-                    if (worker.getBenefit().toString().equals(searchWorker.getBenefit().toString())) {
-                        searchBool = false;
-                    } else {
+         }
+         if (searchWorker.getBenefit() != null && searchBool == true) {
+         if (worker.getBenefit().toString().equals(searchWorker.getBenefit().toString())) {
+         searchBool = false;
+         } else {
 
-                    }
-                } else {
+         }
+         } else {
 
-                }
-                if (searchWorker.getDepartment() != null && searchBool == true) {
-                    if (worker.getDepartment().toString().equals(searchWorker.getDepartment().toString())) {
+         }
+         if (searchWorker.getDepartment() != null && searchBool == true) {
+         if (worker.getDepartment().toString().equals(searchWorker.getDepartment().toString())) {
 
-                    } else {
-                        searchBool = false;
-                    }
-                } else {
+         } else {
+         searchBool = false;
+         }
+         } else {
 
-                }
+         }
 
-                if (searchWorker.getPosition() != null && searchBool == true) {
-                    if (worker.getPosition().toString().equals(searchWorker.getPosition().toString())) {
+         if (searchWorker.getPosition() != null && searchBool == true) {
+         if (worker.getPosition().toString().equals(searchWorker.getPosition().toString())) {
 
-                    } else {
-                        searchBool = false;
-                    }
-                } else {
+         } else {
+         searchBool = false;
+         }
+         } else {
 
-                }
-                if (searchWorker.getGender() != null && searchBool == true) {
-                    if (worker.getGender() == searchWorker.getGender()) {
+         }
+         if (searchWorker.getGender() != null && searchBool == true) {
+         if (worker.getGender() == searchWorker.getGender()) {
 
-                    } else {
-                        searchBool = false;
-                    }
-                } else {
+         } else {
+         searchBool = false;
+         }
+         } else {
 
-                }
-                if (searchBool == true) {
-                    listSearchWorker.add(worker);
-                } else {
-                    searchBool = true;
-                }
-                if (listWorker.size() == 1) {
-                    break;
-                }
+         }
+         if (searchBool == true) {
+         listSearchWorker.add(worker);
+         } else {
+         searchBool = true;
+         }
+         if (listWorker.size() == 1) {
+         break;
+         }
 
-            }
+         }
 
-        }
-        listWorker = listSearchWorker;*/
+         }
+         listWorker = listSearchWorker;*/
         String name = null;
-        if(textUpdateNameWorker.getText() != null) {
-            if(!"".endsWith(textUpdateNameWorker.getText().trim())) {
+        if (textUpdateNameWorker.getText() != null) {
+            if (!"".endsWith(textUpdateNameWorker.getText().trim())) {
                 name = textUpdateNameWorker.getText();
             }
         }
         String surname = null;
-        if(textUpdateSurWorker.getText() != null) {
-            if(!"".endsWith(textUpdateSurWorker.getText().trim())) {
+        if (textUpdateSurWorker.getText() != null) {
+            if (!"".endsWith(textUpdateSurWorker.getText().trim())) {
                 surname = textUpdateSurWorker.getText();
             }
         }
         String patronymic = null;
-        if(textUpdatePatWorker.getText() != null) {
-            if(!"".endsWith(textUpdatePatWorker.getText().trim())) {
+        if (textUpdatePatWorker.getText() != null) {
+            if (!"".endsWith(textUpdatePatWorker.getText().trim())) {
                 patronymic = textUpdatePatWorker.getText();
             }
         }
-        
+
         String birthday = null;
-        if(dataUpdateWorker.getValue() != null) {
+        if (dataUpdateWorker.getValue() != null) {
             birthday = dataUpdateWorker.getValue().toString();
         }
         Long gender = selectOneCheckBox(checkUpdateGenderMan, checkUpdateGenderWoman);
@@ -1879,88 +1903,88 @@ public class GeneralController extends AbstractController implements Initializab
     public void BtnUpdateWorker() throws SQLException {
         TableView.TableViewSelectionModel selectionModel = tableWorker.getSelectionModel();
         worker = listWorker.get(selectionModel.getFocusedIndex());
-        Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.setTitle("Редактирование");
-        alert.setContentText("Вы действительно хотите редактировать запись?");
-
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK) {
-            if (textUpdateSurWorker.getText().trim().length() > 1) {
-                worker.setSurname(textUpdateSurWorker.getText().trim());
-            }
-            if (textUpdateNameWorker.getText().trim().length() > 1) {
-                worker.setName(textUpdateNameWorker.getText().trim());
-            }
-            if (textUpdatePatWorker.getText().trim().length() > 4) {
-                worker.setPatronymic(textUpdatePatWorker.getText().trim());
-            }
-            if (depUpdateWorker.getValue().toString() != worker.getDepartment().getName()) {
-                Department department = depUpdateWorker.getSelectionModel().getSelectedItem();
-                worker.setDepartment(department);
-            }
-
-            Benefit benefit = benUpdateWorker.getSelectionModel().getSelectedItem();
-            worker.setBenefit(benefit);
-
-            if (posUpdateWorker.getValue().toString() != worker.getPosition().getName()) {
-                Position position = posUpdateWorker.getSelectionModel().getSelectedItem();
-                worker.setPosition(position);
-            }
-            if (branchUpdateWorker.getValue().toString() != worker.getBranch().getName()) {
-                Branch branch = branchUpdateWorker.getSelectionModel().getSelectedItem();
-                worker.setBranch(branch);
-            }
-            if (dataUpdateWorker.getValue().toString() != worker.getBirthday().toString() && dataUpdateWorker.getValue() != null) {
-                worker.setBirthday(dataUpdateWorker.getValue().toString().trim());
-            }
-            Gender gender = new Gender();
-            gender.setId(selectOneCheckBox(checkUpdateGenderMan, checkUpdateGenderWoman));
-            worker.setGender(gender);
-            Factory.getInstance().getWorkerDAO().updateWorker(worker);
-            worker = null;
-            textUpdateSurWorker.setText(null);
-            textUpdateNameWorker.setText(null);
-            textUpdatePatWorker.setText(null);
-            dataUpdateWorker.setValue(null);
-            checkUpdateGenderMan.setSelected(false);
-            checkUpdateGenderWoman.setSelected(false);
-            depUpdateWorker.setValue(null);
-            posUpdateWorker.setValue(null);
-            benUpdateWorker.setValue(null);
-            branchUpdateWorker.setValue(null);
-
-            listWorker.clear();
-            tableWorker.getItems().clear();
-            listWorker.addAll(Factory.getInstance().getWorkerDAO().getAllWorkers());
-            tableWorker.setItems(listWorker);
-        } else {
+//        Alert alert = new Alert(AlertType.CONFIRMATION);
+//        alert.setTitle("Редактирование");
+//        alert.setContentText("Вы действительно хотите редактировать запись?");
+//
+//        Optional<ButtonType> result = alert.showAndWait();
+//        if (result.get() == ButtonType.OK) {
+        if (textUpdateSurWorker.getText().trim().length() > 1) {
+            worker.setSurname(textUpdateSurWorker.getText().trim());
         }
+        if (textUpdateNameWorker.getText().trim().length() > 1) {
+            worker.setName(textUpdateNameWorker.getText().trim());
+        }
+        if (textUpdatePatWorker.getText().trim().length() > 4) {
+            worker.setPatronymic(textUpdatePatWorker.getText().trim());
+        }
+        if (depUpdateWorker.getValue().toString() != worker.getDepartment().getName()) {
+            Department department = depUpdateWorker.getSelectionModel().getSelectedItem();
+            worker.setDepartment(department);
+        }
+
+        Benefit benefit = benUpdateWorker.getSelectionModel().getSelectedItem();
+        worker.setBenefit(benefit);
+
+        if (posUpdateWorker.getValue().toString() != worker.getPosition().getName()) {
+            Position position = posUpdateWorker.getSelectionModel().getSelectedItem();
+            worker.setPosition(position);
+        }
+        if (branchUpdateWorker.getValue().toString() != worker.getBranch().getName()) {
+            Branch branch = branchUpdateWorker.getSelectionModel().getSelectedItem();
+            worker.setBranch(branch);
+        }
+        if (dataUpdateWorker.getValue().toString() != worker.getBirthday().toString() && dataUpdateWorker.getValue() != null) {
+            worker.setBirthday(dataUpdateWorker.getValue().toString().trim());
+        }
+        Gender gender = new Gender();
+        gender.setId(selectOneCheckBox(checkUpdateGenderMan, checkUpdateGenderWoman));
+        worker.setGender(gender);
+        Factory.getInstance().getWorkerDAO().updateWorker(worker);
+        worker = null;
+        textUpdateSurWorker.setText(null);
+        textUpdateNameWorker.setText(null);
+        textUpdatePatWorker.setText(null);
+        dataUpdateWorker.setValue(null);
+        checkUpdateGenderMan.setSelected(false);
+        checkUpdateGenderWoman.setSelected(false);
+        depUpdateWorker.setValue(null);
+        posUpdateWorker.setValue(null);
+        benUpdateWorker.setValue(null);
+        branchUpdateWorker.setValue(null);
+
+        listWorker.clear();
+        tableWorker.getItems().clear();
+        listWorker.addAll(Factory.getInstance().getWorkerDAO().getAllWorkers());
+        tableWorker.setItems(listWorker);
+//        } else {
+//        }
     }
 
     public void BtnDeleteWorker() throws SQLException {
         TableView.TableViewSelectionModel selectionModel = tableWorker.getSelectionModel();
         worker = listWorker.get(selectionModel.getFocusedIndex());
-        Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.setTitle("Удаление");
-        alert.setContentText("Вы действительно хотите удалить запись?");
-
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK) {
-            Factory.getInstance().getWorkerDAO().deleteWorker(worker);
-            listWorker.clear();
-            listWorker.addAll(Factory.getInstance().getWorkerDAO().getAllWorkers());
-            tableWorker.setItems(listWorker);
-            textUpdateSurWorker.setText(null);
-            textUpdateNameWorker.setText(null);
-            textUpdatePatWorker.setText(null);
-            dataUpdateWorker.setValue(null);
-            checkUpdateGenderMan.setSelected(false);
-            checkUpdateGenderWoman.setSelected(false);
-            depUpdateWorker.setValue(null);
-            posUpdateWorker.setValue(null);
-            benUpdateWorker.setValue(null);
-            branchUpdateWorker.setValue(null);
-        }
+//        Alert alert = new Alert(AlertType.CONFIRMATION);
+//        alert.setTitle("Удаление");
+//        alert.setContentText("Вы действительно хотите удалить запись?");
+//
+//        Optional<ButtonType> result = alert.showAndWait();
+//        if (result.get() == ButtonType.OK) {
+        Factory.getInstance().getWorkerDAO().deleteWorker(worker);
+        listWorker.clear();
+        listWorker.addAll(Factory.getInstance().getWorkerDAO().getAllWorkers());
+        tableWorker.setItems(listWorker);
+        textUpdateSurWorker.setText(null);
+        textUpdateNameWorker.setText(null);
+        textUpdatePatWorker.setText(null);
+        dataUpdateWorker.setValue(null);
+        checkUpdateGenderMan.setSelected(false);
+        checkUpdateGenderWoman.setSelected(false);
+        depUpdateWorker.setValue(null);
+        posUpdateWorker.setValue(null);
+        benUpdateWorker.setValue(null);
+        branchUpdateWorker.setValue(null);
+//        }
     }
 
     public void BtnAddWorker() throws SQLException {
@@ -2003,12 +2027,12 @@ public class GeneralController extends AbstractController implements Initializab
             benAddWorker.setValue(null);
             branchAddWorker.setValue(null);
         } else {
-            Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("Предупреждение");
-            alert.setHeaderText(null);
-            alert.setContentText("Заполнены не все поля");
-
-            alert.showAndWait();
+//            Alert alert = new Alert(AlertType.INFORMATION);
+//            alert.setTitle("Предупреждение");
+//            alert.setHeaderText(null);
+//            alert.setContentText("Заполнены не все поля");
+//
+//            alert.showAndWait();
         }
     }
 
@@ -2157,93 +2181,93 @@ public class GeneralController extends AbstractController implements Initializab
     public void BtnUpdateStudent() throws SQLException {
         TableView.TableViewSelectionModel selectionModel = tableStudent.getSelectionModel();
         student = listStudent.get(selectionModel.getFocusedIndex());
-        Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.setTitle("Редактирование");
-        alert.setContentText("Вы действительно хотите редактировать запись?");
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK) {
-            if (textUpdateSurStudent.getText().trim().length() > 1) {
-                student.setSurname(textUpdateSurStudent.getText().trim());
-            }
-            if (textUpdateNameStudent.getText().trim().length() > 1) {
-                student.setName(textUpdateNameStudent.getText().trim());
-            }
-            if (textUpdatePatStudent.getText().trim().length() > 4) {
-                student.setPatronymic(textUpdatePatStudent.getText().trim());
-            }
-
-            if (textUpdatePhoneStudent.getText().trim().length() > 1) {
-                student.setPhone(textUpdatePhoneStudent.getText().trim());
-            }
-            if (textUpdateEmailStudent.getText().trim().length() > 4) {
-                student.setEmail(textUpdateEmailStudent.getText().trim());
-            }
-            if (depUpdateStudent.getValue().toString() != student.getDepartment().getName()) {
-                Department department = depUpdateStudent.getSelectionModel().getSelectedItem();
-                student.setDepartment(department);
-            }
-            if (roleUpdateStudent.getValue().toString() != student.getRole().getTitle()) {
-                Role role = roleUpdateStudent.getSelectionModel().getSelectedItem();
-                student.setRole(role);
-            }
-            if (benUpdateStudent.getValue().toString() != student.getBenefit().getName()) {
-                Benefit benefit = benUpdateStudent.getSelectionModel().getSelectedItem();
-                worker.setBenefit(benefit);
-            }
-            if (groupUpdateStudent.getValue().toString() != student.getGroup().getName()) {
-                Groups group = groupUpdateStudent.getSelectionModel().getSelectedItem();
-                student.setGroup(group);
-            }
-
-            if (dataUpdateStudent.getValue().toString() != student.getBirthday().toString() && dataUpdateStudent.getValue() != null) {
-                student.setBirthday(dataUpdateStudent.getValue().toString().trim());
-            }
-
-            if (textUpdatePhoneStudent.getText().trim().length() > 1) {
-                student.setPhone(textUpdatePhoneStudent.getText().trim());
-            }
-            if (textUpdateEmailStudent.getText().trim().length() > 1) {
-                student.setEmail(textUpdateEmailStudent.getText().trim());
-            }
-            Gender gender = new Gender();
-            gender.setId(selectOneCheckBox(checkUpdateGenderManStudent, checkUpdateGenderWomanStudent));
-            student.setGender(gender);
-            Factory.getInstance().getStudentDAO().updateStudent(student);
-
-            textUpdateSurStudent.setText(null);
-            textUpdateNameStudent.setText(null);
-            textUpdatePatStudent.setText(null);
-            dataUpdateStudent.setValue(null);
-            checkUpdateGenderManStudent.setSelected(false);
-            checkUpdateGenderWomanStudent.setSelected(false);
-            depUpdateStudent.setValue(null);
-            groupUpdateStudent.setValue(null);
-            roleUpdateStudent.setValue(null);
-            benUpdateStudent.setValue(null);
-            textUpdatePhoneStudent.setText(null);
-            textUpdateEmailStudent.setText(null);
-
-            listStudent.clear();
-            tableStudent.getItems().clear();
-            listStudent.addAll(Factory.getInstance().getStudentDAO().getAllStudents());
-            tableStudent.setItems(listStudent);
+//        Alert alert = new Alert(AlertType.CONFIRMATION);
+//        alert.setTitle("Редактирование");
+//        alert.setContentText("Вы действительно хотите редактировать запись?");
+//        Optional<ButtonType> result = alert.showAndWait();
+//        if (result.get() == ButtonType.OK) {
+        if (textUpdateSurStudent.getText().trim().length() > 1) {
+            student.setSurname(textUpdateSurStudent.getText().trim());
         }
+        if (textUpdateNameStudent.getText().trim().length() > 1) {
+            student.setName(textUpdateNameStudent.getText().trim());
+        }
+        if (textUpdatePatStudent.getText().trim().length() > 4) {
+            student.setPatronymic(textUpdatePatStudent.getText().trim());
+        }
+
+        if (textUpdatePhoneStudent.getText().trim().length() > 1) {
+            student.setPhone(textUpdatePhoneStudent.getText().trim());
+        }
+        if (textUpdateEmailStudent.getText().trim().length() > 4) {
+            student.setEmail(textUpdateEmailStudent.getText().trim());
+        }
+        if (depUpdateStudent.getValue().toString() != student.getDepartment().getName()) {
+            Department department = depUpdateStudent.getSelectionModel().getSelectedItem();
+            student.setDepartment(department);
+        }
+        if (roleUpdateStudent.getValue().toString() != student.getRole().getTitle()) {
+            Role role = roleUpdateStudent.getSelectionModel().getSelectedItem();
+            student.setRole(role);
+        }
+        if (benUpdateStudent.getValue().toString() != student.getBenefit().getName()) {
+            Benefit benefit = benUpdateStudent.getSelectionModel().getSelectedItem();
+            worker.setBenefit(benefit);
+        }
+        if (groupUpdateStudent.getValue().toString() != student.getGroup().getName()) {
+            Groups group = groupUpdateStudent.getSelectionModel().getSelectedItem();
+            student.setGroup(group);
+        }
+
+        if (dataUpdateStudent.getValue().toString() != student.getBirthday().toString() && dataUpdateStudent.getValue() != null) {
+            student.setBirthday(dataUpdateStudent.getValue().toString().trim());
+        }
+
+        if (textUpdatePhoneStudent.getText().trim().length() > 1) {
+            student.setPhone(textUpdatePhoneStudent.getText().trim());
+        }
+        if (textUpdateEmailStudent.getText().trim().length() > 1) {
+            student.setEmail(textUpdateEmailStudent.getText().trim());
+        }
+        Gender gender = new Gender();
+        gender.setId(selectOneCheckBox(checkUpdateGenderManStudent, checkUpdateGenderWomanStudent));
+        student.setGender(gender);
+        Factory.getInstance().getStudentDAO().updateStudent(student);
+
+        textUpdateSurStudent.setText(null);
+        textUpdateNameStudent.setText(null);
+        textUpdatePatStudent.setText(null);
+        dataUpdateStudent.setValue(null);
+        checkUpdateGenderManStudent.setSelected(false);
+        checkUpdateGenderWomanStudent.setSelected(false);
+        depUpdateStudent.setValue(null);
+        groupUpdateStudent.setValue(null);
+        roleUpdateStudent.setValue(null);
+        benUpdateStudent.setValue(null);
+        textUpdatePhoneStudent.setText(null);
+        textUpdateEmailStudent.setText(null);
+
+        listStudent.clear();
+        tableStudent.getItems().clear();
+        listStudent.addAll(Factory.getInstance().getStudentDAO().getAllStudents());
+        tableStudent.setItems(listStudent);
+//        }
     }
 
     public void BtnDeleteStudent() throws SQLException {
         TableView.TableViewSelectionModel selectionModel = tableStudent.getSelectionModel();
-        Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.setTitle("Удаление");
-        alert.setContentText("Вы действительно хотите удалить запись?");
-
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK) {
-            student = listStudent.get(selectionModel.getFocusedIndex());
-            Factory.getInstance().getStudentDAO().deleteStudent(student);
-            listStudent.clear();
-            listStudent.addAll(Factory.getInstance().getStudentDAO().getAllStudents());
-            tableStudent.setItems(listStudent);
-        }
+//        Alert alert = new Alert(AlertType.CONFIRMATION);
+//        alert.setTitle("Удаление");
+//        alert.setContentText("Вы действительно хотите удалить запись?");
+//
+//        Optional<ButtonType> result = alert.showAndWait();
+//        if (result.get() == ButtonType.OK) {
+        student = listStudent.get(selectionModel.getFocusedIndex());
+        Factory.getInstance().getStudentDAO().deleteStudent(student);
+        listStudent.clear();
+        listStudent.addAll(Factory.getInstance().getStudentDAO().getAllStudents());
+        tableStudent.setItems(listStudent);
+//        }
     }
 
     public void BtnAddStudent() throws SQLException {
@@ -2294,12 +2318,12 @@ public class GeneralController extends AbstractController implements Initializab
             textAddPhoneStudent.setText(null);
             textAddEmailStudent.setText(null);
         } else {
-            Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("Предупреждение");
-            alert.setHeaderText(null);
-            alert.setContentText("Заполнены не все поля");
-
-            alert.showAndWait();
+//            Alert alert = new Alert(AlertType.INFORMATION);
+//            alert.setTitle("Предупреждение");
+//            alert.setHeaderText(null);
+//            alert.setContentText("Заполнены не все поля");
+//
+//            alert.showAndWait();
 
         }
     }
@@ -2320,16 +2344,19 @@ public class GeneralController extends AbstractController implements Initializab
         } else {
             checkUpdateGenderChildWoman.setSelected(true);
         }
+        Set<Worker> setWorker = child.getWorkers();
+        if (setWorker != null) {
+            comboParent.setItems(FXCollections.observableArrayList(setWorker));
+        }
     }
 
     public void BtnAddChild() throws SQLException {
         if (textAddSurChild.getText().trim().length() > 2
                 && textAddNameChild.getText().trim().length() > 1
                 && textAddPatChild.getText().trim().length() > 2
-                && dataAddChild.getValue().toString().trim().length() > 4
-                && textAddNameWorkChild.getText().trim().length() > 1
-                && textAddPatWorkChild.getText().trim().length() > 1
-                && textAddSurWorkChild.getText().trim().length() > 1) {
+                && dataAddChild.getValue().toString().trim().length() > 4 /*&& textAddNameWorkChild.getText().trim().length() > 1
+                 && textAddPatWorkChild.getText().trim().length() > 1
+                 && textAddSurWorkChild.getText().trim().length() > 1*/) {
             child.setSurname(textAddSurChild.getText().trim());
             child.setName(textAddNameChild.getText().trim());
             child.setPatronymic(textAddPatChild.getText().trim());
@@ -2338,67 +2365,67 @@ public class GeneralController extends AbstractController implements Initializab
             child.setGender(gender);
             child.setBirthday(dataAddChild.getValue().toString().trim());
             Factory.getInstance().getChildDAO().addChild(child);
-            Worker searchWorker = new Worker();
-            searchWorker.setName(textAddNameWorkChild.getText().trim());
-            searchWorker.setSurname(textAddSurWorkChild.getText().trim());
-            searchWorker.setPatronymic(textAddPatWorkChild.getText().trim());
-            System.out.println("По пизде 1");
-            if (listWorker.size() == 1) {
-                worker = listWorker.get(0);
-                if (worker.getName().equals(searchWorker.getName())
-                        && worker.getSurname().equals(searchWorker.getSurname())
-                        && worker.getPatronymic().equals(searchWorker.getPatronymic())) {
-                    worker.getChildren().add(child);
-                    Factory.getInstance().getWorkerDAO().updateWorker(worker);
-                } else if (listWorker.size() > 1) {
-                    for (int i = 0; i < listWorker.size(); i++) {
-                        System.out.println("Цикл номер " + i);
-                        worker = listWorker.get(i);
-                        if (worker.getName().equals(searchWorker.getName())
-                                && worker.getSurname().equals(searchWorker.getSurname())
-                                && worker.getPatronymic().equals(searchWorker.getPatronymic())) {
-                            worker.getChildren().add(child);
-                            Factory.getInstance().getWorkerDAO().updateWorker(worker);
-                        }
-                    }
-                } else {
-                    Alert alert = new Alert(AlertType.INFORMATION);
-                    alert.setTitle("Предупреждение");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Такого родителя не существует");
+            /*Worker searchWorker = new Worker();
+             searchWorker.setName(textAddNameWorkChild.getText().trim());
+             searchWorker.setSurname(textAddSurWorkChild.getText().trim());
+             searchWorker.setPatronymic(textAddPatWorkChild.getText().trim());
 
-                    alert.showAndWait();
-                }
-            }
+             if (listWorker.size() == 1) {
+             worker = listWorker.get(0);
+             if (worker.getName().equals(searchWorker.getName())
+             && worker.getSurname().equals(searchWorker.getSurname())
+             && worker.getPatronymic().equals(searchWorker.getPatronymic())) {
+             worker.getChildren().add(child);
+             Factory.getInstance().getWorkerDAO().updateWorker(worker);
+             } else if (listWorker.size() > 1) {
+             for (int i = 0; i < listWorker.size(); i++) {
+             System.out.println("Цикл номер " + i);
+             worker = listWorker.get(i);
+             if (worker.getName().equals(searchWorker.getName())
+             && worker.getSurname().equals(searchWorker.getSurname())
+             && worker.getPatronymic().equals(searchWorker.getPatronymic())) {
+             worker.getChildren().add(child);
+             Factory.getInstance().getWorkerDAO().updateWorker(worker);
+             }
+             }
+             } else {
+             //                    Alert alert = new Alert(AlertType.INFORMATION);
+             //                    alert.setTitle("Предупреждение");
+             //                    alert.setHeaderText(null);
+             //                    alert.setContentText("Такого родителя не существует");
+             //
+             //                    alert.showAndWait();
+             }
+             }*/
         } else {
-            Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("Предупреждение");
-            alert.setHeaderText(null);
-            alert.setContentText("Заполнены не все поля");
-
-            alert.showAndWait();
+//            Alert alert = new Alert(AlertType.INFORMATION);
+//            alert.setTitle("Предупреждение");
+//            alert.setHeaderText(null);
+//            alert.setContentText("Заполнены не все поля");
+//
+//            alert.showAndWait();
         }
         listChild.clear();
         tableChild.getItems().clear();
         listChild.addAll(Factory.getInstance().getChildDAO().getAllChildren());
-        tableChild.setItems(listChild);
+        tableChild.setItems(FXCollections.observableArrayList(listChild));
     }
 
     public void BtnDeleteChild() throws SQLException {
         TableView.TableViewSelectionModel selectionModel = tableChild.getSelectionModel();
         child = listChild.get(selectionModel.getFocusedIndex());
-        Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.setTitle("Удаление");
-        alert.setContentText("Вы действительно хотите удалить запись?");
-
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK) {
-            Factory.getInstance().getChildDAO().deleteChildren(child);
-            listChild.clear();
-            tableChild.getItems().clear();
-            listChild.addAll(Factory.getInstance().getChildDAO().getAllChildren());
-            tableChild.setItems(listChild);
-        }
+//        Alert alert = new Alert(AlertType.CONFIRMATION);
+//        alert.setTitle("Удаление");
+//        alert.setContentText("Вы действительно хотите удалить запись?");
+//
+//        Optional<ButtonType> result = alert.showAndWait();
+//        if (result.get() == ButtonType.OK) {
+        Factory.getInstance().getChildDAO().deleteChildren(child);
+        listChild.clear();
+        tableChild.getItems().clear();
+        listChild.addAll(Factory.getInstance().getChildDAO().getAllChildren());
+        tableChild.setItems(FXCollections.observableArrayList(listChild));
+//        }
     }
 
     public void BtnSearchChild() throws SQLException {
@@ -2436,69 +2463,93 @@ public class GeneralController extends AbstractController implements Initializab
         listChild.clear();
         tableChild.getItems().clear();
         listChild.addAll(Factory.getInstance().getChildDAO().getAllChildren());
-        tableChild.setItems(listChild);
+        tableChild.setItems(FXCollections.observableArrayList(listChild));
     }
 
     public void BtnUpdateChild() throws SQLException {
-        TableView.TableViewSelectionModel selectionModel = tableChild.getSelectionModel();
-        child = listChild.get(selectionModel.getFocusedIndex());
-        Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.setTitle("Редактирование");
-        alert.setContentText("Вы действительно хотите редактировать запись?");
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK) {
-            if (textUpdateSurChild.getText().trim().length() > 1) {
-                child.setSurname(textUpdateSurChild.getText().trim());
-            }
-            if (textUpdateNameChild.getText().trim().length() > 1) {
-                child.setName(textUpdateNameChild.getText().trim());
-            }
-            if (textUpdatePatChild.getText().trim().length() > 4) {
-                child.setPatronymic(textUpdatePatChild.getText().trim());
-            }
-            if (dataUpdateChild.getValue().toString() != child.getBirthday().toString() && dataUpdateChild.getValue() != null) {
-                child.setBirthday(dataUpdateChild.getValue().toString().trim());
-            }
-            Gender gender = new Gender();
-            gender = Factory.getInstance().getGenderDAO().getGenderById(selectOneCheckBox(checkUpdateGenderChildMan, checkUpdateGenderChildWoman));
-            child.setGender(gender);
-            Factory.getInstance().getChildDAO().updateChild(child);
-            workersChild.setId_child(child.getId());
-            Worker searchWorker = new Worker();
-            if (textUpdateSurWorkChild.getText().trim().length() > 1
-                    && textUpdateNameWorkChild.getText().trim().length() > 1
-                    && textUpdatePatWorkChild.getText().trim().length() > 4) {
-                searchWorker.setSurname(textUpdateSurWorkChild.getText().trim());
-                searchWorker.setName(textUpdateNameWorkChild.getText().trim());
-                searchWorker.setPatronymic(textUpdatePatWorkChild.getText().trim());
-            }
-            if (listWorker.size() == 1) {
-                worker = listWorker.get(0);
-                if (worker.getName().equals(searchWorker.getName())
-                        && worker.getSurname().equals(searchWorker.getSurname())
-                        && worker.getPatronymic().equals(searchWorker.getPatronymic())) {
-                    workersChild.setId_worker(worker.getId());
-                    Factory.getInstance().getWorkersChildDAO().updateWorkersChild(workersChild);
-                } else if (listWorker.size() > 1) {
-                    for (int i = 0; i < listWorker.size(); i++) {
-                        System.out.println("Цикл номер " + i);
-                        worker = listWorker.get(i);
-                        if (worker.getName().equals(searchWorker.getName())
-                                && worker.getSurname().equals(searchWorker.getSurname())
-                                && worker.getPatronymic().equals(searchWorker.getPatronymic())) {
-                            workersChild.setId_child(worker.getId());
-                        }
-                        Factory.getInstance().getWorkersChildDAO().updateWorkersChild(workersChild);
-                    }
-                } else {
-                    Alert newAlert = new Alert(AlertType.INFORMATION);
-                    newAlert.setTitle("Предупреждение");
-                    newAlert.setHeaderText(null);
-                    newAlert.setContentText("Такого родителя не существует");
+        //TableView.TableViewSelectionModel selectionModel = tableChild.getSelectionModel();
+        //child = listChild.get(selectionModel.getFocusedIndex());
+//        Alert alert = new Alert(AlertType.CONFIRMATION);
+//        alert.setTitle("Редактирование");
+//        alert.setContentText("Вы действительно хотите редактировать запись?");
+//        Optional<ButtonType> result = alert.showAndWait();
+//        if (result.get() == ButtonType.OK) {
+        if (textUpdateSurChild.getText().trim().length() > 1) {
+            child.setSurname(textUpdateSurChild.getText().trim());
+        }
+        if (textUpdateNameChild.getText().trim().length() > 1) {
+            child.setName(textUpdateNameChild.getText().trim());
+        }
+        if (textUpdatePatChild.getText().trim().length() > 4) {
+            child.setPatronymic(textUpdatePatChild.getText().trim());
+        }
+        if (dataUpdateChild.getValue().toString() != child.getBirthday().toString() && dataUpdateChild.getValue() != null) {
+            child.setBirthday(dataUpdateChild.getValue().toString().trim());
+        }
+        Gender gender;
+        gender = Factory.getInstance().getGenderDAO().getGenderById(selectOneCheckBox(checkUpdateGenderChildMan, checkUpdateGenderChildWoman));
+        child.setGender(gender);
+        Factory.getInstance().getChildDAO().updateChild(child);
+        for(Worker w : child.getWorkers()) {
+            w.getChildren().add(child);
+            Factory.getInstance().getWorkerDAO().updateWorker(w);
+        }
+        /*Worker searchWorker = new Worker();
+         if (textUpdateSurWorkChild.getText().trim().length() > 1
+         && textUpdateNameWorkChild.getText().trim().length() > 1
+         && textUpdatePatWorkChild.getText().trim().length() > 4) {
+         searchWorker.setSurname(textUpdateSurWorkChild.getText().trim());
+         searchWorker.setName(textUpdateNameWorkChild.getText().trim());
+         searchWorker.setPatronymic(textUpdatePatWorkChild.getText().trim());
+         }*/
+        /*if (listWorker.size() == 1) {
+         worker = listWorker.get(0);
+         if (worker.getName().equals(searchWorker.getName())
+         && worker.getSurname().equals(searchWorker.getSurname())
+         && worker.getPatronymic().equals(searchWorker.getPatronymic())) {
+         workersChild.setId_worker(worker.getId());
+         Factory.getInstance().getWorkersChildDAO().updateWorkersChild(workersChild);
+         } else if (listWorker.size() > 1) {
+         for (int i = 0; i < listWorker.size(); i++) {
+         System.out.println("Цикл номер " + i);
+         worker = listWorker.get(i);
+         if (worker.getName().equals(searchWorker.getName())
+         && worker.getSurname().equals(searchWorker.getSurname())
+         && worker.getPatronymic().equals(searchWorker.getPatronymic())) {
+         workersChild.setId_child(worker.getId());
+         }
+         Factory.getInstance().getWorkersChildDAO().updateWorkersChild(workersChild);
+         }
+         } else {
+         //                    Alert newAlert = new Alert(AlertType.INFORMATION);
+         //                    newAlert.setTitle("Предупреждение");
+         //                    newAlert.setHeaderText(null);
+         //                    newAlert.setContentText("Такого родителя не существует");
+         //
+         //                    newAlert.showAndWait();
+         }
+         }*/
+//        }
+    }
 
-                    newAlert.showAndWait();
-                }
-            }
+    public void BtnAddParent() throws SQLException {
+        //TableView.TableViewSelectionModel selectionModel = tableChild.getSelectionModel();
+        //child = listChild.get(selectionModel.getFocusedIndex());
+        if (child != null) {
+            System.out.println("добавить родителя");
+            String parentId = addIdParents.getText().trim();
+            Long id = Long.parseLong(parentId);
+            Worker parent = Factory.getInstance().getWorkerDAO().getWorkerById(id);
+            child.getWorkers().add(parent);
+            comboParent.setItems(FXCollections.observableArrayList(child.getWorkers()));
+        }
+    }
+
+    public void BtnDeleteParent() throws SQLException {
+        if (child != null) {
+            Worker parent = comboParent.getSelectionModel().getSelectedItem();
+            child.getWorkers().remove(parent);
+            comboParent.setItems(FXCollections.observableArrayList(child.getWorkers()));
         }
     }
 }

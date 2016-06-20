@@ -153,6 +153,11 @@ public class Worker extends Model implements ExelModel,Serializable {
     public void setChildren(Set<Child> children) {
         this.children = children;
     }
+    
+    @Override
+    public String toString() {
+        return getId().toString() + " " + getSurname() + " " + getName();
+    }
 
     @Override
     public List<String> convertToListStrings() {
