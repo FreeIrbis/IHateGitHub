@@ -14,7 +14,6 @@ import com.quasar.hibernateh2.dao.entity.Position;
 import com.quasar.hibernateh2.dao.entity.Role;
 import com.quasar.hibernateh2.dao.entity.Student;
 import com.quasar.hibernateh2.dao.entity.Worker;
-import com.quasar.hibernateh2.dao.entity.WorkersChild;
 import com.quasar.hibernateh2.util.exel.ExelType;
 import com.quasar.hibernateh2.util.exel.ExelWriter;
 import java.awt.Dimension;
@@ -108,7 +107,7 @@ public class GeneralController extends AbstractController implements Initializab
     @FXML
     public Button btnAddWorker;
     @FXML
-    public TableView tableWorker;
+    public TableView<Worker> tableWorker;
     @FXML
     public Label errorAddWorker;
 
@@ -192,7 +191,7 @@ public class GeneralController extends AbstractController implements Initializab
     @FXML
     public Button btnAddStudent;
     @FXML
-    public TableView tableStudent;
+    public TableView<Student> tableStudent;
     @FXML
     public Label errorAddStudent;
 
@@ -233,17 +232,11 @@ public class GeneralController extends AbstractController implements Initializab
     @FXML
     public TextField textAddPatChild;
     @FXML
-    public TextField textAddSurWorkChild;
-    @FXML
-    public TextField textAddNameWorkChild;
-    @FXML
-    public TextField textAddPatWorkChild;
-    @FXML
     public DatePicker dataAddChild;
     @FXML
     public Button btnAddChild;
     @FXML
-    public TableView tableChild;
+    public TableView<Child> tableChild;
 
     Child child = new Child();
     private List<Child> listChild = new ArrayList<>();
@@ -1879,9 +1872,7 @@ public class GeneralController extends AbstractController implements Initializab
     }
 
     public void SelectRowTableWorker() throws SQLException {
-        TableView.TableViewSelectionModel selectionModel = tableWorker.getSelectionModel();
-        int number = selectionModel.getFocusedIndex();
-        worker = listWorker.get(selectionModel.getFocusedIndex());
+        worker = tableWorker.getSelectionModel().getSelectedItem();
         textUpdateSurWorker.setText(worker.getSurname());
         textUpdateNameWorker.setText(worker.getName());
         textUpdatePatWorker.setText(worker.getPatronymic());
@@ -2155,9 +2146,7 @@ public class GeneralController extends AbstractController implements Initializab
     }
 
     public void SelectRowTableStudent() throws SQLException {
-        TableView.TableViewSelectionModel selectionModel = tableStudent.getSelectionModel();
-        int number = selectionModel.getFocusedIndex();
-        student = listStudent.get(selectionModel.getFocusedIndex());
+        student = tableStudent.getSelectionModel().getSelectedItem();
         textUpdateSurStudent.setText(student.getSurname());
         textUpdateNameStudent.setText(student.getName());
         textUpdatePatStudent.setText(student.getPatronymic());
@@ -2329,9 +2318,7 @@ public class GeneralController extends AbstractController implements Initializab
     }
 
     public void SelectRowTableChild() throws SQLException {
-        TableView.TableViewSelectionModel selectionModel = tableChild.getSelectionModel();
-        int number = selectionModel.getFocusedIndex();
-        child = listChild.get(number);
+        child = tableChild.getSelectionModel().getSelectedItem();
         textUpdateSurChild.setText(child.getSurname());
         textUpdateNameChild.setText(child.getName());
         textUpdatePatChild.setText(child.getPatronymic());
@@ -2354,9 +2341,7 @@ public class GeneralController extends AbstractController implements Initializab
         if (textAddSurChild.getText().trim().length() > 2
                 && textAddNameChild.getText().trim().length() > 1
                 && textAddPatChild.getText().trim().length() > 2
-                && dataAddChild.getValue().toString().trim().length() > 4 /*&& textAddNameWorkChild.getText().trim().length() > 1
-                 && textAddPatWorkChild.getText().trim().length() > 1
-                 && textAddSurWorkChild.getText().trim().length() > 1*/) {
+                && dataAddChild.getValue().toString().trim().length() > 4) {
             child.setSurname(textAddSurChild.getText().trim());
             child.setName(textAddNameChild.getText().trim());
             child.setPatronymic(textAddPatChild.getText().trim());
@@ -2366,10 +2351,6 @@ public class GeneralController extends AbstractController implements Initializab
             child.setBirthday(dataAddChild.getValue().toString().trim());
             Factory.getInstance().getChildDAO().addChild(child);
             /*Worker searchWorker = new Worker();
-             searchWorker.setName(textAddNameWorkChild.getText().trim());
-             searchWorker.setSurname(textAddSurWorkChild.getText().trim());
-             searchWorker.setPatronymic(textAddPatWorkChild.getText().trim());
-
              if (listWorker.size() == 1) {
              worker = listWorker.get(0);
              if (worker.getName().equals(searchWorker.getName())
@@ -2429,8 +2410,7 @@ public class GeneralController extends AbstractController implements Initializab
     }
 
     public void BtnSearchChild() throws SQLException {
-        TableView.TableViewSelectionModel selectionModel = tableChild.getSelectionModel();
-        child = listChild.get(selectionModel.getFocusedIndex());
+        Child child = tableChild.getSelectionModel().getSelectedItem();
         if (textUpdateSurChild.getText().trim().length() > 1) {
             student.setSurname(textUpdateSurChild.getText().trim());
         }
@@ -2483,7 +2463,7 @@ public class GeneralController extends AbstractController implements Initializab
         if (textUpdatePatChild.getText().trim().length() > 4) {
             child.setPatronymic(textUpdatePatChild.getText().trim());
         }
-        if (dataUpdateChild.getValue().toString() != child.getBirthday().toString() && dataUpdateChild.getValue() != null) {
+        if (dataUpdateChild.getValue() != null && !dataUpdateChild.getValue().toString().equals(child.getBirthday())) {
             child.setBirthday(dataUpdateChild.getValue().toString().trim());
         }
         Gender gender;

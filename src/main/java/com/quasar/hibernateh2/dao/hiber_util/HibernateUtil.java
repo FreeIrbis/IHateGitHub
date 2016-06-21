@@ -100,8 +100,7 @@ public class HibernateUtil {
             .addAnnotatedClass(Role.class)
             .addAnnotatedClass(User.class)
             .addAnnotatedClass(Student.class)
-            .addAnnotatedClass(Worker.class)
-            .addAnnotatedClass(WorkersChild.class);
+            .addAnnotatedClass(Worker.class);
     }
 
     private static void initDb() {

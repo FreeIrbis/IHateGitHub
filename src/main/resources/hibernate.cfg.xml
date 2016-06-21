@@ -37,6 +37,5 @@
         <mapping class="com.quasar.hibernateh2.dao.entity.User" />
         <mapping class="com.quasar.hibernateh2.dao.entity.Student" />
         <mapping class="com.quasar.hibernateh2.dao.entity.Worker" />
-        <mapping class="com.quasar.hibernateh2.dao.entity.WorkersChild" />
     </session-factory>
 </hibernate-configuration>

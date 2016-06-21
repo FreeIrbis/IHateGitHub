@@ -71,16 +71,16 @@
                           <content>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
-                                    <Button fx:id="btnSearchChild" layoutX="579.0" layoutY="300.0" mnemonicParsing="false" onAction="#BtnSearchChild" prefHeight="25.0" prefWidth="71.0" text="Найти" />
-                                    <Button fx:id="btnDeleteChild" layoutX="787.0" layoutY="300.0" mnemonicParsing="false" onAction="#BtnDeleteChild" prefHeight="25.0" prefWidth="88.0" text="Удалить" />
+                                    <Button fx:id="btnSearchChild" layoutX="775.0" layoutY="143.0" mnemonicParsing="false" onAction="#BtnSearchChild" prefHeight="25.0" prefWidth="100.0" text="Найти" />
+                                    <Button fx:id="btnDeleteChild" layoutX="775.0" layoutY="303.0" mnemonicParsing="false" onAction="#BtnDeleteChild" prefHeight="25.0" prefWidth="100.0" text="Удалить" />
                                     <TextField fx:id="textUpdatePatChild" layoutX="473.0" layoutY="100.0" prefHeight="25.0" prefWidth="402.0" promptText="Введите отчество" />
                                     <TextField fx:id="textUpdateSurChild" layoutX="473.0" layoutY="30.0" prefHeight="25.0" prefWidth="402.0" promptText="Введите фамилию" />
-                                    <Button fx:id="btnUpdateChild" layoutX="668.0" layoutY="300.0" mnemonicParsing="false" onAction="#BtnUpdateChild" prefHeight="25.0" prefWidth="100.0" text="Редактировать" />
+                                    <Button fx:id="btnUpdateChild" layoutX="775.0" layoutY="255.0" mnemonicParsing="false" onAction="#BtnUpdateChild" prefHeight="25.0" prefWidth="100.0" text="Редактировать" />
                                     <TextField fx:id="textUpdateNameChild" layoutX="473.0" layoutY="65.0" prefHeight="25.0" prefWidth="402.0" promptText="Введите имя" />
-                                    <Button fx:id="btnAddChild" layoutX="309.0" layoutY="300.0" mnemonicParsing="false" onAction="#BtnAddChild" prefHeight="25.0" prefWidth="111.0" text="Добавить" />
+                                    <Button fx:id="btnAddChild" layoutX="309.0" layoutY="143.0" mnemonicParsing="false" onAction="#BtnAddChild" prefHeight="25.0" prefWidth="111.0" text="Добавить" />
                                     <TextField fx:id="textAddPatChild" layoutX="25.0" layoutY="100.0" prefHeight="25.0" prefWidth="395.0" promptText="Введите отчество" />
                                     <TextField fx:id="textAddNameChild" layoutX="25.0" layoutY="65.0" prefHeight="25.0" prefWidth="395.0" promptText="Введите имя" />
-                                    <Separator layoutX="450.0" layoutY="4.0" orientation="VERTICAL" prefHeight="339.0" prefWidth="1.0" />
+                                    <Separator layoutX="450.0" layoutY="4.0" orientation="VERTICAL" prefHeight="181.0" prefWidth="2.0" />
                                     <TextField fx:id="textAddSurChild" layoutX="25.0" layoutY="30.0" prefHeight="25.0" prefWidth="395.0" promptText="Введите фамилию" />
                                     <TableView fx:id="tableChild" layoutY="345.0" onMouseClicked="#SelectRowTableChild" prefHeight="424.0" prefWidth="900.0">
                                        <columns>
@@ -96,12 +96,9 @@
                                     </TableView>
                                     <DatePicker fx:id="dataAddChild" layoutX="114.0" layoutY="143.0" />
                                     <DatePicker fx:id="dataUpdateChild" layoutX="569.0" layoutY="143.0" />
-                                    <TextField fx:id="textAddSurWorkChild" layoutX="25.0" layoutY="185.0" prefHeight="25.0" prefWidth="395.0" promptText="Введите фамилию родителя" />
-                                    <TextField fx:id="textAddNameWorkChild" layoutX="25.0" layoutY="220.0" prefHeight="25.0" prefWidth="395.0" promptText="Введите имя родителя" />
-                                    <TextField fx:id="textAddPatWorkChild" layoutX="25.0" layoutY="255.0" prefHeight="25.0" prefWidth="395.0" promptText="Введите отчество родителя" />
-                                    <TextField fx:id="textUpdateSurWorkChild" layoutX="474.0" layoutY="255.0" prefHeight="25.0" prefWidth="402.0" promptText="Введите фамилию родителя" />
-                                    <TextField fx:id="textUpdatePatWorkChild" layoutX="473.0" layoutY="255.0" prefHeight="25.0" prefWidth="402.0" promptText="Введите отчество родителя" />
-                                    <TextField fx:id="textUpdateNameWorkChild" layoutX="474.0" layoutY="255.0" prefHeight="25.0" prefWidth="401.0" promptText="Введите имя родителя" />
+                                    <TextField fx:id="textUpdateSurWorkChild" editable="false" layoutX="22.0" layoutY="233.0" prefHeight="25.0" prefWidth="402.0" promptText="Фамилия родителя" />
+                                    <TextField fx:id="textUpdatePatWorkChild" editable="false" layoutX="22.0" layoutY="267.0" prefHeight="25.0" prefWidth="402.0" promptText="Отчество родителя" />
+                                    <TextField fx:id="textUpdateNameWorkChild" layoutX="22.0" layoutY="200.0" prefHeight="25.0" prefWidth="401.0" promptText="Имя родителя" />
                                     <VBox layoutX="40.0" layoutY="135.0" prefHeight="40.0" prefWidth="50.0" spacing="5.0">
                                        <children>
                                           <CheckBox fx:id="checkAddGenderChildMan" layoutX="21.0" layoutY="127.0" mnemonicParsing="false" onAction="#CheckAddGenderChild" text="муж" textOverrun="CLIP" />
@@ -114,10 +111,11 @@
                                           <CheckBox fx:id="checkUpdateGenderChildWoman" layoutX="21.0" layoutY="148.0" mnemonicParsing="false" onAction="#CheckUpdateGenderChild" prefHeight="25.0" prefWidth="44.0" text="жен" textOverrun="CLIP" />
                                        </children>
                                     </VBox>
-                                    <TextField fx:id="addIdParents" layoutX="474.0" layoutY="185.0" prefHeight="25.0" prefWidth="109.0" promptText="Id родителя" />
-                                    <ComboBox fx:id="comboParent" layoutX="475.0" layoutY="220.0" prefHeight="25.0" prefWidth="108.0" promptText="Id родителя" />
-                                    <Button fx:id="btnAddParent" layoutX="598.0" layoutY="185.0" mnemonicParsing="false" onAction="#BtnAddParent" prefHeight="26.0" prefWidth="111.0" text="Добавить" />
-                                    <Button fx:id="btnDeleteParent" layoutX="598.0" layoutY="220.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="111.0" text="Удалить" />
+                                    <TextField fx:id="addIdParents" layoutX="473.0" layoutY="216.0" prefHeight="25.0" prefWidth="109.0" promptText="Id родителя" />
+                                    <ComboBox fx:id="comboParent" layoutX="474.0" layoutY="251.0" prefHeight="25.0" prefWidth="108.0" promptText="Id родителя" />
+                                    <Button fx:id="btnAddParent" layoutX="597.0" layoutY="216.0" mnemonicParsing="false" onAction="#BtnAddParent" prefHeight="26.0" prefWidth="111.0" text="Добавить" />
+                                    <Button fx:id="btnDeleteParent" layoutX="597.0" layoutY="251.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="111.0" text="Удалить" />
+                                    <Separator layoutX="1.0" layoutY="187.0" prefHeight="1.0" prefWidth="451.0" />
                                  </children>
                               </AnchorPane>
                           </content>
