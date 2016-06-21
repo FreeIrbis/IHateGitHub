@@ -114,7 +114,7 @@
                                     <TextField fx:id="addIdParents" layoutX="473.0" layoutY="216.0" prefHeight="25.0" prefWidth="109.0" promptText="Id родителя" />
                                     <ComboBox fx:id="comboParent" layoutX="474.0" layoutY="251.0" prefHeight="25.0" prefWidth="108.0" promptText="Id родителя" />
                                     <Button fx:id="btnAddParent" layoutX="597.0" layoutY="216.0" mnemonicParsing="false" onAction="#BtnAddParent" prefHeight="26.0" prefWidth="111.0" text="Добавить" />
-                                    <Button fx:id="btnDeleteParent" layoutX="597.0" layoutY="251.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="111.0" text="Удалить" />
+                                    <Button fx:id="btnDeleteParent" layoutX="597.0" layoutY="251.0" mnemonicParsing="false" onAction="#BtnDeleteParent" prefHeight="26.0" prefWidth="111.0" text="Удалить" />
                                     <Separator layoutX="1.0" layoutY="187.0" prefHeight="1.0" prefWidth="451.0" />
                                  </children>
                               </AnchorPane>
