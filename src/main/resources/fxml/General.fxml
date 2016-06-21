@@ -251,6 +251,7 @@
                                     <TextField fx:id="textUpdatePatStudent" layoutX="475.0" layoutY="100.0" prefHeight="25.0" prefWidth="400.0" promptText="Введите отчество" />
                                     <ComboBox fx:id="groupUpdateStudent" layoutX="475.0" layoutY="221.0" prefHeight="25.0" prefWidth="240.0" promptText="Выберите группу" />
                                     <TextField fx:id="textUpdateEmailStudent" layoutX="630.0" layoutY="143.0" prefHeight="25.0" prefWidth="245.0" promptText="Введите  email" />
+                                    <Button fx:id="btnExcel1" layoutX="475.0" layoutY="325.0" mnemonicParsing="false" onAction="#ReportStudent" text="Excel" />
                                  </children>
                               </AnchorPane>
                            </content>

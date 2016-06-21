@@ -2027,7 +2027,7 @@ public class GeneralController extends AbstractController implements Initializab
         }
     }
 
-    public int BtnSearchStudent() throws SQLException {
+    public void BtnSearchStudent() throws SQLException {
         boolean searchBool = true;
         Student searchStudent = new Student();
         if (textUpdateSurStudent.getText().trim().length() > 1) {
@@ -2141,9 +2141,25 @@ public class GeneralController extends AbstractController implements Initializab
         }
         tableStudent.getItems().clear();
         tableStudent.setItems(listSearchStudent);
+        listStudent.clear();
+        listStudent.addAll(listSearchStudent);
+        }
 
-        return 5;
-    }
+    public void ReportStudent(){
+        ObservableList<Student> studs = listStudent/*Factory.getInstance().getStudentDAO().getAllStudents()*/;
+        List<List<String>> listForReport = new ArrayList<>();
+        for(ExelModel exModel : studs) {
+            listForReport.add(exModel.convertToListStrings());
+            System.out.println(exModel.convertToListStrings());
+        }
+        ExelWriter ew = new ExelWriter(ExelType.XLSX);
+        try {
+            ew.write(listForReport, "./student.xlsx", "student");
+            System.out.println("xls");
+            
+        } catch (IOException ex) {
+            Logger.getLogger(GeneralController.class.getName()).log(Level.SEVERE, null, ex);
+        }}
 
     public void SelectRowTableStudent() throws SQLException {
         student = tableStudent.getSelectionModel().getSelectedItem();
@@ -2294,9 +2310,9 @@ public class GeneralController extends AbstractController implements Initializab
             listStudent.clear();
             listStudent.addAll(Factory.getInstance().getStudentDAO().getAllStudents());
             tableStudent.setItems(listStudent);
-            textAddSurStudent.setText(null);
-            textAddNameStudent.setText(null);
-            textAddPatStudent.setText(null);
+            textAddSurStudent.setText("");
+            textAddNameStudent.setText("");
+            textAddPatStudent.setText("");
             dataAddStudent.setValue(null);
             checkAddGenderManStudent.setSelected(false);
             checkAddGenderWomanStudent.setSelected(false);
@@ -2304,8 +2320,8 @@ public class GeneralController extends AbstractController implements Initializab
             groupAddStudent.setValue(null);
             roleAddStudent.setValue(null);
             benAddStudent.setValue(null);
-            textAddPhoneStudent.setText(null);
-            textAddEmailStudent.setText(null);
+            textAddPhoneStudent.setText("");
+            textAddEmailStudent.setText("");
         } else {
 //            Alert alert = new Alert(AlertType.INFORMATION);
 //            alert.setTitle("Предупреждение");
@@ -2316,6 +2332,8 @@ public class GeneralController extends AbstractController implements Initializab
 
         }
     }
+    
+    
 
     public void SelectRowTableChild() throws SQLException {
         child = tableChild.getSelectionModel().getSelectedItem();
@@ -2337,6 +2355,7 @@ public class GeneralController extends AbstractController implements Initializab
         }
     }
 
+     
     public void BtnAddChild() throws SQLException {
         if (textAddSurChild.getText().trim().length() > 2
                 && textAddNameChild.getText().trim().length() > 1
