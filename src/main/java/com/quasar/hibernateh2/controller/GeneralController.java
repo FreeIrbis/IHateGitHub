@@ -161,7 +161,6 @@ public class GeneralController extends AbstractController implements Initializab
     Worker worker = new Worker();
     private ObservableList<Worker> listWorker = FXCollections.observableArrayList();
     private ObservableList<Worker> listSearchWorker = FXCollections.observableArrayList();
-    List<String> listWorkersString = null;
 
     /*Поля студентов на добавление*/
     @FXML
@@ -327,8 +326,6 @@ public class GeneralController extends AbstractController implements Initializab
     Student student = new Student();
     private ObservableList<Student> listStudent = FXCollections.observableArrayList();
     private ObservableList<Student> listSearchStudent = FXCollections.observableArrayList();
-    List<String> listStudentsString = null;
-    List<Student> listStudents = null;
 
     /*Поля должностей на добавление*/
     @FXML
@@ -463,23 +460,6 @@ public class GeneralController extends AbstractController implements Initializab
 
     List<Benefit> listBenefits = null;
 
-    public void getReportWorkers() throws SQLException {
-        List<ExelModel> report = null;
-        report.addAll((List<Worker>) listWorker);
-        List<List<String>> listForReport = new ArrayList<>();
-        for (ExelModel exModel : report) {
-            listForReport.add(exModel.convertToListStrings());
-            System.out.println(exModel.convertToListStrings());
-        }
-        ExelWriter ew = new ExelWriter(ExelType.XLSX);
-        try {
-            ew.write(listForReport, "./worler.xlsx", "worker");
-            System.out.println("xls");
-
-        } catch (IOException ex) {
-            Logger.getLogger(ReportController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
 
     private static final Toolkit kit = Toolkit.getDefaultToolkit();
     private static final Dimension screenSize = kit.getScreenSize();
@@ -1597,278 +1577,151 @@ public class GeneralController extends AbstractController implements Initializab
         }
     }
 
+        public void getReportWorkers() throws SQLException {
+        ObservableList<Worker> works = listWorker/*Factory.getInstance().getStudentDAO().getAllStudents()*/;
+        List<List<String>> listForReport = new ArrayList<>();
+        for(ExelModel exModel : works) {
+            listForReport.add(exModel.convertToListStrings());
+            System.out.println(exModel.convertToListStrings());
+        }
+        ExelWriter ew = new ExelWriter(ExelType.XLSX);
+        try {
+            ew.write(listForReport, "./workers.xlsx", "worker");
+            System.out.println("xls");
+            
+        } catch (IOException ex) {
+            Logger.getLogger(GeneralController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+        
     public void BtnSearchWorker() throws SQLException {
-        /* listWorker.clear();
-         listWorker.addAll(Factory.getInstance().getWorkerDAO().getAllWorkers());
-         tableWorker.setItems(listWorker);
-         for (int index = 0; index < listWorker.size(); index++) {
-         worker = listWorker.get(index);
-         System.out.println(listWorker.get(index).convertToListStrings());
-         }
-         boolean searchBool = true;
-         Worker searchWorker = new Worker();
-         if (textUpdateSurWorker.getText().length() > 1) {
-         searchWorker.setSurname(textUpdateSurWorker.getText());
-         }
-         if (textUpdateNameWorker.getText().length() > 1) {
-         searchWorker.setName(textUpdateNameWorker.getText());
-         }
-         if (textUpdatePatWorker.getText().length() > 4) {
-         searchWorker.setPatronymic(textUpdatePatWorker.getText());
-         }
-         if (depUpdateWorker.getValue() != null) {
-         Department department = depUpdateWorker.getSelectionModel().getSelectedItem();
-         searchWorker.setDepartment(department);
-         }
-         if (benUpdateWorker.getValue() != null) {
-         Benefit benefit = benUpdateWorker.getSelectionModel().getSelectedItem();
-         searchWorker.setBenefit(benefit);
-         }
-         if (posUpdateWorker.getValue() != null) {
-         Position selectedPosition = posUpdateWorker.getSelectionModel().getSelectedItem();
-         searchWorker.setPosition(selectedPosition);
-         }
-         if (dataUpdateWorker.getValue() != null) {
-         searchWorker.setBirthday(dataUpdateWorker.getValue().toString());
-         }
-         if (SelectOneCheckBox(checkUpdateGenderMan, checkUpdateGenderWoman) != null) {
-         Gender gender = new Gender();
-         gender.setId(SelectOneCheckBox(checkUpdateGenderMan, checkUpdateGenderWoman));
-         searchWorker.setGender(gender);
-         }
-         if (listWorker.size()==0) {
-         worker = listWorker.get(0);
-         System.out.println(listWorker.get(0).convertToListStrings());
-
-         if (searchWorker.getSurname() != null && searchBool == true) {
-         if (searchWorker.getSurname().toString().equals(worker.getSurname().toString())) {
-
-         } else {
-         searchBool = false;
-         }
-         } else {
-         }
-         if (searchWorker.getName() != null && searchBool == true) {
-         if (worker.getName().toString().equals(searchWorker.getName().toString())) {
-
-         } else {
-         searchBool = false;
-         }
-         } else {
-
-         }
-         if (searchWorker.getPatronymic() != null && searchBool == true) {
-         if (worker.getPatronymic().toString().equals(searchWorker.getPatronymic().toString())) {
-         } else {
-         searchBool = false;
-         }
-         } else {
-
-         }
-         if (searchWorker.getBirthday() != null && searchBool == true) {
-         if (worker.getBirthday().toString().equals(searchWorker.getBirthday().toString())) {
-
-         } else {
-         searchBool = false;
-         }
-         } else {
-
-         }
-         if (searchWorker.getBenefit() != null && searchBool == true) {
-         if (worker.getBenefit().toString().equals(searchWorker.getBenefit().toString())) {
-         searchBool = false;
-         } else {
-
-         }
-         } else {
-
-         }
-         if (searchWorker.getDepartment() != null && searchBool == true) {
-         if (worker.getDepartment().toString().equals(searchWorker.getDepartment().toString())) {
-
-         } else {
-         searchBool = false;
-         }
-         } else {
-
-         }
-
-         if (searchWorker.getPosition() != null && searchBool == true) {
-         if (worker.getPosition().toString().equals(searchWorker.getPosition().toString())) {
-
-         } else {
-         searchBool = false;
-         }
-         } else {
-
-         }
-         if (searchWorker.getGender() != null && searchBool == true) {
-         if (worker.getGender() == searchWorker.getGender()) {
-
-         } else {
-         searchBool = false;
-         }
-         } else {
-
-         }
-         if (searchBool == true) {
-         listSearchWorker.add(worker);
-         } else {
-         searchBool = true;
-         }
-
-         } else {
-         for (int index = 1; index < listWorker.size(); index++) {
-         worker = listWorker.get(index);
-         System.out.println(listWorker.get(index).convertToListStrings());
-
-         if (searchWorker.getSurname() != null && searchBool == true) {
-         if (searchWorker.getSurname().toString().equals(worker.getSurname().toString())) {
-
-         } else {
-         searchBool = false;
-         }
-         } else {
-         }
-         if (searchWorker.getName() != null && searchBool == true) {
-         if (worker.getName().toString().equals(searchWorker.getName().toString())) {
-
-         } else {
-         searchBool = false;
-         }
-         } else {
-
-         }
-         if (searchWorker.getPatronymic() != null && searchBool == true) {
-         if (worker.getPatronymic().toString().equals(searchWorker.getPatronymic().toString())) {
-         } else {
-         searchBool = false;
-         }
-         } else {
-
-         }
-         if (searchWorker.getBirthday() != null && searchBool == true) {
-         if (worker.getBirthday().toString().equals(searchWorker.getBirthday().toString())) {
-
-         } else {
-         searchBool = false;
-         }
-         } else {
-
-         }
-         if (searchWorker.getBenefit() != null && searchBool == true) {
-         if (worker.getBenefit().toString().equals(searchWorker.getBenefit().toString())) {
-         searchBool = false;
-         } else {
-
-         }
-         } else {
-
-         }
-         if (searchWorker.getDepartment() != null && searchBool == true) {
-         if (worker.getDepartment().toString().equals(searchWorker.getDepartment().toString())) {
-
-         } else {
-         searchBool = false;
-         }
-         } else {
-
-         }
-
-         if (searchWorker.getPosition() != null && searchBool == true) {
-         if (worker.getPosition().toString().equals(searchWorker.getPosition().toString())) {
-
-         } else {
-         searchBool = false;
-         }
-         } else {
-
-         }
-         if (searchWorker.getGender() != null && searchBool == true) {
-         if (worker.getGender() == searchWorker.getGender()) {
-
-         } else {
-         searchBool = false;
-         }
-         } else {
-
-         }
-         if (searchBool == true) {
-         listSearchWorker.add(worker);
-         } else {
-         searchBool = true;
-         }
-         if (listWorker.size() == 1) {
-         break;
-         }
-
-         }
-
-         }
-         listWorker = listSearchWorker;*/
-        String name = null;
-        if (textUpdateNameWorker.getText() != null) {
-            if (!"".endsWith(textUpdateNameWorker.getText().trim())) {
-                name = textUpdateNameWorker.getText();
-            }
+        boolean searchBool = true;
+        Worker searchWorker = new Worker();
+        if (textUpdateSurWorker.getText().trim().length() > 1) {
+            searchWorker.setSurname(textUpdateSurWorker.getText().trim());
         }
-        String surname = null;
-        if (textUpdateSurWorker.getText() != null) {
-            if (!"".endsWith(textUpdateSurWorker.getText().trim())) {
-                surname = textUpdateSurWorker.getText();
-            }
+        if (textUpdateNameWorker.getText().trim().length() > 1) {
+            searchWorker.setName(textUpdateNameWorker.getText().trim());
         }
-        String patronymic = null;
-        if (textUpdatePatWorker.getText() != null) {
-            if (!"".endsWith(textUpdatePatWorker.getText().trim())) {
-                patronymic = textUpdatePatWorker.getText();
-            }
+        if (textUpdatePatWorker.getText().trim().length() > 4) {
+            searchWorker.setPatronymic(textUpdatePatWorker.getText().trim());
         }
-
-        String birthday = null;
-        if (dataUpdateWorker.getValue() != null) {
-            birthday = dataUpdateWorker.getValue().toString();
-        }
-        Long gender = selectOneCheckBox(checkUpdateGenderMan, checkUpdateGenderWoman);
-        Long department = null;
         if (depUpdateWorker.getValue() != null) {
-            Department dep = depUpdateWorker.getSelectionModel().getSelectedItem();
-            department = dep.getId();
+            Department department = depUpdateWorker.getSelectionModel().getSelectedItem();
+            searchWorker.setDepartment(department);
         }
-        Long benefit = null;
-        if (benUpdateWorker.getValue() != null) {
-            Benefit ben = benUpdateWorker.getSelectionModel().getSelectedItem();
-            benefit = ben.getId();
-        }
-        Long position = null;
         if (posUpdateWorker.getValue() != null) {
             Position pos = posUpdateWorker.getSelectionModel().getSelectedItem();
-            position = pos.getId();
+            searchWorker.setPosition(pos);
         }
-        Long branch = null;
+        if (benUpdateWorker.getValue() != null) {
+            Benefit benefit = benUpdateWorker.getSelectionModel().getSelectedItem();
+            searchWorker.setBenefit(benefit);
+        }
         if (branchUpdateWorker.getValue() != null) {
-            Branch br = branchUpdateWorker.getSelectionModel().getSelectedItem();
-            branch = br.getId();
+            Branch branch = branchUpdateWorker.getSelectionModel().getSelectedItem();
+            searchWorker.setBranch(branch);
+        }
+        if (dataUpdateWorker.getValue() != null) {
+            searchWorker.setBirthday(dataUpdateWorker.getValue().toString().trim());
+        }
+        if (selectOneCheckBox(checkUpdateGenderMan, checkUpdateGenderWoman) != null) {
+            Gender gender = new Gender();
+            gender.setId(selectOneCheckBox(checkUpdateGenderMan, checkUpdateGenderWoman));
+            searchWorker.setGender(gender);
         }
 
-        listWorker.clear();
-        listWorker.addAll(Factory.getInstance().getWorkerDAO().searchAllWorkers(name, surname, patronymic, birthday, gender, department, benefit, position, branch));
-        tableWorker.getItems().clear();
-        tableWorker.setItems(listWorker);
-
-        checkUpdateGenderMan.setSelected(false);
-        checkUpdateGenderWoman.setSelected(false);
-        textUpdateSurWorker.clear();
-        textUpdateNameWorker.clear();
-        textUpdatePatWorker.clear();
-        dataUpdateWorker.setValue(null);
-        depUpdateWorker.setValue(null);
-        posUpdateWorker.setValue(null);
-        benUpdateWorker.setValue(null);
         for (int index = 0; index < listWorker.size(); index++) {
             worker = listWorker.get(index);
-            System.out.println(listWorker.get(index).convertToListStrings());
+
+            if (searchWorker.getSurname() != null && searchBool == true) {
+                if (searchWorker.getSurname().equals(worker.getSurname())) {
+
+                } else {
+                    searchBool = false;
+                }
+            } else {
+            }
+            if (searchWorker.getName() != null && searchBool == true) {
+                if (searchWorker.getName().equals(worker.getName())) {
+
+                } else {
+                    searchBool = false;
+                }
+            } else {
+
+            }
+            if (searchWorker.getPatronymic() != null && searchBool == true) {
+                if (worker.getPatronymic().equals(searchWorker.getPatronymic())) {
+                } else {
+                    searchBool = false;
+                }
+            } else {
+
+            }
+            if (searchWorker.getPosition() != null && searchBool == true) {
+                if (worker.getPosition().equals(searchWorker.getPosition())) {
+                } else {
+                    searchBool = false;
+                }
+            } else {
+
+            }
+            if (searchWorker.getBirthday() != null && searchBool == true) {
+                if (worker.getBirthday().equals(searchWorker.getBirthday())) {
+
+                } else {
+                    searchBool = false;
+                }
+            } else {
+
+            }
+            if (searchWorker.getBenefit() != null && searchBool == true) {
+                if (worker.getBenefit().toString().equals(searchWorker.getBenefit().toString())) {
+
+                } else {
+                    searchBool = false;
+                }
+            } else {
+
+            }
+            if (searchWorker.getBranch() != null && searchBool == true) {
+                if (worker.getBranch().toString().equals(searchWorker.getBranch().toString())) {
+
+                } else {
+                    searchBool = false;
+                }
+            } else {
+
+            }
+            if (searchWorker.getDepartment() != null && searchBool == true) {
+                if (worker.getDepartment().toString().equals(searchWorker.getDepartment().toString())) {
+
+                } else {
+                    searchBool = false;
+                }
+            } else {
+
+            }
+            if (searchWorker.getGender() != null && searchBool == true) {
+                if (worker.getGender() == searchWorker.getGender()) {
+
+                } else {
+                    searchBool = false;
+                }
+            } else {
+
+            }
+            if (searchBool == true) {
+                listSearchWorker.add(worker);
+            } else {
+                searchBool = true;
+            }
         }
+        tableWorker.getItems().clear();
+        tableWorker.setItems(listSearchWorker);
+        listWorker.clear();
+        listWorker.addAll(listSearchWorker);
     }
 
     public void SelectRowTableWorker() throws SQLException {

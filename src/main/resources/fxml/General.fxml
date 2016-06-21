@@ -63,7 +63,9 @@
                                     <CheckBox fx:id="checkUpdateGenderWoman" layoutX="540.0" layoutY="133.0" mnemonicParsing="false" onAction="#CheckUpdateGenderWorkers" prefHeight="25.0" prefWidth="44.0" text="жен" textOverrun="CLIP" />
                                     <CheckBox fx:id="checkUpdateGenderMan" layoutX="484.0" layoutY="137.0" mnemonicParsing="false" onAction="#CheckUpdateGenderWorkers" text="муж" textOverrun="CLIP" />
                                     <ComboBox fx:id="branchUpdateWorker" layoutX="473.0" layoutY="271.0" prefHeight="25.0" prefWidth="395.0" promptText="Отдел" />
-                                    <Button fx:id="btnExcel" layoutX="473.0" layoutY="313.0" mnemonicParsing="false" onAction="#getReportWorkers" text="Excel" />
+                                    <Button fx:id="btnExcel" layoutX="547.0" layoutY="313.0" mnemonicParsing="false" onAction="#getReportWorkers" text="Excel" />
+                                    <Button layoutX="474.0" layoutY="313.0" mnemonicParsing="false" text="очистить" />
+                                    <Button layoutX="25.0" layoutY="313.0" mnemonicParsing="false" text="очистить" />
                                  </children>
                               </AnchorPane>
                            </content></Tab>
@@ -193,9 +195,9 @@
                            <content>
                               <AnchorPane prefHeight="200.0" prefWidth="200.0">
                                  <children>
-                                    <Button fx:id="btnSearchStudent" layoutX="583.0" layoutY="324.0" mnemonicParsing="false" onAction="#BtnSearchStudent" prefHeight="25.0" prefWidth="70.0" text="Найти" />
+                                    <Button fx:id="btnSearchStudent" layoutX="603.0" layoutY="326.0" mnemonicParsing="false" onAction="#BtnSearchStudent" prefHeight="25.0" prefWidth="70.0" text="Найти" />
                                     <Button fx:id="btnDeleteStudent" layoutX="803.0" layoutY="325.0" mnemonicParsing="false" onAction="#BtnDeleteStudent" prefHeight="25.0" prefWidth="70.0" text="Удалить" />
-                                    <Button fx:id="btnUpdateStudent" layoutX="678.0" layoutY="325.0" mnemonicParsing="false" onAction="#BtnUpdateStudent" prefHeight="25.0" prefWidth="100.0" text="Редактировать" />
+                                    <Button fx:id="btnUpdateStudent" layoutX="688.0" layoutY="325.0" mnemonicParsing="false" onAction="#BtnUpdateStudent" prefHeight="25.0" prefWidth="100.0" text="Редактировать" />
                                     <Button fx:id="btnAddStudent" layoutX="280.0" layoutY="324.0" mnemonicParsing="false" onAction="#BtnAddStudent" prefHeight="25.0" prefWidth="145.0" text="Добавить" />
                                     <ComboBox fx:id="benAddStudent" layoutX="25.0" layoutY="291.0" prefHeight="25.0" prefWidth="240.0" promptText="Выберите льготу" />
                                     <ComboBox fx:id="depAddStudent" layoutX="25.0" layoutY="256.0" prefHeight="25.0" prefWidth="240.0" promptText="Выберите отделение" />
@@ -251,7 +253,9 @@
                                     <TextField fx:id="textUpdatePatStudent" layoutX="475.0" layoutY="100.0" prefHeight="25.0" prefWidth="400.0" promptText="Введите отчество" />
                                     <ComboBox fx:id="groupUpdateStudent" layoutX="475.0" layoutY="221.0" prefHeight="25.0" prefWidth="240.0" promptText="Выберите группу" />
                                     <TextField fx:id="textUpdateEmailStudent" layoutX="630.0" layoutY="143.0" prefHeight="25.0" prefWidth="245.0" promptText="Введите  email" />
-                                    <Button fx:id="btnExcel1" layoutX="475.0" layoutY="325.0" mnemonicParsing="false" onAction="#ReportStudent" text="Excel" />
+                                    <Button fx:id="btnExcel1" layoutX="550.0" layoutY="326.0" mnemonicParsing="false" onAction="#ReportStudent" text="Excel" />
+                                    <Button layoutX="25.0" layoutY="324.0" mnemonicParsing="false" text="очистить" />
+                                    <Button layoutX="475.0" layoutY="326.0" mnemonicParsing="false" text="очистить" />
                                  </children>
                               </AnchorPane>
                            </content>
