@@ -2214,42 +2214,16 @@ public class GeneralController extends AbstractController implements Initializab
                 && textAddNameChild.getText().trim().length() > 1
                 && textAddPatChild.getText().trim().length() > 2
                 && dataAddChild.getValue().toString().trim().length() > 4) {
-            child.setSurname(textAddSurChild.getText().trim());
-            child.setName(textAddNameChild.getText().trim());
-            child.setPatronymic(textAddPatChild.getText().trim());
+            Child childTemp = new Child();
+            
+            childTemp.setSurname(textAddSurChild.getText().trim());
+            childTemp.setName(textAddNameChild.getText().trim());
+            childTemp.setPatronymic(textAddPatChild.getText().trim());
             Gender gender = new Gender();
             gender = Factory.getInstance().getGenderDAO().getGenderById(selectOneCheckBox(checkAddGenderChildMan, checkAddGenderChildWoman));
-            child.setGender(gender);
-            child.setBirthday(dataAddChild.getValue().toString().trim());
-            Factory.getInstance().getChildDAO().addChild(child);
-            /*Worker searchWorker = new Worker();
-             if (listWorker.size() == 1) {
-             worker = listWorker.get(0);
-             if (worker.getName().equals(searchWorker.getName())
-             && worker.getSurname().equals(searchWorker.getSurname())
-             && worker.getPatronymic().equals(searchWorker.getPatronymic())) {
-             worker.getChildren().add(child);
-             Factory.getInstance().getWorkerDAO().updateWorker(worker);
-             } else if (listWorker.size() > 1) {
-             for (int i = 0; i < listWorker.size(); i++) {
-             System.out.println("Цикл номер " + i);
-             worker = listWorker.get(i);
-             if (worker.getName().equals(searchWorker.getName())
-             && worker.getSurname().equals(searchWorker.getSurname())
-             && worker.getPatronymic().equals(searchWorker.getPatronymic())) {
-             worker.getChildren().add(child);
-             Factory.getInstance().getWorkerDAO().updateWorker(worker);
-             }
-             }
-             } else {
-             //                    Alert alert = new Alert(AlertType.INFORMATION);
-             //                    alert.setTitle("Предупреждение");
-             //                    alert.setHeaderText(null);
-             //                    alert.setContentText("Такого родителя не существует");
-             //
-             //                    alert.showAndWait();
-             }
-             }*/
+            childTemp.setGender(gender);
+            childTemp.setBirthday(dataAddChild.getValue().toString().trim());
+            Factory.getInstance().getChildDAO().addChild(childTemp);
         } else {
 //            Alert alert = new Alert(AlertType.INFORMATION);
 //            alert.setTitle("Предупреждение");
@@ -2263,6 +2237,8 @@ public class GeneralController extends AbstractController implements Initializab
         listChild.addAll(Factory.getInstance().getChildDAO().getAllChildren());
         tableChild.setItems(FXCollections.observableArrayList(listChild));
     }
+
+
 
     public void BtnDeleteChild() throws SQLException {
         TableView.TableViewSelectionModel selectionModel = tableChild.getSelectionModel();

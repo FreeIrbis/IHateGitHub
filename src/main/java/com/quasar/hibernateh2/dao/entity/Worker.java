@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -57,7 +58,7 @@ public class Worker extends Model implements ExelModel,Serializable {
     @JoinColumn(name = "branch")
     private Branch branch;
     
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "children_of_workers",
             joinColumns = {@JoinColumn(name="worker_id")},
             inverseJoinColumns = {@JoinColumn(name="child_id")})
